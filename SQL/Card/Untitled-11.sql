@@ -1,0 +1,1 @@
+Select * from DssData.dbo.CARD

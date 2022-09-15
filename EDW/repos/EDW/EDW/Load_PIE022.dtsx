@@ -1,0 +1,1545 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/19/2022 12:44:49 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{556F31E4-738A-49C2-8344-14E4FD38C70E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_PIE022"
+  DTS:PackageType="5"
+  DTS:VersionBuild="66"
+  DTS:VersionGUID="{677F3122-5C52-4AD0-BDAC-4809CF98E2DE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2A4D3106-3C32-4CFF-800F-749845751046}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TIme">
+      <DTS:VariableValue
+        DTS:DataType="7">5/23/2022 10:38:07 AM</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{097B6369-8DFA-4F65-B8BE-0E6EE3AFF57E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.PIE022;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6153DA65-8E1A-450D-8183-E1B9E7E3054E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 PIE022"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 PIE022"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT CBCID AS COUNTIDNUMBER,
+       CBSTR AS STORENUMBER,
+       CBSKU AS SKUNUMBER,
+       CBQCNT AS QTYCOUNTED,
+       CBDEPT AS JDADEPARTMENT,
+       CBSDPT AS JDASUBDEPARTMENT,
+       CBCLAS AS JDACLASS,
+       CBSCLS AS JDASUBCLASS,
+       CBBDPT AS BAMDEPARTMENT,
+       CBBCTG AS BAMCATEGORY,
+       to_date(CHAR(CBXDAT), 'YYYYMMDD') AS DATECOUNTED,
+       CBSQTY AS STOCKTOQTY,
+       CBOQTY AS ONHANDQTY,
+       CBRQTY AS ROLLBACKONHANDQTY,
+       CBAQTY AS ADJUSTMENTQTY,
+       to_date(CHAR(CBPDAT), 'YYYYMMDD') AS DATEPOSTED,
+       TIME(to_date(DIGITS(CAST(CBPTIM AS DEC(6, 0))), 'HH24MISS')) AS TIMEPOSTED,
+       CBPBY AS POSTEDBY,
+       CBCPRC AS CURRENTPRICE,
+       CBTYPE AS SKUTYPE,
+       CBSTAT AS SKUSTATUS,
+        CASE IMCENT
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(IMDATE + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(IMDATE, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS DateLastMaint
+    FROM MM4R4LIB.PIE022 a
+    INNER JOIN MM4R4LIB.INVMST b
+        ON a.CBSKU = b.INUMBR
+    WHERE IMDATE &gt;= (SELECT VARCHAR_FORMAT(CHAR(LAST_DAY(CURRENT DATE) + 1 day - 3 years),'YYMMDD') AS FIRST_DAY FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 PIE022.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[COUNTIDNUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[COUNTIDNUMBER]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[COUNTIDNUMBER]"
+                      name="COUNTIDNUMBER"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      precision="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[QTYCOUNTED]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[QTYCOUNTED]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[QTYCOUNTED]"
+                      name="QTYCOUNTED"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDADEPARTMENT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDADEPARTMENT]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDADEPARTMENT]"
+                      name="JDADEPARTMENT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBDEPARTMENT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDASUBDEPARTMENT]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBDEPARTMENT]"
+                      name="JDASUBDEPARTMENT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDACLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDACLASS]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDACLASS]"
+                      name="JDACLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBCLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDASUBCLASS]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBCLASS]"
+                      name="JDASUBCLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMDEPARTMENT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[BAMDEPARTMENT]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMDEPARTMENT]"
+                      name="BAMDEPARTMENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMCATEGORY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[BAMCATEGORY]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMCATEGORY]"
+                      name="BAMCATEGORY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATECOUNTED]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATECOUNTED]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATECOUNTED]"
+                      name="DATECOUNTED"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[STOCKTOQTY]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]"
+                      name="STOCKTOQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ONHANDQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ONHANDQTY]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ONHANDQTY]"
+                      name="ONHANDQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ROLLBACKONHANDQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ROLLBACKONHANDQTY]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ROLLBACKONHANDQTY]"
+                      name="ROLLBACKONHANDQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ADJUSTMENTQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ADJUSTMENTQTY]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ADJUSTMENTQTY]"
+                      name="ADJUSTMENTQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATEPOSTED]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATEPOSTED]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATEPOSTED]"
+                      name="DATEPOSTED"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[POSTEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[POSTEDBY]"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[POSTEDBY]"
+                      name="POSTEDBY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[CURRENTPRICE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[CURRENTPRICE]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[CURRENTPRICE]"
+                      name="CURRENTPRICE"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUTYPE]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUTYPE]"
+                      name="SKUTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUSTATUS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUSTATUS]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUSTATUS]"
+                      name="SKUSTATUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[TIMEPOSTED]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[TIMEPOSTED]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[TIMEPOSTED]"
+                      name="TIMEPOSTED"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[COUNTIDNUMBER]"
+                      dataType="numeric"
+                      name="COUNTIDNUMBER"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="numeric"
+                      name="STORENUMBER"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="numeric"
+                      name="SKUNUMBER"
+                      precision="9" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[QTYCOUNTED]"
+                      dataType="numeric"
+                      name="QTYCOUNTED"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDADEPARTMENT]"
+                      dataType="numeric"
+                      name="JDADEPARTMENT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDASUBDEPARTMENT]"
+                      dataType="numeric"
+                      name="JDASUBDEPARTMENT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDACLASS]"
+                      dataType="numeric"
+                      name="JDACLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[JDASUBCLASS]"
+                      dataType="numeric"
+                      name="JDASUBCLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[BAMDEPARTMENT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="BAMDEPARTMENT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[BAMCATEGORY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="BAMCATEGORY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATECOUNTED]"
+                      dataType="dbTimeStamp2"
+                      name="DATECOUNTED"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[STOCKTOQTY]"
+                      dataType="numeric"
+                      name="STOCKTOQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ONHANDQTY]"
+                      dataType="numeric"
+                      name="ONHANDQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ROLLBACKONHANDQTY]"
+                      dataType="numeric"
+                      name="ROLLBACKONHANDQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[ADJUSTMENTQTY]"
+                      dataType="numeric"
+                      name="ADJUSTMENTQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATEPOSTED]"
+                      dataType="dbTimeStamp2"
+                      name="DATEPOSTED"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[POSTEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="POSTEDBY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[CURRENTPRICE]"
+                      dataType="decimal"
+                      name="CURRENTPRICE"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="SKUTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[SKUSTATUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKUSTATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DATELASTMAINT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].ExternalColumns[TIMEPOSTED]"
+                      dataType="dbTime"
+                      name="TIMEPOSTED" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[COUNTIDNUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[COUNTIDNUMBER]"
+                      name="COUNTIDNUMBER"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      precision="9" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[QTYCOUNTED]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[QTYCOUNTED]"
+                      name="QTYCOUNTED"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDADEPARTMENT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDADEPARTMENT]"
+                      name="JDADEPARTMENT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDASUBDEPARTMENT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDASUBDEPARTMENT]"
+                      name="JDASUBDEPARTMENT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDACLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDACLASS]"
+                      name="JDACLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDASUBCLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[JDASUBCLASS]"
+                      name="JDASUBCLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[BAMDEPARTMENT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[BAMDEPARTMENT]"
+                      name="BAMDEPARTMENT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[BAMCATEGORY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[BAMCATEGORY]"
+                      name="BAMCATEGORY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATECOUNTED]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATECOUNTED]"
+                      name="DATECOUNTED"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[STOCKTOQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[STOCKTOQTY]"
+                      name="STOCKTOQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ONHANDQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ONHANDQTY]"
+                      name="ONHANDQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ROLLBACKONHANDQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ROLLBACKONHANDQTY]"
+                      name="ROLLBACKONHANDQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ADJUSTMENTQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ADJUSTMENTQTY]"
+                      name="ADJUSTMENTQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATEPOSTED]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATEPOSTED]"
+                      name="DATEPOSTED"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[TIMEPOSTED]"
+                      dataType="dbTime"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[TIMEPOSTED]"
+                      name="TIMEPOSTED" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[POSTEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[POSTEDBY]"
+                      name="POSTEDBY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[CURRENTPRICE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[CURRENTPRICE]"
+                      name="CURRENTPRICE"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUTYPE]"
+                      name="SKUTYPE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUSTATUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[SKUSTATUS]"
+                      name="SKUSTATUS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified &amp; ReplaceNulls"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified &amp; ReplaceNulls"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input].Columns[DATECOUNTED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATECOUNTED"
+                      cachedScale="7"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATECOUNTED]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATECOUNTED]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATECOUNTED,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input].Columns[DATEPOSTED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATEPOSTED"
+                      cachedScale="7"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATEPOSTED]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATEPOSTED]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATEPOSTED,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATELASTMAINT,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server PIE022"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server PIE022"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[PIE022]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server PIE022.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[COUNTIDNUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="COUNTIDNUMBER"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[CountIDNumber]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[COUNTIDNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="SKUNUMBER"
+                      cachedPrecision="9"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[QTYCOUNTED]"
+                      cachedDataType="numeric"
+                      cachedName="QTYCOUNTED"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[QtyCounted]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[QTYCOUNTED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[JDADEPARTMENT]"
+                      cachedDataType="numeric"
+                      cachedName="JDADEPARTMENT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDADepartment]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDADEPARTMENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[JDASUBDEPARTMENT]"
+                      cachedDataType="numeric"
+                      cachedName="JDASUBDEPARTMENT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDASubDepartment]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBDEPARTMENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[JDACLASS]"
+                      cachedDataType="numeric"
+                      cachedName="JDACLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDAClass]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDACLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[JDASUBCLASS]"
+                      cachedDataType="numeric"
+                      cachedName="JDASUBCLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDASubClass]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[JDASUBCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[BAMDEPARTMENT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="BAMDEPARTMENT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[BamDepartment]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMDEPARTMENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[BAMCATEGORY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="BAMCATEGORY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[BamCategory]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[BAMCATEGORY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[DATECOUNTED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATECOUNTED"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DateCounted]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATECOUNTED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[STOCKTOQTY]"
+                      cachedDataType="numeric"
+                      cachedName="STOCKTOQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[StockToQty]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[ONHANDQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ONHANDQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[OnHandQty]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ONHANDQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[ROLLBACKONHANDQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ROLLBACKONHANDQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[RollBackOnHandQty]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ROLLBACKONHANDQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[ADJUSTMENTQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ADJUSTMENTQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[AdjustmentQty]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[ADJUSTMENTQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[DATEPOSTED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATEPOSTED"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DatePosted]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATEPOSTED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[POSTEDBY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="POSTEDBY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[PostedBy]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[POSTEDBY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[CURRENTPRICE]"
+                      cachedDataType="decimal"
+                      cachedName="CURRENTPRICE"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[CurrentPrice]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[CURRENTPRICE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[SKUTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="SKUTYPE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuType]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUTYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[SKUSTATUS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKUSTATUS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuStatus]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[SKUSTATUS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="STORENUMBER"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].Columns[NEW_TIMEPOSTED]"
+                      cachedDataType="dbTime"
+                      cachedName="NEW_TIMEPOSTED"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[TimePosted]"
+                      lineageId="Package\Load Data\Time Conversion.Outputs[Data Conversion Output].Columns[NEW_TIMEPOSTED]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[CountIDNumber]"
+                      dataType="i4"
+                      name="CountIDNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      dataType="i4"
+                      name="StoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[QtyCounted]"
+                      dataType="i4"
+                      name="QtyCounted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDADepartment]"
+                      dataType="i4"
+                      name="JDADepartment" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDASubDepartment]"
+                      dataType="i4"
+                      name="JDASubDepartment" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDAClass]"
+                      dataType="i4"
+                      name="JDAClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[JDASubClass]"
+                      dataType="i4"
+                      name="JDASubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[BamDepartment]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="BamDepartment" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[BamCategory]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="BamCategory" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DateCounted]"
+                      dataType="dbTimeStamp"
+                      name="DateCounted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[StockToQty]"
+                      dataType="i4"
+                      name="StockToQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[OnHandQty]"
+                      dataType="i4"
+                      name="OnHandQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[RollBackOnHandQty]"
+                      dataType="i4"
+                      name="RollBackOnHandQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[AdjustmentQty]"
+                      dataType="i4"
+                      name="AdjustmentQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DatePosted]"
+                      dataType="dbTimeStamp"
+                      name="DatePosted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[TimePosted]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="TimePosted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[PostedBy]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="PostedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[CurrentPrice]"
+                      dataType="numeric"
+                      name="CurrentPrice"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="SkuType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[SkuStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DateLastMaint" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server PIE022.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PIE022.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PIE022.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PIE022.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Time Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Time Conversion"
+              usesDispositions="true"
+              validateExternalMetadata="False">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Time Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Time Conversion.Inputs[Data Conversion Input].Columns[TIMEPOSTED]"
+                      cachedDataType="dbTime"
+                      cachedName="TIMEPOSTED"
+                      lineageId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[TIMEPOSTED]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Time Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Data\Time Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Time Conversion.Outputs[Data Conversion Output].Columns[NEW_TIMEPOSTED]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Time Conversion.Outputs[Data Conversion Output].Columns[NEW_TIMEPOSTED]"
+                      name="NEW_TIMEPOSTED"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output].Columns[TIMEPOSTED]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Time Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Data\Time Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Time Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Time Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Time Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Time Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Data Conversion Output]"
+              endId="Package\Load Data\SQL Server PIE022.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Data\Time Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\Time Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 PIE022.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge PIE022"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{31F7040E-E422-4789-8046-378AC7A174E9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge PIE022"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_PIE022;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate PIE022"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EF3ACD6B-1BA2-4EF6-862E-7D1109F284C3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate PIE022"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.PIE022;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{ADFD9CE3-439D-49E6-9249-BED6A0085AC7}"
+      DTS:From="Package\Truncate PIE022"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9A107AD-48E2-4088-A391-1649476B5A5C}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge PIE022" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{4777BE66-E4A4-4B09-9798-C84B928A3784}"
+      DTS:From="Package\Merge PIE022"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="228,261" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="238,97" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Merge PIE022"
+          TopLeft="233,185" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Truncate PIE022"
+          TopLeft="226,25" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="303,67">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="303.5,139">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="305.5,227">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load Data\Last Modified &amp; ReplaceNulls"
+          TopLeft="150,110" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Load Data\SQL Server PIE022"
+          TopLeft="181,281" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Load Data\AS400 PIE022"
+          TopLeft="180,29" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Load Data\Time Conversion"
+          TopLeft="182,194" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Data Conversion Output]"
+          TopLeft="262.75,236">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="256.5,71">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="259,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server PIE022">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 PIE022">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,25 @@
+﻿select 
+CSSTOR	as StoreNumber,
+CSCEN	as TransactionCentury,
+timestamp_format(char(CSDATE), 'YYMMDD')	as TransactionDate,
+CSREG#	as RegisterNumber,
+CSROLL	as RollOverNumber,
+CSTRN#	as TransactionNumber,
+CSTIME	as TransactionTime,
+CSTTYP	as TransactionType,
+CSTAMT	as TransactionAmount,
+CSTTND	as TenderAmount,
+CSTSTS	as Status,
+CSHLTE	as Highlight,
+CSCSH#	as CashierNumber,
+CSTIL	as TillNumber,
+CSSLPR	as SalespersonNo,
+CSATYP	as AcctType,
+CSACCT	as AccountNumber,
+CSSRSN	as ReasonCode,
+CSSOSP	as OriginalSalesperson,
+CSSOST	as OriginalStore,
+CSCUST	as CustomerNumber,
+to_date(char(CSPDTE), 'YYYYMMDD')	as ProcessDate
+from MM4R4LIB.CSHSUM
+WHERE CSPDTE = VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYYYMMDD') - 1

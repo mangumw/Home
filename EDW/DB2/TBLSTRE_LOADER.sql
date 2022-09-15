@@ -1,0 +1,7 @@
+﻿SELECT CMPNUM AS CompStoreNumber,
+       CMPCEN AS CenturyCodeComp,
+       CASE CMPCEN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(CMPDAT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(CMPDAT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS CompDate
+    FROM MM4R4LIB.TBLSTRE

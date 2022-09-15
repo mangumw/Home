@@ -1,0 +1,17 @@
+﻿SELECT IDEPT  AS DepartmentNo,
+       ISDEPT AS SubDeptNo,
+       ICLAS  AS ProductClass,
+       ISCLAS AS SubClass,
+       DPTNAM AS Name,
+       DPTSHT AS ShortName,
+       IDPLAN AS CommisionPlan,
+       IDBUYR AS Buyer,
+       IDRESP AS ResponsibleLevel,
+       IDSLVL AS SummaryLevel,
+       IDSFRQ AS SummaryFrequency,
+       IDSRTD AS DailyRetention,
+       IDSRTW AS WeeklyRetention,
+       IDSRTP AS PeriodRetention,
+       IDSRTY AS YearlyRetention,
+       ARTSCL AS ArthurSubclass
+    FROM MM4R4LIB.INVDPT

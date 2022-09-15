@@ -1,0 +1,1455 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/9/2008 3:37:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG01"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{22ABBC93-B143-40F6-B0B5-C02CD0391F35}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_PRCPLN"
+  DTS:PackageType="5"
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{8CA6E493-D7F8-4346-B9C4-7BAB74F28137}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{A0B6A262-41A6-4CE4-B6BB-4AF0718F0C42}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAABdSbx4eE5qnJMXuf7ChBSyAAAAAASAAACgAAAAEAAAAB8nYCJyiLcyhvP1e7b0z9oYAAAAqZBXkMqU+XydJygsocA5uiGiNuyqcG8yFAAAAC3uWcfxv0mm1KlPOrWtNuMrBv2O</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{124CCD95-5F87-4C6D-BE32-02F919B9D0BC}"
+      DTS:ObjectName="bambig03.Reference.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BAMBIG03ReferenceInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Reference;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400.QSYS2.MVS.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CF43E3BA-881A-4C95-8DE7-2D4C8FAEDF94}"
+      DTS:ObjectName="BKL400.BKL400.QSYS2.MVS.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400BKL400QSYS2MVSInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=;DBMS Platform=DB2/MVS;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Build Discounts"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{78E5D151-E165-4AF5-9951-EEA6AD5E65DE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Discounts"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{124CCD95-5F87-4C6D-BE32-02F919B9D0BC}"
+          SQLTask:SqlStatementSource="declare @Start_Date int&#xA;declare @End_Date int&#xA;declare @Ls smalldatetime&#xA;select @ls = staging.dbo.fn_Last_Saturday(getdate())&#xA;select @ls = dateadd(dd,3,@ls)&#xA;select @Start_Date = staging.dbo.fn_DateToInt(@ls)&#xA;select @ls = dateadd(dd,6,@ls)&#xA;select @End_Date = staging.dbo.fn_DateToInt(@ls)&#xA;&#xA;truncate table reportdata.dbo.discounts&#xA;insert into reportdata.dbo.discounts&#xA;SELECT distinct t2.ISBN&#xA;      ,t1.PLNITM&#xA;      ,t1.PLNTYP&#xA;      ,t1.PLNCDT&#xA;      ,t1.PLNADT&#xA;      ,t1.PLNAMT&#xA;      ,t1.PLNFLG&#xA;      ,t2.POS_Price&#xA;      ,(t2.POS_Price-t1.PLNAMT)/t2.POS_Price AS Discount&#xA;  FROM Reference.dbo.prcpln t1,&#xA;&#x9;   reference.dbo.item_master t2&#xA;where&#x9;t2.sku_number = t1.plnitm&#xA;and&#x9;&#x9;plncdt = @Start_Date&#xA;and&#x9;&#x9;plnadt = @End_Date&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{EA489B4A-7AA8-48AF-9B04-F35A6EBE4294}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">"MM4R4LIB"."TBLSTRT"</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from MM4R4LIB.PRCPLN where PLNTYP = 7 and PLNFLG = 1</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400.QSYS2.MVS.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400.QSYS2.MVS.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNITM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNITM]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNITM]"
+                      name="PLNITM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLVL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNLVL]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLVL]"
+                      name="PLNLVL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNSTR]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTR]"
+                      name="PLNSTR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNVND]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNVND]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNVND]"
+                      name="PLNVND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNSTY]"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTY]"
+                      name="PLNSTY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCCN]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCCN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCCN]"
+                      name="PLNCCN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCDT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCDT]"
+                      name="PLNCDT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNTYP]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNTYP]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNTYP]"
+                      name="PLNTYP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNFLG]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNFLG]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNFLG]"
+                      name="PLNFLG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEVT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEVT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEVT]"
+                      name="PLNEVT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNAMT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNAMT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNAMT]"
+                      name="PLNAMT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMLT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNMLT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMLT]"
+                      name="PLNMLT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMXM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNMXM]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMXM]"
+                      name="PLNMXM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTY]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTY]"
+                      name="PLNQTY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTV]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTV]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTV]"
+                      name="PLNQTV"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTT]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTT]"
+                      name="PLNQTT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQND]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQND]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQND]"
+                      name="PLNQND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEQM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEQM]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEQM]"
+                      name="PLNEQM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNACN]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNACN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNACN]"
+                      name="PLNACN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNADT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNADT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNADT]"
+                      name="PLNADT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNREC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNREC]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNREC]"
+                      name="PLNREC"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNPYN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNPYN]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNPYN]"
+                      name="PLNPYN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNHST]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNHST]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNHST]"
+                      name="PLNHST"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNCN]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNNCN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNCN]"
+                      name="PLNNCN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNDT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNNDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNDT]"
+                      name="PLNNDT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNECN]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNECN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNECN]"
+                      name="PLNECN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEDT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEDT]"
+                      name="PLNEDT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCOV]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCOV]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCOV]"
+                      name="PLNCOV"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLOV]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNLOV]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLOV]"
+                      name="PLNLOV"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNITM]"
+                      dataType="decimal"
+                      name="PLNITM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNLVL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNLVL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNSTR]"
+                      dataType="decimal"
+                      name="PLNSTR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNVND]"
+                      dataType="decimal"
+                      name="PLNVND" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNSTY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="PLNSTY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCCN]"
+                      dataType="decimal"
+                      name="PLNCCN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCDT]"
+                      dataType="decimal"
+                      name="PLNCDT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNTYP]"
+                      dataType="decimal"
+                      name="PLNTYP" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNFLG]"
+                      dataType="decimal"
+                      name="PLNFLG" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEVT]"
+                      dataType="decimal"
+                      name="PLNEVT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNAMT]"
+                      dataType="decimal"
+                      name="PLNAMT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNMLT]"
+                      dataType="decimal"
+                      name="PLNMLT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNMXM]"
+                      dataType="decimal"
+                      name="PLNMXM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTY]"
+                      dataType="decimal"
+                      name="PLNQTY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTV]"
+                      dataType="decimal"
+                      name="PLNQTV"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQTT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNQTT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNQND]"
+                      dataType="decimal"
+                      name="PLNQND" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEQM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNEQM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNACN]"
+                      dataType="decimal"
+                      name="PLNACN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNADT]"
+                      dataType="decimal"
+                      name="PLNADT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNREC]"
+                      dataType="numeric"
+                      name="PLNREC"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNPYN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNPYN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNHST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNHST" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNNCN]"
+                      dataType="decimal"
+                      name="PLNNCN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNNDT]"
+                      dataType="decimal"
+                      name="PLNNDT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNECN]"
+                      dataType="decimal"
+                      name="PLNECN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNEDT]"
+                      dataType="decimal"
+                      name="PLNEDT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNCOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNCOV" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PLNLOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNLOV" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNITM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNITM]"
+                      name="PLNITM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNLVL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNLVL]"
+                      name="PLNLVL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNSTR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNSTR]"
+                      name="PLNSTR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNVND]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNVND]"
+                      name="PLNVND" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNSTY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNSTY]"
+                      name="PLNSTY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCCN]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCCN]"
+                      name="PLNCCN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCDT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCDT]"
+                      name="PLNCDT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNTYP]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNTYP]"
+                      name="PLNTYP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNFLG]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNFLG]"
+                      name="PLNFLG" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEVT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEVT]"
+                      name="PLNEVT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNAMT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNAMT]"
+                      name="PLNAMT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNMLT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNMLT]"
+                      name="PLNMLT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNMXM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNMXM]"
+                      name="PLNMXM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTY]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTY]"
+                      name="PLNQTY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTV]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTV]"
+                      name="PLNQTV"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQTT]"
+                      name="PLNQTT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQND]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNQND]"
+                      name="PLNQND" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEQM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEQM]"
+                      name="PLNEQM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNACN]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNACN]"
+                      name="PLNACN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNADT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNADT]"
+                      name="PLNADT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNREC]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNREC]"
+                      name="PLNREC"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNPYN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNPYN]"
+                      name="PLNPYN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNHST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNHST]"
+                      name="PLNHST" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNNCN]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNNCN]"
+                      name="PLNNCN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNNDT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNNDT]"
+                      name="PLNNDT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNECN]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNECN]"
+                      name="PLNECN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEDT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNEDT]"
+                      name="PLNEDT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNCOV]"
+                      name="PLNCOV" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNLOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PLNLOV]"
+                      name="PLNLOV" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Reference PRCPLN"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Reference PRCPLN"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[PRCPLN]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Reference PRCPLN.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNITM]"
+                      cachedDataType="decimal"
+                      cachedName="PLNITM"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNITM]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNITM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNLVL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNLVL"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNLVL]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLVL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNSTR]"
+                      cachedDataType="decimal"
+                      cachedName="PLNSTR"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNSTR]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNVND]"
+                      cachedDataType="decimal"
+                      cachedName="PLNVND"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNVND]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNVND]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNSTY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="PLNSTY"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNSTY]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNSTY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNCCN]"
+                      cachedDataType="decimal"
+                      cachedName="PLNCCN"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCCN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCCN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNCDT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNCDT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNTYP]"
+                      cachedDataType="decimal"
+                      cachedName="PLNTYP"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNTYP]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNTYP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNFLG]"
+                      cachedDataType="decimal"
+                      cachedName="PLNFLG"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNFLG]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNFLG]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNEVT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNEVT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEVT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEVT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNAMT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNAMT"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNAMT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNAMT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNMLT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNMLT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNMLT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMLT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNMXM]"
+                      cachedDataType="decimal"
+                      cachedName="PLNMXM"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNMXM]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNMXM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNQTY]"
+                      cachedDataType="decimal"
+                      cachedName="PLNQTY"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTY]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNQTV]"
+                      cachedDataType="decimal"
+                      cachedName="PLNQTV"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTV]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTV]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNQTT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNQTT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQTT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNQND]"
+                      cachedDataType="decimal"
+                      cachedName="PLNQND"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQND]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNQND]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNEQM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNEQM"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEQM]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEQM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNACN]"
+                      cachedDataType="decimal"
+                      cachedName="PLNACN"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNACN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNACN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNADT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNADT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNADT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNADT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNREC]"
+                      cachedDataType="numeric"
+                      cachedName="PLNREC"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNREC]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNREC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNPYN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNPYN"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNPYN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNPYN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNHST]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNHST"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNHST]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNHST]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNNCN]"
+                      cachedDataType="decimal"
+                      cachedName="PLNNCN"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNNCN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNCN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNNDT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNNDT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNNDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNNDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNECN]"
+                      cachedDataType="decimal"
+                      cachedName="PLNECN"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNECN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNECN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNEDT]"
+                      cachedDataType="decimal"
+                      cachedName="PLNEDT"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEDT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNEDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNCOV]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNCOV"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCOV]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNCOV]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].Columns[PLNLOV]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PLNLOV"
+                      externalMetadataColumnId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNLOV]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PLNLOV]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNITM]"
+                      dataType="numeric"
+                      name="PLNITM"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNLVL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNLVL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNSTR]"
+                      dataType="numeric"
+                      name="PLNSTR"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNVND]"
+                      dataType="numeric"
+                      name="PLNVND"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNSTY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="PLNSTY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCCN]"
+                      dataType="numeric"
+                      name="PLNCCN"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCDT]"
+                      dataType="numeric"
+                      name="PLNCDT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNTYP]"
+                      dataType="numeric"
+                      name="PLNTYP"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNFLG]"
+                      dataType="numeric"
+                      name="PLNFLG"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEVT]"
+                      dataType="numeric"
+                      name="PLNEVT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNAMT]"
+                      dataType="numeric"
+                      name="PLNAMT"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNMLT]"
+                      dataType="numeric"
+                      name="PLNMLT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNMXM]"
+                      dataType="numeric"
+                      name="PLNMXM"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTY]"
+                      dataType="numeric"
+                      name="PLNQTY"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTV]"
+                      dataType="numeric"
+                      name="PLNQTV"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQTT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNQTT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNQND]"
+                      dataType="numeric"
+                      name="PLNQND"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEQM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNEQM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNACN]"
+                      dataType="numeric"
+                      name="PLNACN"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNADT]"
+                      dataType="numeric"
+                      name="PLNADT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNREC]"
+                      dataType="numeric"
+                      name="PLNREC"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNPYN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNPYN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNHST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNHST" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNNCN]"
+                      dataType="numeric"
+                      name="PLNNCN"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNNDT]"
+                      dataType="numeric"
+                      name="PLNNDT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNECN]"
+                      dataType="numeric"
+                      name="PLNECN"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNEDT]"
+                      dataType="numeric"
+                      name="PLNEDT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNCOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNCOV" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PLNLOV]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PLNLOV" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Reference PRCPLN.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Reference PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Reference PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Reference PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Reference PRCPLN.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Remove Booklands"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E04311A2-BA53-4969-A654-BB5DF0D53A87}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Remove Booklands"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{124CCD95-5F87-4C6D-BE32-02F919B9D0BC}"
+          SQLTask:SqlStatementSource="delete from PRCPLN where PLNSTR in (292,325,420,572,596,623,640,665,678,852,855,925)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{164AAC61-15A9-4987-848E-E890047B098E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{124CCD95-5F87-4C6D-BE32-02F919B9D0BC}"
+          SQLTask:SqlStatementSource="truncate table PRCPLN" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{10DA9459-6905-4A34-8576-5B7FCA6A4B2D}"
+      DTS:From="Package\Truncate Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A543E75C-DC6D-4A24-8297-C3A0DFD14BD1}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Remove Booklands" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{9ECBED85-C0B2-4415-82C9-0277A9944F86}"
+      DTS:From="Package\Remove Booklands"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Build Discounts" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Build Discounts"
+          TopLeft="8.70754716981131,259.047169811321" />
+        <NodeLayout
+          Size="139.2,41.6"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,106.066037735849" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Remove Booklands"
+          TopLeft="8.70754716981131,187.38679245283" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate Table"
+          TopLeft="5.91509433962264,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="74.5075471698113,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.566037735849"
+              Start="0,0"
+              End="0,49.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="75.9037735849057,147.666037735849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.720754716981"
+              Start="0,0"
+              End="0,32.220754716981">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.220754716981" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="76.5943396226415,231.311320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.7358490566039"
+              Start="0,0"
+              End="0,20.2358490566039">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2358490566039" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\Reference PRCPLN"
+          TopLeft="7.09999999999999,69.4245283018868" />
+        <NodeLayout
+          Size="140.8,41.6"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="188.8,112" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="188.8,132.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-45.7,-41.3754716981132"
+              Start="0,0"
+              End="-38.2,-41.3754716981132">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.85,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.85,0"
+                    Point2="-22.85,0"
+                    Point3="-22.85,-4" />
+                  <mssgle:LineSegment
+                    End="-22.85,-37.3754716981132" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.85,-37.3754716981132"
+                    Point2="-22.85,-41.3754716981132"
+                    Point3="-26.85,-41.3754716981132" />
+                  <mssgle:LineSegment
+                    End="-38.2,-41.3754716981132" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Reference PRCPLN">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

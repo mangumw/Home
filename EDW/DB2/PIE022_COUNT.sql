@@ -1,0 +1,4 @@
+﻿SELECT COUNT(*)
+    FROM MM4R4LIB.PIE022
+    
+--257,107,994    

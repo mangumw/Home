@@ -1,0 +1,12 @@
+﻿SELECT DPSTOR AS StoreNumber,
+       DPCEN AS DepositCentury,
+       CASE DPCEN
+           WHEN 0 THEN DATE(TIMESTAMP_FORMAT(CHAR(DPDATE + 19000000), 'YYYYMMDD'))
+           WHEN 1 THEN to_date(CHAR(LPAD(DPDATE, 6, 0)), 'YYMMDD')
+       END AS DepositDate,
+       DPREG AS RegisterNumber,
+       DPTIL AS TillNumber,
+       DPLIN AS ReportLineNo,
+       DPAMT AS DepositAmount
+    FROM MM4R4LIB.CSHRSA
+WHERE DPDATE = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)

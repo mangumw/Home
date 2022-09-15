@@ -1,0 +1,1256 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/13/2007 6:09:20 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG1"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{D1F673C3-08F6-4A60-A063-A857488121EF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_RCPT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="32"
+  DTS:VersionGUID="{3F557E28-BEDF-4354-92C0-2CF890F67BBB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{B2D7DBD6-7B71-4B58-B6A3-FADA74EA37BF}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAEL6SqBIH2/nJzRTcoBehTAAAAAASAAACgAAAAEAAAAIovAKGFhPfzyfdtT/koUsYYAAAAArPX4zYis4aJP42oo7rqH8MpRLMvJ2hnFAAAAKfsk/UCcAcngR93D57zDpV3jK/z</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B1117671-226F-43AD-AC2B-4F8560E27E76}"
+      DTS:ObjectName="bambig03.Reference.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03ReferenceInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bambig03;Initial Catalog=Reference;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{266CD089-0972-4489-A3E7-4DE447E70823}"
+      DTS:ObjectName="BAMBIG03.Staging">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E0142F4F-0FE4-4FCC-ACF2-197E06D14784}"
+      DTS:ObjectName="BKL400.BKL400QSYS2.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400QSYS2_DB2AS400_Infausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FA728CE7-93E2-4699-BA36-436D0F05C3BD}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartDate">
+      <DTS:VariableValue
+        DTS:DataType="3">80101</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{071326F8-5C20-4283-983A-AA2DE7CD3737}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StrSql">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT RCCONO,RCPONO,RCVNNO,RCITNO,RCWHID,RCORQT,RCDUDT,RCRCQT,RCRCDT,RCCSTX,RCTRDT from aplus2faw.rcpt</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6FF8C5F5-727C-4004-B387-972409938E75}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Aplusfaw RCPT"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Aplusfaw RCPT"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::StrSql</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Aplusfaw RCPT.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCONO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCCONO]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCONO]"
+                      name="RCCONO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCPONO]"
+                      length="6"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCPONO]"
+                      name="RCPONO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCVNNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCVNNO]"
+                      length="6"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCVNNO]"
+                      name="RCVNNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCITNO]"
+                      length="27"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCITNO]"
+                      name="RCITNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCWHID]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCWHID]"
+                      name="RCWHID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCORQT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCORQT]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCORQT]"
+                      name="RCORQT"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCDUDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCDUDT]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCDUDT]"
+                      name="RCDUDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCQT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCRCQT]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCQT]"
+                      name="RCRCQT"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCRCDT]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCDT]"
+                      name="RCRCDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCSTX]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCCSTX]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCSTX]"
+                      name="RCCSTX"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCTRDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCTRDT]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCTRDT]"
+                      name="RCTRDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCCONO]"
+                      dataType="numeric"
+                      name="RCCONO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="RCPONO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCVNNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="RCVNNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="RCITNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="RCWHID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCORQT]"
+                      dataType="decimal"
+                      name="RCORQT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCDUDT]"
+                      dataType="numeric"
+                      name="RCDUDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCRCQT]"
+                      dataType="decimal"
+                      name="RCRCQT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCRCDT]"
+                      dataType="numeric"
+                      name="RCRCDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCCSTX]"
+                      dataType="decimal"
+                      name="RCCSTX"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].ExternalColumns[RCTRDT]"
+                      dataType="numeric"
+                      name="RCTRDT"
+                      precision="6" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCCONO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCCONO]"
+                      name="RCCONO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCPONO]"
+                      name="RCPONO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCVNNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCVNNO]"
+                      name="RCVNNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCITNO]"
+                      name="RCITNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCWHID]"
+                      name="RCWHID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCORQT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCORQT]"
+                      name="RCORQT"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCDUDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCDUDT]"
+                      name="RCDUDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCRCQT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCRCQT]"
+                      name="RCRCQT"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCRCDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCRCDT]"
+                      name="RCRCDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCCSTX]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCCSTX]"
+                      name="RCCSTX"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCTRDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[RCTRDT]"
+                      name="RCTRDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Staging wrk_RCPT"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Staging wrk_RCPT"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[wrk_RCPT]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Staging wrk_RCPT.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCCONO]"
+                      cachedDataType="numeric"
+                      cachedName="RCCONO"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCONO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCPONO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="RCPONO"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[PO_Number]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCPONO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCVNNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="RCVNNO"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Vendor_Number]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCVNNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCITNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="RCITNO"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Item_Number]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCITNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCWHID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="RCWHID"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Warehouse_ID]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCWHID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCORQT]"
+                      cachedDataType="decimal"
+                      cachedName="RCORQT"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Order_Qty]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCORQT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCDUDT]"
+                      cachedDataType="numeric"
+                      cachedName="RCDUDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Due_Date]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCDUDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCRCQT]"
+                      cachedDataType="decimal"
+                      cachedName="RCRCQT"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Receipt_Qty]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCQT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCRCDT]"
+                      cachedDataType="numeric"
+                      cachedName="RCRCDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Receipt_Date]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCRCDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCCSTX]"
+                      cachedDataType="decimal"
+                      cachedName="RCCSTX"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Cost]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCCSTX]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].Columns[RCTRDT]"
+                      cachedDataType="numeric"
+                      cachedName="RCTRDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_Date]"
+                      lineageId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output].Columns[RCTRDT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      dataType="i4"
+                      name="Company_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[PO_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="PO_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Vendor_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="Vendor_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Item_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="Item_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Warehouse_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Warehouse_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Order_Qty]"
+                      dataType="i4"
+                      name="Order_Qty" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Due_Date]"
+                      dataType="i4"
+                      name="Due_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Receipt_Qty]"
+                      dataType="i4"
+                      name="Receipt_Qty" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Receipt_Date]"
+                      dataType="i4"
+                      name="Receipt_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Cost]"
+                      dataType="cy"
+                      name="Invoice_Cost" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_Date]"
+                      dataType="i4"
+                      name="Transaction_Date" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Staging wrk_RCPT.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Staging wrk_RCPT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Staging wrk_RCPT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Staging wrk_RCPT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Staging wrk_RCPT.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\Aplusfaw RCPT.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{590B6A93-A1FE-4344-A214-5C7A1E0CA5A1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{266CD089-0972-4489-A3E7-4DE447E70823}"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_DateToInt(dateadd(dd,-5,getdate())) as StartDate&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StartDate"
+            SQLTask:DtsVariableName="User::StartDate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Script Task"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{ce656634-8802-4aa5-a82e-259462608ac8}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Script Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_05729c57dc4747dba01a7225b2ffa280"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadOnlyVariables="StartDate"
+          ReadWriteVariables="StrSql">
+          <ProjectItem
+            Name="ST_05729c57dc4747dba01a7225b2ffa280.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{d5e6bc95-b7e3-4627-a73b-5f3d611c653d}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_0687a6d4318c43e9b4d3c2ddaab54d42</RootNamespace>
+    <AssemblyName>ST_05729c57dc4747dba01a7225b2ffa280</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+	' To open Object Browser, press Ctrl+Alt+J.
+
+	Public Sub Main()
+        Dim sql As String
+        Dim PeriodDate As String
+
+        PeriodDate = CStr(Dts.Variables("StartDate").Value)
+
+        sql = "SELECT RCCONO,RCPONO,RCVNNO,RCITNO,RCWHID,RCORQT,RCDUDT,RCRCQT,RCRCDT,RCCSTX,RCTRDT from aplus2faw.rcpt where rcrcdt >= "
+
+        Sql = Sql & PeriodDate
+
+        Dts.Variables("StrSql").Value = Sql
+
+		Dts.TaskResult = ScriptResults.Success
+	End Sub
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_05729c57dc4747dba01a7225b2ffa280</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_05729c57dc4747dba01a7225b2ffa280</msb:DisplayName>
+		<msb:ProjectId>{867017AD-5B86-42B6-8DB7-120552246915}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_05729c57dc4747dba01a7225b2ffa280.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_05729c57dc4747dba01a7225b2ffa280.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACwKTVoAAAAAAAAAAOAAIiALAVAAABQAAAAGAAAAAAAALjMA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAANwyAABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAANBMAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAQ
+MwAAAAAAAEgAAAACAAUAzCEAABARAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAFYAAAABAAARAigaAAAKbxsAAApyAQAAcG8cAAAK
+bx0AAAooHgAACgtyFQAAcAoGBygfAAAKCgIoGgAACm8bAAAKcggBAHBvHAAACgZvIAAACgIoGgAA
+ChZvIQAACio2AgMoIgAACigjAAAKKh4CKCQAAAoqLtAGAAACKCUAAAoqHgIoJgAACioTMAEAFAAA
+AAIAABECjAUAABstCCgBAAArCisCAgoGKiID/hUFAAAbKh4CKCgAAAoqAAAAEzACACgAAAADAAAR
+AnspAAAKbyoAAAoKBowIAAAbLRIoAgAAKwoCeykAAAoGbysAAAoGKkoCKCgAAAoCcywAAAp9KQAA
+CioAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkAAAAABQBsAAAA9AUAACN+AABgBgAA3AYAACNT
+dHJpbmdzAAAAADwNAAAYAQAAI1VTAFQOAAAQAAAAI0dVSUQAAABkDgAArAIAACNCbG9iAAAAAAAA
+AAIAAAFXHaIJCQ4AAAD6ATMAFgAAAQAAACEAAAAIAAAACAAAABIAAAADAAAALAAAAAIAAAAqAAAA
+AwAAAAIAAAAFAAAABQAAAAgAAAABAAAABQAAAAMAAAADAAAAAgAAAAAACQQBAAAAAAAGAK4C/QUG
+AAYD/QUGAPEBPgUPAB0GAAAGAGICRwMKANoB7gQKALAB8wMKAAUC8wMOAKABjQUOAB4FUQUGAHsC
+PgUOADIC1gUOAEoC3QAGAIEGOgQOAAoFjQUOAJMC3QAGAHcBOgQGAB4CtwUOACUAtwMKAMUBRgQS
+AOQCjgMGAM4COgQSAIQBjgMGAGoDOgQGAEEEOgQSAOEDjgMWADAGVAEWACcBVAEOAEEG1gUGAGMD
+OgQGAE0G/QUGADABOgQGACcFOgQAAAAAewAAAAAAAQABAAAAAAB+BKsGJQABAAEAAAAAABwFqwYp
+AAEAAgAAARAAiAarBjkAAQADAAEAAABjBE8AXQAFAAgABQEAAH8FAAA5AAUACgAFAQAANAAAADkA
+BQARAAIBAABsBgAAZQAGABMAMQC3BPMAMQCOBPsAMQCiBAMBMQDQBAsBIQChBrEABgbMABMBVoBc
+BhYBVoB8ARYBUCAAAAAABhgxBQYAAQBYIAAAAAAGGDEFBgABAGAgAAAAABEYNwUaAQEAiiAAAAAA
+EwgPBR4BAQCWIAAAAAATCG4EIwEBAKIgAAAAABMIBgUoAQEAriAAAAAAEwhvBS0BAQC6IAAAAAAG
+GDEFBgABAMQgAAAAAAYAaQQGAAEAJiEAAAAAxgI6Bn0AAQA0IQAAAADGAhsBggACADwhAAAAAIMA
+dAEyAQIASCEAAAAAxgJhA44AAgBQIQAAAAARALkANwECAHAhAAAAAAEApQA/AQMAeSEAAAAABhgx
+BQYABACEIQAAAAADCAIBSgAEALghAAAAAAYYMQUGAAQAAAABAIwEAAABABIBAAABABIBCQAxBQEA
+EQAxBQYAGQAxBQoAKQAxBRAAMQAxBRUAQQAxBRsAWQAxBQYAYQAxBQYAaQAxBQYAgQAxBSEAkQAx
+BSkAoQAxBRAAqQAxBQYAsQAxBSkASQAxBQYAUQAxBQYADAAxBQYAFAAxBQYAHAAxBQYAJAAxBQYA
+DAACAUoAFAACAUoAHAACAUoAJAACAUoAuQAxBQYAuQBkBlQA0QAsBlkA2QAxBF4A4QAkA2QA6QBh
+A2gA8QB6Bm0A4QAuA3MA0QCSBgEA+QA4A3gAcQA6Bn0AcQAbAYIAiQBCAYYAcQBhA44ACQHzAJoA
+cQAxBQYANAChBrEAPAAkA0oAPAAuA8gAPAAxBQYACAAcAOkACAAgAO4AKQBjAGMCLgALAGABLgAT
+AGkBLgAbAIgBLgAjAJEBQAA7AO4AQAAzANkBQwArAOIBQwAzANkBSQBjAHQCYwArAOIBYwAzANkB
+aQBjAIgCgAA7AO4AgwBDAO4AgwBLAO4AgwArAOIBiQBjAJUCoAA7AO4AowBrAO4AowBzAPsBwAA7
+AO4AwwAzANkBwwBTAAEC4AA7AO4A4wAzANkB4wBbAPsBQAEzANkBQAE7AO4AYAEzANkBYAE7AO4A
+gAEzANkBgAE7AO4AoAEzANkBoAE7AO4AwAE7AO4A4AE7AO4AAAI7AO4AAAIzANkBIAI7AO4AQAI7
+AO4AQAIzANkBTwCSAKUABAABAAcABQAAAB4FRwEAAIAETAEAAAoFUQEAAIEFVgEAAAYBWwECAAQA
+AwACAAUABQACAAYABwACAAcACQACABEACwAuADUAPABDAJcAqgC5AMAABIAAAAAAAAAAAAAAAAAA
+AAAAAQAAAAQAAAAAAAAAAAAAAM4A1AAAAAAABAAAAAAAAAAAAAAAzgA6BAAAAAAKAAAAAAAAAAAA
+AADXAN0AAAAAAAwAAAAAAAAAAAAAAOAAbwMAAAAADAAAAAAAAAAAAAAA4ACEAAAAAAAGAAQABwAE
+AAgABQAAABAADgCjAAAAEAAdAKMAAAAAAB8AowBPAKAATwDDAAAAAFNUXzA1NzI5YzU3ZGM0NzQ3
+ZGJhMDFhNzIyNWIyZmZhMjgwAENvbnRleHRWYWx1ZWAxAFRocmVhZFNhZmVPYmplY3RQcm92aWRl
+cmAxAFNjcmlwdFRhc2tfMDY4N2E2ZDQzMThjNDNlOWI0ZDNjMmRkYWFiNTRkNDIAPE1vZHVsZT4A
+TWljcm9zb2Z0LlNxbFNlcnZlci5NYW5hZ2VkRFRTAFQARGlzcG9zZV9fSW5zdGFuY2VfXwBDcmVh
+dGVfX0luc3RhbmNlX18AdmFsdWVfXwBtc2NvcmxpYgBNaWNyb3NvZnQuVmlzdWFsQmFzaWMAQ3Jl
+YXRlSW5zdGFuY2UAZ2V0X0dldEluc3RhbmNlAGluc3RhbmNlAEdldEhhc2hDb2RlAFZhcmlhYmxl
+AFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFuZGxlAE1pY3Jvc29mdC5TcWxTZXJ2ZXIu
+RHRzLlJ1bnRpbWUAR2V0VHlwZQBGYWlsdXJlAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVsQmFzZQBB
+cHBsaWNhdGlvbkJhc2UARWRpdG9yQnJvd3NhYmxlU3RhdGUASGVscEtleXdvcmRBdHRyaWJ1dGUA
+R2VuZXJhdGVkQ29kZUF0dHJpYnV0ZQBEZWJ1Z2dhYmxlQXR0cmlidXRlAEVkaXRvckJyb3dzYWJs
+ZUF0dHJpYnV0ZQBDb21WaXNpYmxlQXR0cmlidXRlAFN0YW5kYXJkTW9kdWxlQXR0cmlidXRlAEhp
+ZGVNb2R1bGVOYW1lQXR0cmlidXRlAFRhcmdldEZyYW1ld29ya0F0dHJpYnV0ZQBEZWJ1Z2dlckhp
+ZGRlbkF0dHJpYnV0ZQBNeUdyb3VwQ29sbGVjdGlvbkF0dHJpYnV0ZQBDb21waWxhdGlvblJlbGF4
+YXRpb25zQXR0cmlidXRlAENMU0NvbXBsaWFudEF0dHJpYnV0ZQBTU0lTU2NyaXB0VGFza0VudHJ5
+UG9pbnRBdHRyaWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUAZ2V0X1ZhbHVlAHNl
+dF9WYWx1ZQBHZXRPYmplY3RWYWx1ZQBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAFRvU3RyaW5n
+AE1hdGgATWljcm9zb2Z0LlNxbFNlcnZlci5TY3JpcHRUYXNrAE1pY3Jvc29mdC5TcWxTZXJ2ZXIu
+RHRzLlRhc2tzLlNjcmlwdFRhc2sATWljcm9zb2Z0LlZpc3VhbEJhc2ljLk15U2VydmljZXMuSW50
+ZXJuYWwAU2NyaXB0T2JqZWN0TW9kZWwAU3lzdGVtLkNvbXBvbmVudE1vZGVsAFNUXzA1NzI5YzU3
+ZGM0NzQ3ZGJhMDFhNzIyNWIyZmZhMjgwLmRsbABnZXRfSXRlbQBTeXN0ZW0ARW51bQBTeXN0ZW0u
+Q29tcG9uZW50TW9kZWwuRGVzaWduAFNjcmlwdE1haW4AZ2V0X0FwcGxpY2F0aW9uAE15QXBwbGlj
+YXRpb24AbwBtX0FwcE9iamVjdFByb3ZpZGVyAG1fVXNlck9iamVjdFByb3ZpZGVyAG1fQ29tcHV0
+ZXJPYmplY3RQcm92aWRlcgBtX015V2ViU2VydmljZXNPYmplY3RQcm92aWRlcgBTeXN0ZW0uQ29k
+ZURvbS5Db21waWxlcgBnZXRfVXNlcgBnZXRfQ29tcHV0ZXIATXlDb21wdXRlcgBBY3RpdmF0b3IA
+LmN0b3IALmNjdG9yAFN5c3RlbS5EaWFnbm9zdGljcwBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuRGV2
+aWNlcwBnZXRfV2ViU2VydmljZXMATXlXZWJTZXJ2aWNlcwBNaWNyb3NvZnQuVmlzdWFsQmFzaWMu
+QXBwbGljYXRpb25TZXJ2aWNlcwBTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2VydmljZXMATWljcm9z
+b2Z0LlZpc3VhbEJhc2ljLkNvbXBpbGVyU2VydmljZXMAU3lzdGVtLlJ1bnRpbWUuQ29tcGlsZXJT
+ZXJ2aWNlcwBEZWJ1Z2dpbmdNb2RlcwBnZXRfVmFyaWFibGVzAEVxdWFscwBDb252ZXJzaW9ucwBS
+dW50aW1lSGVscGVycwBTdWNjZXNzAGdldF9EdHMAU2NyaXB0UmVzdWx0cwBDb25jYXQAT2JqZWN0
+AE15UHJvamVjdABzZXRfVGFza1Jlc3VsdABtX0NvbnRleHQAU2NyaXB0VGFza18wNjg3YTZkNDMx
+OGM0M2U5YjRkM2MyZGRhYWI1NGQ0Mi5NeQAAAAATUwB0AGEAcgB0AEQAYQB0AGUAAIDxUwBFAEwA
+RQBDAFQAIABSAEMAQwBPAE4ATwAsAFIAQwBQAE8ATgBPACwAUgBDAFYATgBOAE8ALABSAEMASQBU
+AE4ATwAsAFIAQwBXAEgASQBEACwAUgBDAE8AUgBRAFQALABSAEMARABVAEQAVAAsAFIAQwBSAEMA
+UQBUACwAUgBDAFIAQwBEAFQALABSAEMAQwBTAFQAWAAsAFIAQwBUAFIARABUACAAZgByAG8AbQAg
+AGEAcABsAHUAcwAyAGYAYQB3AC4AcgBjAHAAdAAgAHcAaABlAHIAZQAgAHIAYwByAGMAZAB0ACAA
+PgA9ACAAAA1TAHQAcgBTAHEAbAAAAAAUT+om4DUeQaqAGqYaQITnAAQgAQEIAyAAAQUgAQEREQQg
+AQEOBSACAQ4OBSABAREdByAEAQ4ODg4EIAEBAgYVEhwBEgwGFRIcARIIBhUSHAESPQYVEhwBEhgE
+IAATAAQHAg4OBCAAEmkEIAASbQUgARJxHAMgABwEAAEOHAUAAg4ODgQgAQEcBAABHBwEIAECHAMg
+AAgHAAESRRGAgQMgAA4EBwEeAAIeAAUQAQAeAAQKAR4ABAcBEwAGFRIcARMABwYVEk0BEwAGFRJN
+ARMAAhMABAoBEwAFIAEBEwAIt3pcVhk04IkIsD9ffxHVCjoIiYRdzYCAzJEEAAAAAAQBAAAABwYV
+EhwBEgwHBhUSHAESCAcGFRIcARI9BwYVEhwBEhgCBggDBhEgAwAAAQQAABIMBAAAEggEAAASPQQA
+ABIYBCAAEkUHEAEBHgAeAAcwAQEBEB4ABAgAEgwECAASCAQIABI9BAgAEhgEKAATAAgBAAgAAAAA
+AB4BAAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAAAABHAQAaLk5FVEZyYW1ld29y
+ayxWZXJzaW9uPXY0LjABAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEC5ORVQgRnJhbWV3b3JrIDQI
+AQABAAAAAAAYAQAKTXlUZW1wbGF0ZQgxMS4wLjAuMAAABQEAAAAAYQEANFN5c3RlbS5XZWIuU2Vy
+dmljZXMuUHJvdG9jb2xzLlNvYXBIdHRwQ2xpZW50UHJvdG9jb2wSQ3JlYXRlX19JbnN0YW5jZV9f
+E0Rpc3Bvc2VfX0luc3RhbmNlX18AAAAQAQALTXkuQ29tcHV0ZXIAABMBAA5NeS5BcHBsaWNhdGlv
+bgAADAEAB015LlVzZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAAAAAABDMAAAAAAAAAAAAAHjMAAAAg
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAzAAAAAAAAAAAAAAAAX0NvckRsbE1haW4AbXNjb3JlZS5k
+bGwAAAAAAP8lACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAAC0AgAAAAAAAAAAAAC0AjQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAEFAIAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAA8AEAAAEAMAAwADAA
+MAAwADQAYgAwAAAALAACAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAACAAAAAw
+AAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADAALgAwAC4AMAAuADAAAABwACgAAQBJAG4A
+dABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABfADAANQA3ADIAOQBjADUANwBkAGMANAA3ADQANwBk
+AGIAYQAwADEAYQA3ADIAMgA1AGIAMgBmAGYAYQAyADgAMAAuAGQAbABsAAAAKAACAAEATABlAGcA
+YQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAIAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABl
+AG4AYQBtAGUAAABTAFQAXwAwADUANwAyADkAYwA1ADcAZABjADQANwA0ADcAZABiAGEAMAAxAGEA
+NwAyADIANQBiADIAZgBmAGEAMgA4ADAALgBkAGwAbAAAADQACAABAFAAcgBvAGQAdQBjAHQAVgBl
+AHIAcwBpAG8AbgAAADAALgAwAC4AMAAuADAAAAA4AAgAAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUA
+cgBzAGkAbwBuAAAAMAAuADAALgAwAC4AMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAADAzAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\truncate table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BF82A210-412C-457F-B5A2-1CDFBF3742B7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="truncate table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{266CD089-0972-4489-A3E7-4DE447E70823}"
+          SQLTask:SqlStatementSource="truncate table wrk_rcpt" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update RCPT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{50BC1602-771B-4110-98C4-0CF63ED4C7AB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update RCPT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{266CD089-0972-4489-A3E7-4DE447E70823}"
+          SQLTask:SqlStatementSource="DECLARE @SDINT INT&#xA;declare @sd smalldatetime&#xA;select @sdint = min(Receipt_Date) from staging.dbo.wrk_rcpt&#xA;select @sd = staging.dbo.fn_IntToDate(@sdint)&#xA;&#xA;delete from reference.dbo.rcpt where Receipt_Date &gt;= @sd&#xA;insert into reference.dbo.rcpt&#xA;select  Company_Number,&#xA;&#x9;&#x9;PO_Number,&#xA;&#x9;&#x9;Vendor_Number,&#xA;&#x9;&#x9;Item_Number,&#xA;&#x9;&#x9;Warehouse_ID,&#xA;&#x9;&#x9;Order_Qty,&#xA;&#x9;&#x9;staging.dbo.fn_IntToDate(Due_Date),&#xA;&#x9;&#x9;Receipt_Qty,&#xA;&#x9;&#x9;staging.dbo.fn_IntToDate(Receipt_Date),&#xA;&#x9;&#x9;Invoice_Cost,&#xA;&#x9;&#x9;staging.dbo.fn_IntToDate(Transaction_Date)&#xA;from staging.dbo.wrk_rcpt" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{76F33E67-52C0-48C7-BBD1-69DD9D248EF9}"
+      DTS:From="Package\truncate table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{524C898D-68C4-47F6-9577-A41AC8CBCECD}"
+      DTS:From="Package\Get Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Script Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{E4315817-90D3-4E7C-B39F-203CCB8EBBC1}"
+      DTS:From="Package\Script Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\truncate table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{938C6554-E27B-4203-860D-FBB567474D1B}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Update RCPT" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="5.68867924528303,248.473140945915" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Date"
+          TopLeft="7.4622641509434,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Script Task"
+          TopLeft="6.40000000000001,91.2" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\truncate table"
+          TopLeft="5.5,168.896226415094" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Update RCPT"
+          TopLeft="5.5,326.933962264151" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="73.5943396226415,212.896226415094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.5769145308209"
+              Start="0,0"
+              End="0,28.0769145308209">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.0769145308209" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="74.9311320754717,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.7"
+              Start="0,0"
+              End="0,34.2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="73.95,135.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.696226415094"
+              Start="0,0"
+              End="0,26.196226415094">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.196226415094" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="73.5943396226415,292.473140945915">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.4608213182361"
+              Start="0,0"
+              End="0,26.9608213182361">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.9608213182361" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Data Flow Task\Aplusfaw RCPT"
+          TopLeft="62.6,49.6" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\Staging wrk_RCPT"
+          TopLeft="65.957144200072,141.033851456535" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="135.878572100036,91.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.8338514565348"
+              Start="0,0"
+              End="0,42.3338514565348">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.3338514565348" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Aplusfaw RCPT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Staging wrk_RCPT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

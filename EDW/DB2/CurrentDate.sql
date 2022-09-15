@@ -1,0 +1,1 @@
+﻿SELECT current date FROM sysibm.sysdummy1

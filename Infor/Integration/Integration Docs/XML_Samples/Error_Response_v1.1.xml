@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BackgroundReports account="$VendorSuppliedValue$" userId="$VendorSuppliedValue$" password="$VendorSuppliedValue$">
+	<ProviderReferenceId>
+		<IdValue>$EdgeSuppliedValue$</IdValue>
+	</ProviderReferenceId>
+	<BackgroundReportPackage type="errors">
+		<ClientReferenceId>			
+			<IdValue>$Value$</IdValue>			
+		</ClientReferenceId>		
+		<ErrorReport>
+			<ErrorDescription>Missing Required Field:  County</ErrorDescription>
+			<ErrorCode>799</ErrorCode>
+			<ErrorSeverity>Fatal</ErrorSeverity>
+			<ProviderReferenceId>
+				<IdValue/>
+			</ProviderReferenceId>
+			<ScreeningReferenceId>
+				<IdValue>$Value$</IdValue>				
+			</ScreeningReferenceId>
+			<ScreeningType>criminal</ScreeningType>
+			<ScreeningQualifier>county</ScreeningQualifier>				
+		</ErrorReport>
+		<ErrorReport>
+			<ErrorDescription>Field Wrong Format: License Number, Data: O82785608; Proper Format: Nine numbers</ErrorDescription>
+			<ErrorCode>794</ErrorCode>
+			<ErrorSeverity>Fatal</ErrorSeverity>
+			<ProviderReferenceId>
+				<IdValue/>
+			</ProviderReferenceId>
+			<ScreeningReferenceId>
+				<IdValue>$Value$</IdValue>
+			</ScreeningReferenceId>
+			<ScreeningType>license</ScreeningType>
+			<ScreeningQualifier>mvPersonal</ScreeningQualifier>
+		</ErrorReport>
+	</BackgroundReportPackage>
+</BackgroundReports>

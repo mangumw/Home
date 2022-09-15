@@ -1,0 +1,995 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/20/2022 2:57:45 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{8D8A2FE0-C128-4F7C-A120-49474DAF7428}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_PIESCH"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{B7364CCA-FA67-41CB-B40A-D21740D95F1B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6561821F-2A6D-46EF-8F10-257BB3C7F28D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 PIESCH"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 PIESCH"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT STRNUM AS StoreNumber,
+       varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(CNTDAT, 8, 0)), 'YYYYMMDD'), 'YYYYMMDD') AS Countdate,
+       TCODE AS TypeCode,
+       CNTID AS CountID,
+       POLLED AS Polled,
+       POSTED AS Posted,
+       ERRFLG AS ErrorFlag,
+       USERID AS ChangedbyUserId,
+       varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(CHGDTE, 8, 0)), 'YYYYMMDD'), 'YYYYMMDD') AS ChangedDate,
+       SUMFLG AS SummaryFlag,
+       FINRPT AS FinalReportSent
+    FROM MM4R4LIB.PIESCH</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 PIESCH.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[COUNTDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]"
+                      name="COUNTDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[TYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[TYPECODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[TYPECODE]"
+                      name="TYPECODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTID]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[COUNTID]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTID]"
+                      name="COUNTID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POLLED]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[POLLED]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POLLED]"
+                      name="POLLED"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POSTED]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[POSTED]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POSTED]"
+                      name="POSTED"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[ERRORFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[ERRORFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[ERRORFLAG]"
+                      name="ERRORFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDBYUSERID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[CHANGEDBYUSERID]"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDBYUSERID]"
+                      name="CHANGEDBYUSERID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[CHANGEDDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]"
+                      name="CHANGEDDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[SUMMARYFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[SUMMARYFLAG]"
+                      name="SUMMARYFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[FINALREPORTSENT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[FINALREPORTSENT]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[FINALREPORTSENT]"
+                      name="FINALREPORTSENT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="decimal"
+                      name="STORENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[COUNTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="COUNTDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[TYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TYPECODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[COUNTID]"
+                      dataType="decimal"
+                      name="COUNTID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[POLLED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="POLLED" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[POSTED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="POSTED" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[ERRORFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ERRORFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[CHANGEDBYUSERID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="CHANGEDBYUSERID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[CHANGEDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="CHANGEDDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SUMMARYFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].ExternalColumns[FINALREPORTSENT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FINALREPORTSENT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[COUNTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[COUNTDATE]"
+                      name="COUNTDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[TYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[TYPECODE]"
+                      name="TYPECODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[COUNTID]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[COUNTID]"
+                      name="COUNTID" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[POLLED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[POLLED]"
+                      name="POLLED" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[POSTED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[POSTED]"
+                      name="POSTED" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ERRORFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ERRORFLAG]"
+                      name="ERRORFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[CHANGEDBYUSERID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[CHANGEDBYUSERID]"
+                      name="CHANGEDBYUSERID" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[CHANGEDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[CHANGEDDATE]"
+                      name="CHANGEDDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[SUMMARYFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[SUMMARYFLAG]"
+                      name="SUMMARYFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[FINALREPORTSENT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[FINALREPORTSENT]"
+                      name="FINALREPORTSENT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified &amp; ReplaceNulls"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified &amp; ReplaceNulls"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input].Columns[COUNTDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="COUNTDATE"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input].Columns[CHANGEDDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="CHANGEDDATE"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_COUNTDATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_COUNTDATE]"
+                      name="NEW_COUNTDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]} == "0") || (#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]} == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)([SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]},1,4) + "-" + [SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]},5,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTDATE]},7,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(COUNTDATE == "0") || (COUNTDATE == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)(SUBSTRING(COUNTDATE,1,4) + "-" + SUBSTRING(COUNTDATE,5,2) + "-" + SUBSTRING(COUNTDATE,7,2))</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_CHANGEDDATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_CHANGEDDATE]"
+                      name="NEW_CHANGEDDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]} == "0") || (#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]} == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)([SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]},1,4) + "-" + [SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]},5,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDDATE]},7,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(CHANGEDDATE == "0") || (CHANGEDDATE == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)(SUBSTRING(CHANGEDDATE,1,4) + "-" + SUBSTRING(CHANGEDDATE,5,2) + "-" + SUBSTRING(CHANGEDDATE,7,2))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server PIESCH"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server PIESCH"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[PIESCH]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server PIESCH.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="STORENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[TYPECODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="TYPECODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[TypeCode]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[TYPECODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[COUNTID]"
+                      cachedDataType="decimal"
+                      cachedName="COUNTID"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[CountID]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[COUNTID]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[POLLED]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="POLLED"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Polled]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POLLED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[POSTED]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="POSTED"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Posted]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[POSTED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[ERRORFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ERRORFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ErrorFlag]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[ERRORFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[CHANGEDBYUSERID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="CHANGEDBYUSERID"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ChangedbyUserId]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[CHANGEDBYUSERID]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[SUMMARYFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SUMMARYFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[SummaryFlag]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[SUMMARYFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[FINALREPORTSENT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="FINALREPORTSENT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[FinalReportSent]"
+                      lineageId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output].Columns[FINALREPORTSENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[NEW_COUNTDATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="NEW_COUNTDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Countdate]"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_COUNTDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].Columns[NEW_CHANGEDDATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="NEW_CHANGEDDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ChangedDate]"
+                      lineageId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output].Columns[NEW_CHANGEDDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      dataType="i4"
+                      name="StoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Countdate]"
+                      dataType="dbTimeStamp"
+                      name="Countdate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[TypeCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TypeCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[CountID]"
+                      dataType="i4"
+                      name="CountID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Polled]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Polled" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Posted]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Posted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ErrorFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ErrorFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ChangedbyUserId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ChangedbyUserId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[ChangedDate]"
+                      dataType="dbTimeStamp"
+                      name="ChangedDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[SummaryFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SummaryFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[FinalReportSent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FinalReportSent" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server PIESCH.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PIESCH.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PIESCH.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PIESCH.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server PIESCH.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified &amp; ReplaceNulls.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified &amp; ReplaceNulls.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 PIESCH.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Main Table PIESCH"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{05AFEFA7-79BF-4ED1-9359-F390DFE3B899}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Main Table PIESCH"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="INSERT INTO EDW.dbo.PIESCH&#xA;&#x9;  ( &#xA;&#x9;   [StoreNumber]&#xA;      ,[Countdate]&#xA;      ,[TypeCode]&#xA;      ,[CountID]&#xA;      ,[Polled]&#xA;      ,[Posted]&#xA;      ,[ErrorFlag]&#xA;      ,[ChangedbyUserId]&#xA;      ,[ChangedDate]&#xA;      ,[SummaryFlag]&#xA;      ,[FinalReportSent]&#xA;      ,[Last_Modified]&#xA;&#x9;  )&#xA;SELECT [StoreNumber]&#xA;      ,[Countdate]&#xA;      ,[TypeCode]&#xA;      ,[CountID]&#xA;      ,[Polled]&#xA;      ,[Posted]&#xA;      ,[ErrorFlag]&#xA;      ,[ChangedbyUserId]&#xA;      ,[ChangedDate]&#xA;      ,[SummaryFlag]&#xA;      ,[FinalReportSent]&#xA;      ,[Last_Modified]&#xA;  FROM [EDW].[stg].[PIESCH]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate PIESCH"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F701CC1C-28A5-4483-8755-EC592F50C2D2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate PIESCH"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.dbo.PIESCH;&#xA;TRUNCATE TABLE EDW.stg.PIESCH;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F30029B-A4C1-41DB-8EB9-AFEC73178D96}"
+      DTS:From="Package\Truncate PIESCH"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{5747CCD8-D0FD-441F-A01F-FA1A286579BA}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Main Table PIESCH" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Truncate PIESCH"
+          TopLeft="216,40" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="234,116" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="296.5,82">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Load Main Table PIESCH"
+          TopLeft="203,192" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="299,158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Load Data\AS400 PIESCH"
+          TopLeft="198,22" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load Data\Last Modified &amp; ReplaceNulls"
+          TopLeft="172,103" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="275.75,64">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Data\SQL Server PIESCH"
+          TopLeft="198,182" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="281.25,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 PIESCH">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server PIESCH">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,6 @@
+CREATE PROCEDURE dbo.MERGE_TRFDTL
+AS
+BEGIN
+MERGE   EDW.dbo.TRFDTL as target 
+USING   EDW.stg.TRFDTL as source
+ON

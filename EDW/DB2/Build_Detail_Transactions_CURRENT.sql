@@ -1,0 +1,43 @@
+﻿SELECT t1.CSSTOR AS StoreNumber
+    , t1.CSDATE  AS TransactionDate
+    , t1.CSREG#  AS RegisterNumber
+    , t1.CSTRN#  AS TransactionNumber
+    , t1.CSSEQ#  AS SequenceNumber  
+    , t1.CSTIME  AS TransactionTime    
+    , t1.CSDTYP  AS TransactionType 
+    , t1.cscsh#  AS CashierNumber   
+    , t1.CSSKU#  AS SkuNumber
+    , t1.CSRETL  AS UnitRetail
+    , t1.CSCOST  AS UnitCost
+    , t1.CSQTY   AS QuantitySold
+    , t1.CSEXPR  AS ExtendedPrice
+    , t1.CSPOVR  AS PriceOverride
+    , t1.CSUPC#  AS UPCNumber
+    , t1.CSEXDS  AS ExtendedDiscount 
+    , t1.CSRGPR  AS UnitRegularPrice
+    , t2.CSRSNC  AS ReasonCode
+    , T3.CEPDPT  AS POSDept
+    , t1.CSDOSP  AS OriginalSalesperson
+   FROM MM4R4LIB.CSHDET as t1 
+    left join MM4R4LIB.CSHDISE as T2 
+            on t2.csstor = t1.csstor 
+        AND T2.CSCEN = T1.CSCEN 
+        AND T2.CSDATE = T1.CSDATE 
+        and T2.CSREG# = T1.CSREG# 
+        AND T2.CSROLL = T1.CSROLL 
+        AND T2.CSTRN# = T1.CSTRN# 
+        AND T2.CSSEQ# = T1.CSSEQ# 
+        AND T2.CSDSSQ = 1 
+    left join mm4r4lib.cshdete t3 
+        on t3.cestor = t1.csstor 
+        AND T3.CECEN = T1.CSCEN 
+        AND T3.CEDATE = T1.CSDATE 
+        and T3.CEREG# = T1.CSREG# 
+        AND T3.CEROLL = T1.CSROLL 
+        AND T3.CETRN# = T1.CSTRN# 
+        AND T3.CESEQ# = T1.CSSEQ# 
+   WHERE t1.CSCEN = 1 
+    and t1.CSDSTS <> 'D' 
+    AND t1.CSDATE >= 90721 
+    and t1.csdate <= 90721
+    AND t2.CSRSNC IS NOT NULL

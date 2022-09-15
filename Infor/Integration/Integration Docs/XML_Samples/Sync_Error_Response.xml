@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BackgroundReports>
+	<!--Edge unique identifier that identifies what file had errors-->
+	<ProviderReferenceId>
+		<IdValue>Unknown</IdValue>
+	</ProviderReferenceId>
+	<BackgroundReportPackage type="errors">
+		<!--Vendor Identifier that identifies Applicant being screened-->
+		<ClientReferenceId>
+			<IdValue/>
+		</ClientReferenceId>
+		<ErrorReport>
+			<ErrorDescription>Fatal Error occured in Initial XML Validator - via Form POST
+Invalid XML Received</ErrorDescription>
+			<ErrorCode>899</ErrorCode>
+			<ErrorSeverity>Fatal</ErrorSeverity>
+			<!-- Edge unique identifier for this particular screening, blank with fatal errors -->
+			<ProviderReferenceId>
+				<IdValue/>
+			</ProviderReferenceId>
+			<!-- Vendor unique identifier for this particular screening -->
+			<ScreeningReferenceId>
+				<IdValue/>
+			</ScreeningReferenceId>
+			<ScreeningType>x:XML Parsing Exception</ScreeningType>
+		</ErrorReport>
+	</BackgroundReportPackage>
+</BackgroundReports>

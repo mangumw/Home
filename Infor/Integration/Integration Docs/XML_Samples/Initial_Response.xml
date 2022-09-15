@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BackgroundReports account="$VendorSuppliedValue$" userId="$VendorSuppliedValue$" password="$VendorSuppliedValue$">	
+	<ProviderReferenceId>
+		<IdValue>$EdgeSuppliedValue$</IdValue>
+	</ProviderReferenceId>
+	<BackgroundReportPackage type="status">
+		<ClientReferenceId>
+			<IdValue>$Value$</IdValue>
+		</ClientReferenceId>
+		<ScreeningStatus>
+			<OrderStatus>InProgress</OrderStatus>
+			<ResultStatus>InProgress</ResultStatus>
+			<DateOrderReceived>01/01/1900</DateOrderReceived>
+		</ScreeningStatus>
+		<Screenings>
+			<Screening type="x:OFAC">
+				<ProviderReferenceId>
+					<IdValue>$EdgeSuppliedValue$|$EdgeSuppliedValue$</IdValue>
+				</ProviderReferenceId>
+				<ClientReferenceId>
+					<IdValue>$Value$</IdValue>
+				</ClientReferenceId>
+				<ScreeningStatus>
+					<OrderStatus>InProgress</OrderStatus>
+					<ResultStatus>InProgress</ResultStatus>
+					<DateOrderReceived>01/01/1950</DateOrderReceived>
+				</ScreeningStatus>
+				<SupportingDocumentation>
+					<Documentation>
+						<Text><![CDATA[None]]></Text>
+					</Documentation>
+				</SupportingDocumentation>
+			</Screening> 
+			<Screening type="criminal">
+				<ProviderReferenceId>
+					<IdValue>$EdgeSuppliedValue$|$EdgeSuppliedValue$</IdValue>
+				</ProviderReferenceId>
+				<ClientReferenceId>
+					<IdValue>$Value$</IdValue>
+				</ClientReferenceId>
+				<ScreeningStatus>
+					<OrderStatus>InProgress</OrderStatus>
+					<ResultStatus>InProgress</ResultStatus>
+					<DateOrderReceived>01/01/1950</DateOrderReceived>
+				</ScreeningStatus>
+				<SupportingDocumentation>
+					<Documentation>
+						<Text><![CDATA[None]]></Text>
+					</Documentation>
+				</SupportingDocumentation>
+			</Screening> 
+		</Screenings>
+	</BackgroundReportPackage>
+</BackgroundReports>
