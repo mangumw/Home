@@ -1,0 +1,1136 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/12/2022 10:23:58 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{DA0B670A-4D7B-4DB5-AF15-ED3498947880}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_INVUPCP"
+  DTS:PackageType="5"
+  DTS:VersionBuild="44"
+  DTS:VersionGUID="{B511FDF0-B4C9-4F80-B25C-EBA93082F823}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DB9C72B5-DFFC-4E6B-B991-100C66523DCA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVUPCP;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B8520011-FD10-4A2B-A6CB-92CD9B71584B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 INVUPCP"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 INVUPCP"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT IUPC AS UPCNumber,
+       IUPCCD AS UPCType,
+       a.INUMBR AS SkuNumber,
+       IUSTYL AS StyleNumber,
+       IUASN AS StyleVendor,
+       IUPRT# AS VendorPartNo,
+       IUVND AS Vendor,
+       IUPPDA AS PrepricedAmount,
+       IUPPPO AS PrepricedPercentOff,
+       IUPPDO AS PrepricedAmtOff,
+       ICENT AS FirstActivityCentury,
+       case ICENT 
+        when 0 then varchar_format(timestamp_format(char(IDATE+19000000), 'YYYYMMDD'), 'YYYYMMDD')
+        when 1 then varchar_format(timestamp_format(char(LPAD(IDATE,6,0)),'YYMMDD'),'YYMMDD') end  AS FirstActivityDate,
+        ISTSCN AS StatusChangeCentury,
+        case ISTSCN 
+        when 0 then varchar_format(timestamp_format(char(ISTSDT+19000000), 'YYYYMMDD'), 'YYYYMMDD')
+        when 1 then varchar_format(timestamp_format(char(LPAD(ISTSDT,6,0)),'YYMMDD'),'YYMMDD') end AS StatusChangeDate
+    FROM MM4R4LIB.INVUPCP a
+    INNER JOIN MM4R4LIB.INVMSTE b
+        ON a.INUMBR = b.INUMBR
+   WHERE ISTSDT = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 INVUPCP.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[UPCNUMBER]"
+                      length="27"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCNUMBER]"
+                      name="UPCNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[UPCTYPE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCTYPE]"
+                      name="UPCTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STYLEVENDOR]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]"
+                      name="STYLEVENDOR"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDORPARTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[VENDORPARTNO]"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDORPARTNO]"
+                      name="VENDORPARTNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[VENDOR]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDOR]"
+                      name="VENDOR"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMOUNT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDAMOUNT]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMOUNT]"
+                      name="PREPRICEDAMOUNT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDPERCENTOFF]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDPERCENTOFF]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDPERCENTOFF]"
+                      name="PREPRICEDPERCENTOFF"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMTOFF]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDAMTOFF]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMTOFF]"
+                      name="PREPRICEDAMTOFF"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]"
+                      name="FIRSTACTIVITYCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]"
+                      name="FIRSTACTIVITYDATE"
+                      truncationRowDisposition="IgnoreFailure" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGECENTURY]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]"
+                      name="STATUSCHANGECENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGEDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]"
+                      name="STATUSCHANGEDATE"
+                      truncationRowDisposition="IgnoreFailure" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[UPCNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="UPCNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[UPCTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="UPCTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="decimal"
+                      name="SKUNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="STYLENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STYLEVENDOR]"
+                      dataType="numeric"
+                      name="STYLEVENDOR"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[VENDORPARTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="VENDORPARTNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[VENDOR]"
+                      dataType="numeric"
+                      name="VENDOR"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDAMOUNT]"
+                      dataType="decimal"
+                      name="PREPRICEDAMOUNT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDPERCENTOFF]"
+                      dataType="decimal"
+                      name="PREPRICEDPERCENTOFF"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[PREPRICEDAMTOFF]"
+                      dataType="decimal"
+                      name="PREPRICEDAMTOFF"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      name="FIRSTACTIVITYCENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="FIRSTACTIVITYDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      name="STATUSCHANGECENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="STATUSCHANGEDATE" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[UPCNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[UPCNUMBER]"
+                      name="UPCNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[UPCTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[UPCTYPE]"
+                      name="UPCTYPE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STYLEVENDOR]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STYLEVENDOR]"
+                      name="STYLEVENDOR"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[VENDORPARTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[VENDORPARTNO]"
+                      name="VENDORPARTNO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[VENDOR]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[VENDOR]"
+                      name="VENDOR"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDAMOUNT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDAMOUNT]"
+                      name="PREPRICEDAMOUNT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDPERCENTOFF]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDPERCENTOFF]"
+                      name="PREPRICEDPERCENTOFF"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDAMTOFF]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[PREPRICEDAMTOFF]"
+                      name="PREPRICEDAMTOFF"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYCENTURY]"
+                      name="FIRSTACTIVITYCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYDATE]"
+                      name="FIRSTACTIVITYDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGECENTURY]"
+                      name="STATUSCHANGECENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGEDATE]"
+                      name="STATUSCHANGEDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Derived Column.Inputs[Derived Column Input].Columns[FIRSTACTIVITYDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="FIRSTACTIVITYDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(FIRSTACTIVITYDATE,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Derived Column.Inputs[Derived Column Input].Columns[STATUSCHANGEDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="STATUSCHANGEDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(STATUSCHANGEDATE,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Derived Column.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Derived Column.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server INVUPCP"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server INVUPCP"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[INVUPCP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server INVUPCP.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[UPCNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="UPCNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[UPCNumber]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[UPCTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="UPCTYPE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[UPCType]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[UPCTYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SKUNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[STYLENUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="STYLENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[STYLEVENDOR]"
+                      cachedDataType="numeric"
+                      cachedName="STYLEVENDOR"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StyleVendor]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[VENDORPARTNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="VENDORPARTNO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[VendorPartNo]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDORPARTNO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[VENDOR]"
+                      cachedDataType="numeric"
+                      cachedName="VENDOR"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[Vendor]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[VENDOR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[PREPRICEDAMOUNT]"
+                      cachedDataType="decimal"
+                      cachedName="PREPRICEDAMOUNT"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedAmount]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMOUNT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[PREPRICEDPERCENTOFF]"
+                      cachedDataType="decimal"
+                      cachedName="PREPRICEDPERCENTOFF"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedPercentOff]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDPERCENTOFF]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[PREPRICEDAMTOFF]"
+                      cachedDataType="decimal"
+                      cachedName="PREPRICEDAMTOFF"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedAmtOff]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[PREPRICEDAMTOFF]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[FIRSTACTIVITYCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="FIRSTACTIVITYCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityCentury]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[STATUSCHANGECENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="STATUSCHANGECENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeCentury]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[FIRSTACTIVITYDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="FIRSTACTIVITYDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[firstactivitydate]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[STATUSCHANGEDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="STATUSCHANGEDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeDate]"
+                      lineageId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Derived Column.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[UPCNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="UPCNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[UPCType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="UPCType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="StyleNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StyleVendor]"
+                      dataType="i4"
+                      name="StyleVendor" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[VendorPartNo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="VendorPartNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[Vendor]"
+                      dataType="i4"
+                      name="Vendor" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedAmount]"
+                      dataType="numeric"
+                      name="PrepricedAmount"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedPercentOff]"
+                      dataType="numeric"
+                      name="PrepricedPercentOff"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[PrepricedAmtOff]"
+                      dataType="numeric"
+                      name="PrepricedAmtOff"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityCentury]"
+                      dataType="i4"
+                      name="FirstActivityCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[firstactivitydate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="firstactivitydate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeCentury]"
+                      dataType="i4"
+                      name="StatusChangeCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="StatusChangeDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server INVUPCP.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVUPCP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVUPCP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVUPCP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server INVUPCP.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Derived Column.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 INVUPCP.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge INVUPCP"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7BC78BA8-2761-419E-8613-729F4EBA4435}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge INVUPCP"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_INVUPCP;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate INVUPCP"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FFC23B0C-A871-475B-B0F0-71438E73E2E8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate INVUPCP"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVUPCP;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BF7E5F6A-39F1-4E82-BF1D-D406CDB1FA44}"
+      DTS:From="Package\Truncate INVUPCP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E9AEC8BC-2F48-42B1-81F5-788D92CC9864}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge INVUPCP" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{EB1A6B97-1909-4B14-9E7D-C2283F7900C1}"
+      DTS:From="Package\Merge INVUPCP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="188,272" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="199,105" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Merge INVUPCP"
+          TopLeft="187,190" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Truncate INVUPCP"
+          TopLeft="186,29" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="266,71">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="263.25,147">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="264.75,232">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load Data\SQL Server INVUPCP"
+          TopLeft="172,202" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Load Data\Derived Column"
+          TopLeft="187,110" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Load Data\AS400 INVUPCP"
+          TopLeft="181,30" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="261.25,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="262.25,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server INVUPCP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 INVUPCP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

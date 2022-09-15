@@ -1,0 +1,890 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/18/2022 9:56:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{5DC488D7-2435-44AA-BC9D-07BB77BB5569}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_TBLBYR"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{3317F740-AAEC-4108-8ED7-328DBD2EFC4B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5AABEA97-5248-4EAB-874B-530FC297D4AE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 TBLBYR"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 TBLBYR"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT BYRNUM AS BuyerNumber,
+       BYRNAM AS BuyerName,
+       BYRSCN AS StartDateCenturyCode,
+       varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(BYRSDT, 6, 0)), 'YYMMDD'), 'YYMMDD') AS StartDate,
+       BYREXT AS TelExtension,
+       BYRDWI AS DWInit,
+       BYRSBC AS SrBuyerCode,
+       BYRSEM AS SrBuyerEmail,
+       BYRASC AS AsstBuyerCode,
+       BYRASM AS AsstBuyerEmail
+    FROM MM4R4LIB.TBLBYR</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 TBLBYR.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[BUYERNUMBER]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNUMBER]"
+                      name="BUYERNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[BUYERNAME]"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNAME]"
+                      name="BUYERNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[STARTDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATECENTURYCODE]"
+                      name="STARTDATECENTURYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[STARTDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]"
+                      name="STARTDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[TELEXTENSION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[TELEXTENSION]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[TELEXTENSION]"
+                      name="TELEXTENSION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[DWINIT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[DWINIT]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[DWINIT]"
+                      name="DWINIT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[SRBUYERCODE]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYERCODE]"
+                      name="SRBUYERCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[SRBUYEREMAIL]"
+                      length="50"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYEREMAIL]"
+                      name="SRBUYEREMAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[ASSTBUYERCODE]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYERCODE]"
+                      name="ASSTBUYERCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[ASSTBUYEREMAIL]"
+                      length="100"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYEREMAIL]"
+                      name="ASSTBUYEREMAIL"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[BUYERNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="BUYERNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[BUYERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="BUYERNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[STARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      name="STARTDATECENTURYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[STARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="STARTDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[TELEXTENSION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="TELEXTENSION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[DWINIT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="DWINIT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[SRBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SRBUYERCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[SRBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SRBUYEREMAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[ASSTBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="ASSTBUYERCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].ExternalColumns[ASSTBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ASSTBUYEREMAIL" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[BUYERNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[BUYERNUMBER]"
+                      name="BUYERNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[BUYERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[BUYERNAME]"
+                      name="BUYERNAME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[STARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[STARTDATECENTURYCODE]"
+                      name="STARTDATECENTURYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[STARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[STARTDATE]"
+                      name="STARTDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[TELEXTENSION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[TELEXTENSION]"
+                      name="TELEXTENSION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[DWINIT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[DWINIT]"
+                      name="DWINIT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[SRBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[SRBUYERCODE]"
+                      name="SRBUYERCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[SRBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[SRBUYEREMAIL]"
+                      name="SRBUYEREMAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ASSTBUYERCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ASSTBUYERCODE]"
+                      name="ASSTBUYERCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ASSTBUYEREMAIL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ASSTBUYEREMAIL]"
+                      name="ASSTBUYEREMAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last_Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last_Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last_Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last_Modified.Inputs[Derived Column Input].Columns[STARTDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="STARTDATE"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last_Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last_Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_STARTDATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_STARTDATE]"
+                      name="NEW_ALTERED_STARTDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]} == "0") || (#{Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]} == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)([SUBSTRING](#{Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]},1,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]},3,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATE]},5,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(STARTDATE == "0") || (STARTDATE == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)(SUBSTRING(STARTDATE,1,2) + "-" + SUBSTRING(STARTDATE,3,2) + "-" + SUBSTRING(STARTDATE,5,2))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last_Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last_Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last_Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last_Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server TBLBYR"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server TBLBYR"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TBLBYR]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server TBLBYR.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[BUYERNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="BUYERNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[BuyerNumber]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[BUYERNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="BUYERNAME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[BuyerName]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[BUYERNAME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[STARTDATECENTURYCODE]"
+                      cachedDataType="decimal"
+                      cachedName="STARTDATECENTURYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[StartDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[STARTDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[TELEXTENSION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="TELEXTENSION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[TelExtension]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[TELEXTENSION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[DWINIT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="DWINIT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[DWInit]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[DWINIT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[SRBUYERCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="SRBUYERCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[SrBuyerCode]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYERCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[SRBUYEREMAIL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SRBUYEREMAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[SrBuyerEmail]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[SRBUYEREMAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[ASSTBUYERCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="ASSTBUYERCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[AsstBuyerCode]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYERCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[ASSTBUYEREMAIL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="ASSTBUYEREMAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[AsstBuyerEmail]"
+                      lineageId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output].Columns[ASSTBUYEREMAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].Columns[NEW_ALTERED_STARTDATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="NEW_ALTERED_STARTDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Load Data\Last_Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_STARTDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[BuyerNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="BuyerNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[BuyerName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="BuyerName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[StartDateCenturyCode]"
+                      dataType="i4"
+                      name="StartDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStamp"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[TelExtension]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="TelExtension" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[DWInit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="DWInit" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[SrBuyerCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="SrBuyerCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[SrBuyerEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SrBuyerEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[AsstBuyerCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="AsstBuyerCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[AsstBuyerEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="AsstBuyerEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server TBLBYR.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server TBLBYR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server TBLBYR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server TBLBYR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server TBLBYR.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last_Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last_Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 TBLBYR.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate TBLBYR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AD20F4D8-6488-45CB-9BB9-95A5B9D3502A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate TBLBYR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.dbo.TBLBYR;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{DD4E95EC-9004-49DE-9194-A2C07370A82D}"
+      DTS:From="Package\Truncate TBLBYR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="213,109" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Truncate TBLBYR"
+          TopLeft="199,28" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="278,70">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load Data\Last_Modified"
+          TopLeft="160,110" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Load Data\SQL Server TBLBYR"
+          TopLeft="148,188" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Load Data\AS400 TBLBYR"
+          TopLeft="161,37" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="233.75,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="233,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server TBLBYR">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 TBLBYR">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

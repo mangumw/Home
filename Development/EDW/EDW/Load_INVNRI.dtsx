@@ -1,0 +1,888 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/12/2022 4:03:06 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{3A7997A1-02F7-493F-8EC6-CE28ABEA9BD7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_INVNRI"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{2F18A9B8-187C-4A32-B66E-5101C30491D0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A6CF18E8-62BB-42DA-A7A8-2AD1087446CC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVNRI;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{CDB07221-24ED-4065-9870-F52DC9A137C6}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 INVNRI"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 INVNRI"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT NIREAS AS ReasonCode,
+       INUMBR AS SkuNumber,
+       ITMDW AS DWItemNumber,
+       NIACTV AS ActiveFlag,
+       NIPGMN AS ProgramName,
+       NIUSER AS User,
+       NICENT AS LastUpdateCentury,
+       CASE NICENT
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(NIDATE + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(NIDATE, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS LastUpdateDate,
+       TIME(to_date(DIGITS(CAST(NITIME AS DEC(6, 0))), 'HH24MISS')) AS LastUpdateTime
+    FROM MM4R4LIB.INVNRI</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 INVNRI.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[REASONCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[REASONCODE]"
+                      length="6"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[REASONCODE]"
+                      name="REASONCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[ACTIVEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[ACTIVEFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[ACTIVEFLAG]"
+                      name="ACTIVEFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[PROGRAMNAME]"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]"
+                      name="PROGRAMNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[USER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[USER]"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[USER]"
+                      name="USER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATECENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATECENTURY]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATECENTURY]"
+                      name="LASTUPDATECENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATEDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]"
+                      name="LASTUPDATEDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATETIME]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATETIME]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATETIME]"
+                      name="LASTUPDATETIME"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[REASONCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="REASONCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="decimal"
+                      name="SKUNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWITEMNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[ACTIVEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ACTIVEFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="PROGRAMNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[USER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="USER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATECENTURY]"
+                      dataType="decimal"
+                      name="LASTUPDATECENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LASTUPDATEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].ExternalColumns[LASTUPDATETIME]"
+                      dataType="dbTime"
+                      name="LASTUPDATETIME" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[REASONCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[REASONCODE]"
+                      name="REASONCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ACTIVEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ACTIVEFLAG]"
+                      name="ACTIVEFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[PROGRAMNAME]"
+                      name="PROGRAMNAME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[USER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[USER]"
+                      name="USER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATECENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATECENTURY]"
+                      name="LASTUPDATECENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATEDATE]"
+                      name="LASTUPDATEDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATETIME]"
+                      dataType="dbTime"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[LASTUPDATETIME]"
+                      name="LASTUPDATETIME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[LASTUPDATEDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="LASTUPDATEDATE"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEWLASTUPDATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEWLASTUPDATE]"
+                      name="NEWLASTUPDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]} == "0") || (#{Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]} == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)([SUBSTRING](#{Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]},1,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]},3,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATEDATE]},5,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(LASTUPDATEDATE == "0") || (LASTUPDATEDATE == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)(SUBSTRING(LASTUPDATEDATE,1,2) + "-" + SUBSTRING(LASTUPDATEDATE,3,2) + "-" + SUBSTRING(LASTUPDATEDATE,5,2))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server INVNRI"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server INVNRI"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[INVNRI]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server INVNRI.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[REASONCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="REASONCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[REASONCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SKUNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[DWITEMNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="DWITEMNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[DWItemNumber]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[ACTIVEFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ACTIVEFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFlag]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[ACTIVEFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[PROGRAMNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="PROGRAMNAME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ProgramName]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[USER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="USER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[User]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[USER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[LASTUPDATECENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="LASTUPDATECENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateCentury]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATECENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[LASTUPDATETIME]"
+                      cachedDataType="dbTime"
+                      cachedName="LASTUPDATETIME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateTime]"
+                      lineageId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output].Columns[LASTUPDATETIME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].Columns[NEWLASTUPDATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="NEWLASTUPDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateDate]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEWLASTUPDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ReasonCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[DWItemNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWItemNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ActiveFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[ProgramName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ProgramName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[User]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="User" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateCentury]"
+                      dataType="i4"
+                      name="LastUpdateCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LastUpdateDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdateTime]"
+                      dataType="dbTime2"
+                      name="LastUpdateTime"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server INVNRI.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVNRI.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVNRI.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVNRI.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server INVNRI.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 INVNRI.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate INVNRI"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FEEDF8F7-673E-46A4-BE01-12DF507E824A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate INVNRI"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVNRI;&#xA;TRUNCATE TABLE EDW.dbo.INVNRI;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7957BCE9-5620-4C53-958E-4BD8C977AF55}"
+      DTS:From="Package\Truncate INVNRI"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{BBE0248A-AC40-46CB-AEED-A7937976890D}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="197,199" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="212,113" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Truncate INVNRI"
+          TopLeft="203,33" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="279,75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="275,155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Data\SQL Server INVNRI"
+          TopLeft="201,200" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="212,114" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Load Data\AS400 INVNRI"
+          TopLeft="211,28" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="284.25,156">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="283.5,70">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server INVNRI">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 INVNRI">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,3008 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/16/2006 11:27:49 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG1"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{4F9AEACC-A089-4A32-97C4-3D4791D3C49D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_ZRFASNR"
+  DTS:PackageType="5"
+  DTS:VersionBuild="47"
+  DTS:VersionGUID="{28F9629C-DBDB-4415-B0BF-203C881ECBC7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{18482AEC-25BD-494D-A903-D1A4FB54F87A}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA9hhf59r4KTze26pRt5LWuAAAAAASAAACgAAAAEAAAABxqrbEdSFX79cqtidq8n3YYAAAA7zfX69erGNFi0ggM46HKTQ84EYwTSA14FAAAAMjxoZ5DS8y8IirhueHXYiQEt0Hw</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E3CC1632-3BC1-4C92-A35E-888CC2003487}"
+      DTS:ObjectName="bambig03.Staging.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E0142F4F-0FE4-4FCC-ACF2-197E06D14784}"
+      DTS:ObjectName="BKL400.BKL400QSYS2.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400QSYS2_DB2AS400_Infausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BLK400.BLK400]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CEA6EA52-2EB2-4305-850A-FCFE55521FEB}"
+      DTS:ObjectName="BLK400.BLK400">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::bkl400_BKL400_infausr]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bkl400;User ID=infausr;Initial Catalog=BKL400;Provider=IBMDA400.DataSource.1;Persist Security Info=True;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAATRqOURnp+NbwTSqC55p/5AAAAAASAAACgAAAAEAAAANqvN3uQ3DqZTsByHGWpUjoYAAAAA1d40TmcpcAQZsavMuJ8I0CJRXOa4VSUFAAAAP/+2FUmPiy6mfSs0xGcIe9+ddCX</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C719BAD2-F54A-4650-8D77-EC42027CA3BF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="seldate">
+      <DTS:VariableValue
+        DTS:DataType="8">20060601</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C24C003F-820E-4214-858F-869E7953940F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strsql">
+      <DTS:VariableValue
+        DTS:DataType="8">select * from awbmodf.zrfasnr</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">8,7,OnError,13,OnInformation,13,OnPostExecute,14,OnPostValidate,12,OnPreExecute,13,OnPreValidate,12,OnTaskFailed,9,OnWarning</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnInformation"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPostExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPostValidate"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPreExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPreValidate"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnTaskFailed"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnWarning"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Build Destination"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D88B0738-D8C8-4798-AF6A-223C88FDBB1F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Destination"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E3CC1632-3BC1-4C92-A35E-888CC2003487}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="exec staging.dbo.usp_Build_ZRFASNR" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Build Select"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{41353fe0-7983-4d85-9748-3da04fe86e8a}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Select"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_1dbb6304c1f942c3850475de82f9046e"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadOnlyVariables="seldate"
+          ReadWriteVariables="strsql">
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+	' To open Object Browser, press Ctrl+Alt+J.
+
+	Public Sub Main()
+        Dim sql As String
+        Dim seldate As String
+
+        sql = "select * from awbmodf.zrfasnr where ASADTE >= "
+        seldate = Str(Dts.Variables("seldate").Value)
+        sql = sql & seldate
+
+
+        Dts.Variables("strsql").Value = sql
+        Dts.TaskResult = ScriptResults.Success
+
+    End Sub
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="ST_1dbb6304c1f942c3850475de82f9046e.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{34850aaf-d41d-4ec9-95aa-fdc339ef112c}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_3cfa95c9a9f34ceb92529c66388affdc</RootNamespace>
+    <AssemblyName>ST_1dbb6304c1f942c3850475de82f9046e</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_1dbb6304c1f942c3850475de82f9046e</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_1dbb6304c1f942c3850475de82f9046e</msb:DisplayName>
+		<msb:ProjectId>{5B5E21B3-5DBB-40A5-89B0-8E06509DBF5E}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_1dbb6304c1f942c3850475de82f9046e.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_1dbb6304c1f942c3850475de82f9046e.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACcKTVoAAAAAAAAAAOAAIiALAVAAABQAAAAGAAAAAAAAojIA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAFAyAABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAqBIAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACE
+MgAAAAAAAEgAAAACAAUA1CEAAHwQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAFsAAAABAAARcgEAAHAKAigaAAAKbxsAAApyXwAA
+cG8cAAAKbx0AAAooHgAACigfAAAKCwYHKCAAAAoKAigaAAAKbxsAAApybwAAcG8cAAAKBm8hAAAK
+AigaAAAKFm8iAAAKKjYCAygeAAAKKCMAAAoqHgIoJAAACiou0AYAAAIoJQAACioeAigmAAAKKgAA
+ABMwAQAUAAAAAgAAEQKMBQAAGy0IKAEAACsKKwICCgYqIgP+FQUAABsqHgIoKAAACioAAAATMAIA
+KAAAAAMAABECeykAAApvKgAACgoGjAgAABstEigCAAArCgJ7KQAACgZvKwAACgYqSgIoKAAACgJz
+LAAACn0pAAAKKgBCU0pCAQABAAAAAAAMAAAAdjQuMC4zMDMxOQAAAAAFAGwAAAD0BQAAI34AAGAG
+AADgBgAAI1N0cmluZ3MAAAAAQA0AAIAAAAAjVVMAwA0AABAAAAAjR1VJRAAAANANAACsAgAAI0Js
+b2IAAAAAAAAAAgAAAVcdogkJDgAAAPoBMwAWAAABAAAAIQAAAAgAAAAIAAAAEgAAAAMAAAAsAAAA
+AgAAACoAAAADAAAAAgAAAAUAAAAFAAAACAAAAAEAAAAFAAAAAwAAAAMAAAACAAAAAAAJBAEAAAAA
+AAYArgIMBgYABgMMBgYA8QFNBQ8ALAYAAAYAYgJHAwoA2gH5BAoAsAHzAwoABQLzAw4AoAGcBQ4A
+KQVgBQYAewJNBQ4AMgLlBQ4ASgK5AAYAhAY6BA4AFQWcBQ4AkwK5AAYAdwE6BAYAHgLGBQ4AAQC3
+AwoAxQFGBBIA5AKOAwYAzgI6BBIAhAGOAwYAagM6BAYAQQQ6BBIA4QOOAxYAPwZUARYAJwFUAQYA
+UAYMBg4AbgS5AAYAYwM6BAYAMAE6BAYAMgU6BAAAAAArAAAAAAABAAEAAAAAAIkErgYlAAEAAQAA
+AAAAJwWuBikAAQACAAABEACLBq4GOQABAAMAAQAAAGMEjQBdAAUACAAFAQAAjgUAADkABQAKAAUB
+AAAQAAAAOQAFABEAAgEAAG8GAABlAAYAEwAxAMIE8wAxAJkE+wAxAK0EAwExANsECwEhAKQGsQAG
+BnwAEwFWgF8GFgFWgHwBFgFQIAAAAAAGGDwFBgABAFggAAAAAAYYPAUGAAEAYCAAAAAAERhCBRoB
+AQCKIAAAAAATCBoFHgEBAJYgAAAAABMIeQQjAQEAoiAAAAAAEwgRBSgBAQCuIAAAAAATCH4FLQEB
+ALogAAAAAAYYPAUGAAEAxCAAAAAABgBpBAYAAQArIQAAAADGAkkGfQABADkhAAAAAMYCGwGCAAIA
+QSEAAAAAgwB0ATIBAgBNIQAAAADGAmEDjgACAFghAAAAABEAaQA3AQIAeCEAAAAAAQBVAD8BAwCB
+IQAAAAAGGDwFBgAEAIwhAAAAAAMIAgFKAAQAwCEAAAAABhg8BQYABAAAAAEAlwQAAAEAEgEAAAEA
+EgEJADwFAQARADwFBgAZADwFCgApADwFEAAxADwFFQBBADwFGwBZADwFBgBhADwFBgBpADwFBgCB
+ADwFIQCRADwFKQChADwFEACpADwFBgCxADwFKQBJADwFBgBRADwFBgAMADwFBgAUADwFBgAcADwF
+BgAkADwFBgAMAAIBSgAUAAIBSgAcAAIBSgAkAAIBSgC5ADwFBgC5AGcGVADRADsGWQDZADEEXgDh
+ACQDZADpADgDaADxAEkFbQD5AH0GcgDhAC4DeADRAJUGAQBxAEkGfQBxABsBggCJAEIBhgBxAGED
+jgAJAfMAmgBxADwFBgA0AKQGsQA8ACQDSgA8AC4DyAA8ADwFBgAIABwA6QAIACAA7gApAGMAYwIu
+AAsAYAEuABMAaQEuABsAiAEuACMAkQFAADsA7gBAADMA2QFDACsA4gFDADMA2QFJAGMAdAJjACsA
+4gFjADMA2QFpAGMAiAKAADsA7gCDAEMA7gCDAEsA7gCDACsA4gGJAGMAlQKgADsA7gCjAGsA7gCj
+AHMA+wHAADsA7gDDADMA2QHDAFMAAQLgADsA7gDjADMA2QHjAFsA+wFAATMA2QFAATsA7gBgATMA
+2QFgATsA7gCAATMA2QGAATsA7gCgATMA2QGgATsA7gDAATsA7gDgATsA7gAAAjsA7gAAAjMA2QEg
+AjsA7gBAAjsA7gBAAjMA2QFPAJIApQAEAAEABwAFAAAAKQVHAQAAiwRMAQAAFQVRAQAAkAVWAQAA
+BgFbAQIABAADAAIABQAFAAIABgAHAAIABwAJAAIAEQALAC4ANQA8AEMAlwCqALkAwAAEgAAAAAAA
+AAAAAAAAAAAAAADPAAAABAAAAAAAAAAAAAAAzgCEAAAAAAAEAAAAAAAAAAAAAADOADoEAAAAAAoA
+AAAAAAAAAAAAANcAuQAAAAAADAAAAAAAAAAAAAAA4ABvAwAAAAAMAAAAAAAAAAAAAADgADQAAAAA
+AAYABAAHAAQACAAFAAAAEAAOAFMAAAAQAB0AUwAAAAAAHwBTAE8AoABPAMMAAAAAQ29udGV4dFZh
+bHVlYDEAVGhyZWFkU2FmZU9iamVjdFByb3ZpZGVyYDEAPE1vZHVsZT4ATWljcm9zb2Z0LlNxbFNl
+cnZlci5NYW5hZ2VkRFRTAFQARGlzcG9zZV9fSW5zdGFuY2VfXwBDcmVhdGVfX0luc3RhbmNlX18A
+dmFsdWVfXwBtc2NvcmxpYgBTY3JpcHRUYXNrXzNjZmE5NWM5YTlmMzRjZWI5MjUyOWM2NjM4OGFm
+ZmRjAE1pY3Jvc29mdC5WaXN1YWxCYXNpYwBTVF8xZGJiNjMwNGMxZjk0MmMzODUwNDc1ZGU4MmY5
+MDQ2ZQBDcmVhdGVJbnN0YW5jZQBnZXRfR2V0SW5zdGFuY2UAaW5zdGFuY2UAR2V0SGFzaENvZGUA
+VmFyaWFibGUAUnVudGltZVR5cGVIYW5kbGUAR2V0VHlwZUZyb21IYW5kbGUATWljcm9zb2Z0LlNx
+bFNlcnZlci5EdHMuUnVudGltZQBHZXRUeXBlAEZhaWx1cmUAVlNUQVJUU2NyaXB0T2JqZWN0TW9k
+ZWxCYXNlAEFwcGxpY2F0aW9uQmFzZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBIZWxwS2V5d29yZEF0
+dHJpYnV0ZQBHZW5lcmF0ZWRDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9y
+QnJvd3NhYmxlQXR0cmlidXRlAENvbVZpc2libGVBdHRyaWJ1dGUAU3RhbmRhcmRNb2R1bGVBdHRy
+aWJ1dGUASGlkZU1vZHVsZU5hbWVBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAERl
+YnVnZ2VySGlkZGVuQXR0cmlidXRlAE15R3JvdXBDb2xsZWN0aW9uQXR0cmlidXRlAENvbXBpbGF0
+aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQ0xTQ29tcGxpYW50QXR0cmlidXRlAFNTSVNTY3JpcHRU
+YXNrRW50cnlQb2ludEF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBnZXRf
+VmFsdWUAc2V0X1ZhbHVlAEdldE9iamVjdFZhbHVlAFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcA
+VG9TdHJpbmcATWF0aABNaWNyb3NvZnQuU3FsU2VydmVyLlNjcmlwdFRhc2sATWljcm9zb2Z0LlNx
+bFNlcnZlci5EdHMuVGFza3MuU2NyaXB0VGFzawBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuTXlTZXJ2
+aWNlcy5JbnRlcm5hbABTY3JpcHRPYmplY3RNb2RlbABTeXN0ZW0uQ29tcG9uZW50TW9kZWwAU1Rf
+MWRiYjYzMDRjMWY5NDJjMzg1MDQ3NWRlODJmOTA0NmUuZGxsAGdldF9JdGVtAFN5c3RlbQBFbnVt
+AFN5c3RlbS5Db21wb25lbnRNb2RlbC5EZXNpZ24AU2NyaXB0TWFpbgBDb252ZXJzaW9uAGdldF9B
+cHBsaWNhdGlvbgBNeUFwcGxpY2F0aW9uAG8AbV9BcHBPYmplY3RQcm92aWRlcgBtX1VzZXJPYmpl
+Y3RQcm92aWRlcgBtX0NvbXB1dGVyT2JqZWN0UHJvdmlkZXIAbV9NeVdlYlNlcnZpY2VzT2JqZWN0
+UHJvdmlkZXIAU3lzdGVtLkNvZGVEb20uQ29tcGlsZXIAZ2V0X1VzZXIAZ2V0X0NvbXB1dGVyAE15
+Q29tcHV0ZXIAQWN0aXZhdG9yAC5jdG9yAC5jY3RvcgBTdHIAU3lzdGVtLkRpYWdub3N0aWNzAE1p
+Y3Jvc29mdC5WaXN1YWxCYXNpYy5EZXZpY2VzAGdldF9XZWJTZXJ2aWNlcwBNeVdlYlNlcnZpY2Vz
+AE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5BcHBsaWNhdGlvblNlcnZpY2VzAFN5c3RlbS5SdW50aW1l
+LkludGVyb3BTZXJ2aWNlcwBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuQ29tcGlsZXJTZXJ2aWNlcwBT
+eXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAERlYnVnZ2luZ01vZGVzAGdldF9WYXJpYWJs
+ZXMARXF1YWxzAFJ1bnRpbWVIZWxwZXJzAFN1Y2Nlc3MAZ2V0X0R0cwBTY3JpcHRSZXN1bHRzAENv
+bmNhdABPYmplY3QATXlQcm9qZWN0AHNldF9UYXNrUmVzdWx0AG1fQ29udGV4dABTY3JpcHRUYXNr
+XzNjZmE5NWM5YTlmMzRjZWI5MjUyOWM2NjM4OGFmZmRjLk15AAAAAABdcwBlAGwAZQBjAHQAIAAq
+ACAAZgByAG8AbQAgAGEAdwBiAG0AbwBkAGYALgB6AHIAZgBhAHMAbgByACAAdwBoAGUAcgBlACAA
+QQBTAEEARABUAEUAIAA+AD0AIAAAD3MAZQBsAGQAYQB0AGUAAA1zAHQAcgBzAHEAbAAAAAAAI/mv
+RAgSN0+fX4qT1rTe3AAEIAEBCAMgAAEFIAEBEREEIAEBDgUgAgEODgUgAQERHQcgBAEODg4OBCAB
+AQIGFRIcARIMBhUSHAESCAYVEhwBEj0GFRIcARIYBCAAEwAEBwIODgQgABJpBCAAEm0FIAEScRwD
+IAAcBAABHBwEAAEOHAUAAg4ODgQgAQEcBCABAhwDIAAIBwABEkURgIEDIAAOBAcBHgACHgAFEAEA
+HgAECgEeAAQHARMABhUSHAETAAcGFRJNARMABhUSTQETAAITAAQKARMABSABARMACLd6XFYZNOCJ
+CLA/X38R1Qo6CImEXc2AgMyRBAAAAAAEAQAAAAcGFRIcARIMBwYVEhwBEggHBhUSHAESPQcGFRIc
+ARIYAgYIAwYRIAMAAAEEAAASDAQAABIIBAAAEj0EAAASGAQgABJFBxABAR4AHgAHMAEBARAeAAQI
+ABIMBAgAEggECAASPQQIABIYBCgAEwAIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRpb25U
+aHJvd3MBCAEAAgAAAAAARwEAGi5ORVRGcmFtZXdvcmssVmVyc2lvbj12NC4wAQBUDhRGcmFtZXdv
+cmtEaXNwbGF5TmFtZRAuTkVUIEZyYW1ld29yayA0CAEAAQAAAAAAGAEACk15VGVtcGxhdGUIMTEu
+MC4wLjAAAAUBAAAAAGEBADRTeXN0ZW0uV2ViLlNlcnZpY2VzLlByb3RvY29scy5Tb2FwSHR0cENs
+aWVudFByb3RvY29sEkNyZWF0ZV9fSW5zdGFuY2VfXxNEaXNwb3NlX19JbnN0YW5jZV9fAAAAEAEA
+C015LkNvbXB1dGVyAAATAQAOTXkuQXBwbGljYXRpb24AAAwBAAdNeS5Vc2VyAAATAQAOTXkuV2Vi
+U2VydmljZXMAAAAAAHgyAAAAAAAAAAAAAJIyAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEMgAA
+AAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAAC0AgAAAAAAAAAAAAC0AjQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAEFAIAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAA8AEAAAEAMAAwADAA
+MAAwADQAYgAwAAAALAACAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAACAAAAAw
+AAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADAALgAwAC4AMAAuADAAAABwACgAAQBJAG4A
+dABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABfADEAZABiAGIANgAzADAANABjADEAZgA5ADQAMgBj
+ADMAOAA1ADAANAA3ADUAZABlADgAMgBmADkAMAA0ADYAZQAuAGQAbABsAAAAKAACAAEATABlAGcA
+YQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAIAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABl
+AG4AYQBtAGUAAABTAFQAXwAxAGQAYgBiADYAMwAwADQAYwAxAGYAOQA0ADIAYwAzADgANQAwADQA
+NwA1AGQAZQA4ADIAZgA5ADAANAA2AGUALgBkAGwAbAAAADQACAABAFAAcgBvAGQAdQBjAHQAVgBl
+AHIAcwBpAG8AbgAAADAALgAwAC4AMAAuADAAAAA4AAgAAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUA
+cgBzAGkAbwBuAAAAMAAuADAALgAwAC4AMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAAKQyAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Start Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2C40EAE7-3BA9-4519-8BAE-AF5E6ED83097}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Start Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E3CC1632-3BC1-4C92-A35E-888CC2003487}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_datetoPDate(dateadd(dd,-15,getdate()))  as seldate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="seldate"
+            SQLTask:DtsVariableName="User::seldate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Replicate ZRFASNR"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{20D49C41-B127-4101-92F0-97887D3A9C70}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Replicate ZRFASNR">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2">
+        <DTS:Property
+          DTS:DataType="8"
+          DTS:Name="EventFilter">10,7,OnError,13,OnInformation,13,OnPostExecute,14,OnPostValidate,12,OnPreExecute,13,OnPreValidate,13,OnQueryCancel,12,OnTaskFailed,9,OnWarning,16,BufferSizeTuning</DTS:Property>
+        <DTS:Property
+          DTS:EventName="BufferSizeTuning"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnError"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnInformation"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPostExecute"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPostValidate"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPreExecute"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPreValidate"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnQueryCancel"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnTaskFailed"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnWarning"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+      </DTS:LoggingOptions>
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Replicate ZRFASNR\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ZRFASNR]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASTPID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="ASTPID"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTPID]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTPID]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASLINK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="ASLINK"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASLINK]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASLINK]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASSHID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="ASSHID"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSHID]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSHID]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASADTE]"
+                      cachedDataType="numeric"
+                      cachedName="ASADTE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASADTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASADTE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASATIM]"
+                      cachedDataType="numeric"
+                      cachedName="ASATIM"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASATIM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASATIM]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASCART]"
+                      cachedDataType="numeric"
+                      cachedName="ASCART"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASCART]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCART]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASTWGT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASTWGT"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTWGT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTWGT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASWGHT]"
+                      cachedDataType="numeric"
+                      cachedName="ASWGHT"
+                      cachedPrecision="10"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASWGHT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASWGHT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASSDTE]"
+                      cachedDataType="numeric"
+                      cachedName="ASSDTE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSDTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSDTE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASCARR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="ASCARR"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASCARR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCARR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASMANF]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="ASMANF"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASMANF]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASMANF]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASPONO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="ASPONO"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPONO]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPONO]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASPODT]"
+                      cachedDataType="numeric"
+                      cachedName="ASPODT"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPODT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPODT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASINVN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="ASINVN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASINVN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASINVN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASTYPE"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTYPE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTYPE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASBARC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="25"
+                      cachedName="ASBARC"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASBARC]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASBARC]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASISBN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="ASISBN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASISBN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASISBN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASNUMB]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="ASNUMB"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASNUMB]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASNUMB]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASSQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ASSQTY"
+                      cachedPrecision="10"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSQTY]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASICAR]"
+                      cachedDataType="numeric"
+                      cachedName="ASICAR"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASICAR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASICAR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASRCVR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ASRCVR"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRCVR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCVR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASRCDT]"
+                      cachedDataType="numeric"
+                      cachedName="ASRCDT"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRCDT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCDT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASRQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ASRQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRQTY]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASRBOX]"
+                      cachedDataType="numeric"
+                      cachedName="ASRBOX"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRBOX]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRBOX]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASTRKN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ASTRKN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTRKN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTRKN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASSUOM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASSUOM"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSUOM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSUOM]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASPRIC]"
+                      cachedDataType="numeric"
+                      cachedName="ASPRIC"
+                      cachedPrecision="17"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPRIC]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRIC]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASPRCD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASPRCD"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPRCD]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRCD]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ASSTAT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ASSTAT"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSTAT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSTAT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTPID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASTPID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASLINK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASLINK" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASSHID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASADTE]"
+                      dataType="numeric"
+                      name="ASADTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASATIM]"
+                      dataType="numeric"
+                      name="ASATIM"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASCART]"
+                      dataType="numeric"
+                      name="ASCART"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTWGT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTWGT" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASWGHT]"
+                      dataType="numeric"
+                      name="ASWGHT"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSDTE]"
+                      dataType="numeric"
+                      name="ASSDTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASCARR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASCARR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASMANF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="ASMANF" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASPONO" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPODT]"
+                      dataType="numeric"
+                      name="ASPODT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASINVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASINVN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASBARC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="ASBARC" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASISBN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASNUMB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASNUMB" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSQTY]"
+                      dataType="numeric"
+                      name="ASSQTY"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASICAR]"
+                      dataType="numeric"
+                      name="ASICAR"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRCVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASRCVR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRCDT]"
+                      dataType="numeric"
+                      name="ASRCDT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRQTY]"
+                      dataType="numeric"
+                      name="ASRQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASRBOX]"
+                      dataType="numeric"
+                      name="ASRBOX"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASTRKN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASTRKN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSUOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASSUOM" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPRIC]"
+                      dataType="numeric"
+                      name="ASPRIC"
+                      precision="17"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASPRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASPRCD" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ASSTAT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ASSTAT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Replicate ZRFASNR\OLE DB Destination 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ZRFASNR_BAD]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASTPID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="ASTPID"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTPID]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTPID]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASLINK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="ASLINK"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASLINK]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASLINK]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASSHID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="ASSHID"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSHID]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSHID]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASADTE]"
+                      cachedDataType="numeric"
+                      cachedName="ASADTE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASADTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASADTE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASATIM]"
+                      cachedDataType="numeric"
+                      cachedName="ASATIM"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASATIM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASATIM]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASCART]"
+                      cachedDataType="numeric"
+                      cachedName="ASCART"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASCART]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCART]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASTWGT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASTWGT"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTWGT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTWGT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASWGHT]"
+                      cachedDataType="numeric"
+                      cachedName="ASWGHT"
+                      cachedPrecision="10"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASWGHT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASWGHT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASSDTE]"
+                      cachedDataType="numeric"
+                      cachedName="ASSDTE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSDTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSDTE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASCARR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="ASCARR"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASCARR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCARR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASMANF]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="ASMANF"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASMANF]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASMANF]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASPONO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="ASPONO"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPONO]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPONO]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASPODT]"
+                      cachedDataType="numeric"
+                      cachedName="ASPODT"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPODT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPODT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASINVN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="ASINVN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASINVN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASINVN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASTYPE"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTYPE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTYPE]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASBARC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="25"
+                      cachedName="ASBARC"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASBARC]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASBARC]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASISBN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="ASISBN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASISBN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASISBN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASNUMB]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="ASNUMB"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASNUMB]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASNUMB]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASSQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ASSQTY"
+                      cachedPrecision="10"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSQTY]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASICAR]"
+                      cachedDataType="numeric"
+                      cachedName="ASICAR"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASICAR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASICAR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASRCVR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ASRCVR"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRCVR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCVR]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASRCDT]"
+                      cachedDataType="numeric"
+                      cachedName="ASRCDT"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRCDT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCDT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASRQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ASRQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRQTY]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASRBOX]"
+                      cachedDataType="numeric"
+                      cachedName="ASRBOX"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRBOX]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRBOX]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASTRKN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ASTRKN"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTRKN]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTRKN]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASSUOM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASSUOM"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSUOM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSUOM]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASPRIC]"
+                      cachedDataType="numeric"
+                      cachedName="ASPRIC"
+                      cachedPrecision="17"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPRIC]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRIC]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASPRCD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ASPRCD"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPRCD]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRCD]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ASSTAT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ASSTAT"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSTAT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSTAT]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                      cachedDataType="i4"
+                      cachedName="ErrorCode"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" />
+                    <inputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                      cachedDataType="i4"
+                      cachedName="ErrorColumn"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTPID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASTPID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASLINK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASLINK" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASSHID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASADTE]"
+                      dataType="numeric"
+                      name="ASADTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASATIM]"
+                      dataType="numeric"
+                      name="ASATIM"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASCART]"
+                      dataType="numeric"
+                      name="ASCART"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTWGT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTWGT" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASWGHT]"
+                      dataType="numeric"
+                      name="ASWGHT"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSDTE]"
+                      dataType="numeric"
+                      name="ASSDTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASCARR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASCARR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASMANF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="ASMANF" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASPONO" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPODT]"
+                      dataType="numeric"
+                      name="ASPODT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASINVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASINVN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASBARC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="ASBARC" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASISBN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASNUMB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASNUMB" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSQTY]"
+                      dataType="numeric"
+                      name="ASSQTY"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASICAR]"
+                      dataType="numeric"
+                      name="ASICAR"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRCVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASRCVR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRCDT]"
+                      dataType="numeric"
+                      name="ASRCDT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRQTY]"
+                      dataType="numeric"
+                      name="ASRQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASRBOX]"
+                      dataType="numeric"
+                      name="ASRBOX"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASTRKN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASTRKN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSUOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASSUOM" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPRIC]"
+                      dataType="numeric"
+                      name="ASPRIC"
+                      precision="17"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASPRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASPRCD" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ASSTAT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ASSTAT" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      dataType="i4"
+                      name="ErrorCode" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      dataType="i4"
+                      name="ErrorColumn" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Replicate ZRFASNR\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::strsql</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Replicate ZRFASNR\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BLK400.BLK400]"
+                  connectionManagerRefId="Package.ConnectionManagers[BLK400.BLK400]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTPID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTPID]"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTPID]"
+                      name="ASTPID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASLINK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASLINK]"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASLINK]"
+                      name="ASLINK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSHID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSHID]"
+                      length="15"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSHID]"
+                      name="ASSHID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASADTE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASADTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASADTE]"
+                      name="ASADTE"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASATIM]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASATIM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASATIM]"
+                      name="ASATIM"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCART]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASCART]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCART]"
+                      name="ASCART"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTWGT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTWGT]"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTWGT]"
+                      name="ASTWGT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASWGHT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASWGHT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASWGHT]"
+                      name="ASWGHT"
+                      precision="10"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSDTE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSDTE]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSDTE]"
+                      name="ASSDTE"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCARR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASCARR]"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASCARR]"
+                      name="ASCARR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASMANF]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASMANF]"
+                      length="20"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASMANF]"
+                      name="ASMANF"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPONO]"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPONO]"
+                      name="ASPONO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPODT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPODT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPODT]"
+                      name="ASPODT"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASINVN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASINVN]"
+                      length="15"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASINVN]"
+                      name="ASINVN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTYPE]"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTYPE]"
+                      name="ASTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASBARC]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASBARC]"
+                      length="25"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASBARC]"
+                      name="ASBARC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASISBN]"
+                      length="27"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASISBN]"
+                      name="ASISBN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASNUMB]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASNUMB]"
+                      length="27"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASNUMB]"
+                      name="ASNUMB"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSQTY]"
+                      name="ASSQTY"
+                      precision="10"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASICAR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASICAR]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASICAR]"
+                      name="ASICAR"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCVR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRCVR]"
+                      length="8"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCVR]"
+                      name="ASRCVR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRCDT]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRCDT]"
+                      name="ASRCDT"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRQTY]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRQTY]"
+                      name="ASRQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRBOX]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRBOX]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRBOX]"
+                      name="ASRBOX"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTRKN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTRKN]"
+                      length="8"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASTRKN]"
+                      name="ASTRKN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSUOM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSUOM]"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSUOM]"
+                      name="ASSUOM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRIC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPRIC]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRIC]"
+                      name="ASPRIC"
+                      precision="17"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPRCD]"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPRCD]"
+                      name="ASPRCD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSTAT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSTAT]"
+                      length="1"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASSTAT]"
+                      name="ASSTAT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRUSR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRUSR]"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRUSR]"
+                      name="ASRUSR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRTIM]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRTIM]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASRTIM]"
+                      name="ASRTIM"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPOVN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPOVN]"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASPOVN]"
+                      name="ASPOVN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASAUD#]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASAUD#]"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASAUD#]"
+                      name="ASAUD#"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASMTCH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASMTCH]"
+                      length="1"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASMTCH]"
+                      name="ASMTCH"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTPID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASTPID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASLINK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASLINK" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASSHID" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASADTE]"
+                      dataType="numeric"
+                      name="ASADTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASATIM]"
+                      dataType="numeric"
+                      name="ASATIM"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASCART]"
+                      dataType="numeric"
+                      name="ASCART"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTWGT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTWGT" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASWGHT]"
+                      dataType="numeric"
+                      name="ASWGHT"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSDTE]"
+                      dataType="numeric"
+                      name="ASSDTE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASCARR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASCARR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASMANF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="ASMANF" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASPONO" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPODT]"
+                      dataType="numeric"
+                      name="ASPODT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASINVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="ASINVN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASBARC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="ASBARC" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASISBN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASNUMB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ASNUMB" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSQTY]"
+                      dataType="numeric"
+                      name="ASSQTY"
+                      precision="10"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASICAR]"
+                      dataType="numeric"
+                      name="ASICAR"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRCVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASRCVR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRCDT]"
+                      dataType="numeric"
+                      name="ASRCDT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRQTY]"
+                      dataType="numeric"
+                      name="ASRQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRBOX]"
+                      dataType="numeric"
+                      name="ASRBOX"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASTRKN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ASTRKN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSUOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASSUOM" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPRIC]"
+                      dataType="numeric"
+                      name="ASPRIC"
+                      precision="17"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ASPRCD" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASSTAT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ASSTAT" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRUSR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ASRUSR" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASRTIM]"
+                      dataType="numeric"
+                      name="ASRTIM"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASPOVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="ASPOVN" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASAUD#]"
+                      dataType="numeric"
+                      name="ASAUD#"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASMTCH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ASMTCH" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTPID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTPID]"
+                      name="ASTPID" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASLINK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASLINK]"
+                      name="ASLINK" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSHID]"
+                      name="ASSHID" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASADTE]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASADTE]"
+                      name="ASADTE"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASATIM]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASATIM]"
+                      name="ASATIM"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCART]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCART]"
+                      name="ASCART"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTWGT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTWGT]"
+                      name="ASTWGT" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASWGHT]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASWGHT]"
+                      name="ASWGHT"
+                      precision="10"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSDTE]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSDTE]"
+                      name="ASSDTE"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCARR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASCARR]"
+                      name="ASCARR" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASMANF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASMANF]"
+                      name="ASMANF" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPONO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPONO]"
+                      name="ASPONO" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPODT]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPODT]"
+                      name="ASPODT"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASINVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASINVN]"
+                      name="ASINVN" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTYPE]"
+                      name="ASTYPE" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASBARC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASBARC]"
+                      name="ASBARC" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASISBN]"
+                      name="ASISBN" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASNUMB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASNUMB]"
+                      name="ASNUMB" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSQTY]"
+                      name="ASSQTY"
+                      precision="10"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASICAR]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASICAR]"
+                      name="ASICAR"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCVR]"
+                      name="ASRCVR" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCDT]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRCDT]"
+                      name="ASRCDT"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRQTY]"
+                      name="ASRQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRBOX]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRBOX]"
+                      name="ASRBOX"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTRKN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASTRKN]"
+                      name="ASTRKN" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSUOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSUOM]"
+                      name="ASSUOM" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRIC]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRIC]"
+                      name="ASPRIC"
+                      precision="17"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPRCD]"
+                      name="ASPRCD" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSTAT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASSTAT]"
+                      name="ASSTAT" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRUSR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRUSR]"
+                      name="ASRUSR" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRTIM]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASRTIM]"
+                      name="ASRTIM"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPOVN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASPOVN]"
+                      name="ASPOVN" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASAUD#]"
+                      dataType="numeric"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASAUD#]"
+                      name="ASAUD#"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASMTCH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASMTCH]"
+                      name="ASMTCH" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Replicate ZRFASNR.Paths[OLE DB Source Error Output]"
+              endId="Package\Replicate ZRFASNR\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Error Output"
+              startId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Error Output]" />
+            <path
+              refId="Package\Replicate ZRFASNR.Paths[OLE DB Source Output]"
+              endId="Package\Replicate ZRFASNR\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Replicate ZRFASNR\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Destination"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{35530053-70DD-463C-A050-B45A94B16932}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Destination"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E3CC1632-3BC1-4C92-A35E-888CC2003487}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="truncate table staging.dbo.ZRFASNR" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{354DA8EA-FE9A-4DA7-AC01-9032B84C30BD}"
+      DTS:From="Package\Truncate Destination"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Build Select" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{972067F9-6A75-4CB1-85B1-0F3D434F2320}"
+      DTS:From="Package\Replicate ZRFASNR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Build Destination" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{BF64E3E7-B536-43EC-8853-D83EE44CDE77}"
+      DTS:From="Package\Get Start Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Truncate Destination" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{5A6061B4-1F54-4AA7-B44C-E53C75FF15CE}"
+      DTS:From="Package\Build Select"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Replicate ZRFASNR" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Build Destination"
+          TopLeft="207.462264150943,249.877358490566" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Build Select"
+          TopLeft="18.4,164" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Start Date"
+          TopLeft="5.5754716981132,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Replicate ZRFASNR"
+          TopLeft="26.5188679245283,249.952830188679" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate Destination"
+          TopLeft="5.76415094339623,86.5566037735849" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="77.2820754716981,130.556603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4433962264151"
+              Start="0,0"
+              End="0,25.9433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="162.292452830189,271.915094339623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="45.1698113207547,-0.0754716981132075"
+              Start="0,0"
+              End="37.6698113207547,-0.0754716981132075">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="22.5660377358491,0" />
+                  <mssgle:LineSegment
+                    End="22.5660377358491,-0.0754716981132075" />
+                  <mssgle:LineSegment
+                    End="37.6698113207547,-0.0754716981132075" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="73.4622641509434,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.188679245283026,37.1320754716981"
+              Start="0,0"
+              End="0.188679245283026,29.6320754716981">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5660377358491" />
+                  <mssgle:LineSegment
+                    End="0.188679245283026,18.5660377358491" />
+                  <mssgle:LineSegment
+                    End="0.188679245283026,29.6320754716981" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="80.8,205.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.7188679245283,44.352830188679"
+              Start="0,0"
+              End="13.7188679245283,36.852830188679">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.1764150943395" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.1764150943395"
+                    Point2="0,22.1764150943395"
+                    Point3="4,22.1764150943395" />
+                  <mssgle:LineSegment
+                    End="9.7188679245283,22.1764150943395" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.7188679245283,22.1764150943395"
+                    Point2="13.7188679245283,22.1764150943395"
+                    Point3="13.7188679245283,26.1764150943395" />
+                  <mssgle:LineSegment
+                    End="13.7188679245283,36.852830188679" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Replicate ZRFASNR">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Replicate ZRFASNR\OLE DB Source"
+          TopLeft="148.4,12.6" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Replicate ZRFASNR\OLE DB Destination"
+          TopLeft="35.2433962264151,123.711320754717" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Replicate ZRFASNR\OLE DB Destination 1"
+          TopLeft="239.349056603774,137.5" />
+        <EdgeLayout
+          Id="Package\Replicate ZRFASNR.Paths[OLE DB Source Output]"
+          TopLeft="199.866666666667,54.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-96.6232704402516,69.511320754717"
+              Start="0,0"
+              End="-96.6232704402516,62.011320754717">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.2435471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.2435471698113"
+                    Point2="0,28.2435471698113"
+                    Point3="-4,28.2435471698113" />
+                  <mssgle:LineSegment
+                    End="-92.6232704402516,28.2435471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-92.6232704402516,28.2435471698113"
+                    Point2="-96.6232704402516,28.2435471698113"
+                    Point3="-96.6232704402516,32.2435471698113" />
+                  <mssgle:LineSegment
+                    End="-96.6232704402516,62.011320754717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Replicate ZRFASNR.Paths[OLE DB Source Error Output]"
+          TopLeft="247.333333333333,54.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="60.0157232704406,83.3"
+              Start="0,0"
+              End="60.0157232704406,75.8">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.8461052631579" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.8461052631579"
+                    Point2="0,33.8461052631579"
+                    Point3="4,33.8461052631579" />
+                  <mssgle:LineSegment
+                    End="56.0157232704406,33.8461052631579" />
+                  <mssgle:CubicBezierSegment
+                    Point1="56.0157232704406,33.8461052631579"
+                    Point2="60.0157232704406,33.8461052631579"
+                    Point3="60.0157232704406,37.8461052631579" />
+                  <mssgle:LineSegment
+                    End="60.0157232704406,75.8" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-33.4260446147797,38.8461052631579,126.8678125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Replicate ZRFASNR\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Replicate ZRFASNR\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Replicate ZRFASNR\OLE DB Destination 1">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

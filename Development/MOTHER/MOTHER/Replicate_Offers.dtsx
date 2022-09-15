@@ -1,0 +1,934 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/18/2010 3:37:10 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG01"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{F256EAF1-2B51-4BCE-9507-39ADB0B0D56B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_Offers"
+  DTS:PackageType="5"
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{BF7E0D37-B42F-46F2-8BFD-20B6DF9A88D6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E16A63B6-6E96-45E0-943F-18AB1802D868}"
+      DTS:ObjectName="bambig03.Reference.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BAMBIG03ReferenceInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Reference;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B57D207D-C462-4CB8-AA16-ADA6FEC8B173}"
+      DTS:ObjectName="BAMBIG03.Staging">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Offers.biguser]"
+      DTS:CreationName="ADO.NET:System.Data.Odbc.OdbcConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{6FBE6E72-A8F1-4EF6-A642-7BADCDF3D0A4}"
+      DTS:ObjectName="Offers.biguser">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::OffersBiguser_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=biguser;Dsn=Offers;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Clear Work Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6F23AD59-0224-4425-93F1-46AC034F50A6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clear Work Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B57D207D-C462-4CB8-AA16-ADA6FEC8B173}"
+          SQLTask:SqlStatementSource="truncate table wrk_offers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C6DA8A68-09F0-4C36-8A8E-EE6BDC6A2F69}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\DataReader Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Extracts data from a relational database by using a .NET provider.;Microsoft Corporation;Microsoft SqlServer v9; © 2004 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Extracts data from a relational database by using a .NET provider."
+              name="DataReader Source"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from offers where tdate &gt;= date_sub(now(),interval 7 day)</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\DataReader Source.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Offers.biguser]"
+                  connectionManagerRefId="Package.ConnectionManagers[Offers.biguser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output]"
+                  name="DataReader Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[requestid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[requestid]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[requestid]"
+                      name="requestid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[offerid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[offerid]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[offerid]"
+                      name="offerid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[store]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[store]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[store]"
+                      name="store"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clubcard]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[clubcard]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clubcard]"
+                      name="clubcard"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[transaction]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[transaction]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[transaction]"
+                      name="transaction"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[register]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[register]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[register]"
+                      name="register"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[till]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[till]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[till]"
+                      name="till"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clerk]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[clerk]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clerk]"
+                      name="clerk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[tdate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[tdate]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[tdate]"
+                      name="tdate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[status]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[status]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[status]"
+                      name="status"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[processdate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[processdate]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[processdate]"
+                      name="processdate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promocard]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promocard]"
+                      length="127"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promocard]"
+                      name="promocard"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promovalue]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promovalue]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promovalue]"
+                      name="promovalue"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promoprocessed]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promoprocessed]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promoprocessed]"
+                      name="promoprocessed"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[stamp]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[stamp]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[stamp]"
+                      name="stamp"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[requestid]"
+                      dataType="i4"
+                      name="requestid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[offerid]"
+                      dataType="wstr"
+                      length="20"
+                      name="offerid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[store]"
+                      dataType="wstr"
+                      length="20"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[clubcard]"
+                      dataType="wstr"
+                      length="20"
+                      name="clubcard" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[transaction]"
+                      dataType="wstr"
+                      length="20"
+                      name="transaction" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[register]"
+                      dataType="wstr"
+                      length="20"
+                      name="register" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[till]"
+                      dataType="i4"
+                      name="till" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[clerk]"
+                      dataType="wstr"
+                      length="20"
+                      name="clerk" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[tdate]"
+                      dataType="dbTimeStamp"
+                      name="tdate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[status]"
+                      dataType="wstr"
+                      length="1"
+                      name="status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[processdate]"
+                      dataType="dbTimeStamp"
+                      name="processdate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promocard]"
+                      dataType="wstr"
+                      length="127"
+                      name="promocard" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promovalue]"
+                      dataType="i4"
+                      name="promovalue" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[promoprocessed]"
+                      dataType="dbTimeStamp"
+                      name="promoprocessed" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].ExternalColumns[stamp]"
+                      dataType="dbTimeStamp"
+                      name="stamp" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output]"
+                  isErrorOut="true"
+                  name="DataReader Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[requestid]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[requestid]"
+                      name="requestid" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[offerid]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[offerid]"
+                      name="offerid" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[store]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[store]"
+                      name="store" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[clubcard]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[clubcard]"
+                      name="clubcard" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[transaction]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[transaction]"
+                      name="transaction" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[register]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[register]"
+                      name="register" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[till]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[till]"
+                      name="till" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[clerk]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[clerk]"
+                      name="clerk" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[tdate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[tdate]"
+                      name="tdate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[status]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[status]"
+                      name="status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[processdate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[processdate]"
+                      name="processdate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promocard]"
+                      dataType="wstr"
+                      length="127"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promocard]"
+                      name="promocard" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promovalue]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promovalue]"
+                      name="promovalue" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promoprocessed]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[promoprocessed]"
+                      name="promoprocessed" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[stamp]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[stamp]"
+                      name="stamp" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[wrk_Offers]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[requestid]"
+                      cachedDataType="i4"
+                      cachedName="requestid"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[requestid]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[requestid]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[offerid]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="offerid"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[offerid]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[offerid]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[store]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="store"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[store]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[clubcard]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="clubcard"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clubcard]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clubcard]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[transaction]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="transaction"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[transaction]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[transaction]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[register]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="register"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[register]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[register]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[till]"
+                      cachedDataType="i4"
+                      cachedName="till"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[till]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[till]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[clerk]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="clerk"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clerk]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[clerk]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[tdate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tdate"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tdate]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[tdate]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[status]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="status"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[status]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[status]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[processdate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="processdate"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[processdate]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[processdate]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[promocard]"
+                      cachedDataType="wstr"
+                      cachedLength="127"
+                      cachedName="promocard"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promocard]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promocard]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[promovalue]"
+                      cachedDataType="i4"
+                      cachedName="promovalue"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promovalue]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promovalue]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[promoprocessed]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="promoprocessed"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promoprocessed]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[promoprocessed]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[stamp]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="stamp"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[stamp]"
+                      lineageId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output].Columns[stamp]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[requestid]"
+                      dataType="i4"
+                      name="requestid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[offerid]"
+                      dataType="wstr"
+                      length="21"
+                      name="offerid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      dataType="wstr"
+                      length="21"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clubcard]"
+                      dataType="wstr"
+                      length="21"
+                      name="clubcard" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[transaction]"
+                      dataType="wstr"
+                      length="21"
+                      name="transaction" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[register]"
+                      dataType="wstr"
+                      length="21"
+                      name="register" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[till]"
+                      dataType="i4"
+                      name="till" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clerk]"
+                      dataType="wstr"
+                      length="21"
+                      name="clerk" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tdate]"
+                      dataType="dbTimeStamp"
+                      name="tdate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[status]"
+                      dataType="wstr"
+                      length="2"
+                      name="status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[processdate]"
+                      dataType="dbTimeStamp"
+                      name="processdate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promocard]"
+                      dataType="wstr"
+                      length="128"
+                      name="promocard" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promovalue]"
+                      dataType="i4"
+                      name="promovalue" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[promoprocessed]"
+                      dataType="dbTimeStamp"
+                      name="promoprocessed" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[stamp]"
+                      dataType="dbTimeStamp"
+                      name="stamp" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[DataReader Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="DataReader Output"
+              startId="Package\Data Flow Task\DataReader Source.Outputs[DataReader Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update reference offers"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{73AEF04A-25D9-4E89-9295-0A304728FDCB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update reference offers"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E16A63B6-6E96-45E0-943F-18AB1802D868}"
+          SQLTask:SqlStatementSource="declare @seldate smalldatetime&#xA;select @seldate = min(tdate) from staging.dbo.wrk_offers&#xA;delete from reference.dbo.offers where tdate &gt;= @seldate&#xA;insert into reference.dbo.offers&#xA;select * from staging.dbo.wrk_offers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{31587CFB-982F-4470-B31C-1A83555E5559}"
+      DTS:From="Package\Clear Work Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A25DA13D-EEBE-4238-B649-5BF14543FEF0}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Update reference offers" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Clear Work Table"
+          TopLeft="5.5,4.88823528553788" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,85.3867924528302" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Update reference offers"
+          TopLeft="5.5,179.424528301887" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="85.5,46.4882352855379">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12,38.8985571672923"
+              Start="0,0"
+              End="-12,31.3985571672923">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.4492785836462" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.4492785836462"
+                    Point2="0,19.4492785836462"
+                    Point3="-4,19.4492785836462" />
+                  <mssgle:LineSegment
+                    End="-8,19.4492785836462" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8,19.4492785836462"
+                    Point2="-12,19.4492785836462"
+                    Point3="-12,23.4492785836462" />
+                  <mssgle:LineSegment
+                    End="-12,31.3985571672923" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="73.3867924528302,129.311320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.1132075471698"
+              Start="0,0"
+              End="0,42.6132075471698">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.6132075471698" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="45.4245283018868,152.292452830189" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\DataReader Source"
+          TopLeft="4.3571428376801,5.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[DataReader Output]"
+          TopLeft="72.3571428376801,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41.0673854642067,102.792452830189"
+              Start="0,0"
+              End="41.0673854642067,95.292452830189">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.3962264150945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.3962264150945"
+                    Point2="0,51.3962264150945"
+                    Point3="4,51.3962264150945" />
+                  <mssgle:LineSegment
+                    End="37.0673854642067,51.3962264150945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37.0673854642067,51.3962264150945"
+                    Point2="41.0673854642067,51.3962264150945"
+                    Point3="41.0673854642067,55.3962264150945" />
+                  <mssgle:LineSegment
+                    End="41.0673854642067,95.292452830189" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\DataReader Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

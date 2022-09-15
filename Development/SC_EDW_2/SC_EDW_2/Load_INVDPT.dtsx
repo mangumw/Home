@@ -1,0 +1,1129 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/12/2022 9:26:10 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{4AA3BA8A-9118-42E7-8F51-BFBD0F8DA2CB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_INVDPT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{8D860D96-7D6A-4ECA-8303-6AF9AB4F2B98}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{82AB189D-8BA7-4BD1-B7A9-9ADEC481A9FE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVDPT;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{2640B09D-F24A-4C76-8C3D-A3C1D8FCC6FB}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 INVDPT"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 INVDPT"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT IDEPT  AS DepartmentNo,
+       ISDEPT AS SubDeptNo,
+       ICLAS  AS ProductClass,
+       ISCLAS AS SubClass,
+       DPTNAM AS Name,
+       DPTSHT AS ShortName,
+       IDPLAN AS CommisionPlan,
+       IDBUYR AS Buyer,
+       IDRESP AS ResponsibleLevel,
+       IDSLVL AS SummaryLevel,
+       IDSFRQ AS SummaryFrequency,
+       IDSRTD AS DailyRetention,
+       IDSRTW AS WeeklyRetention,
+       IDSRTP AS PeriodRetention,
+       IDSRTY AS YearlyRetention,
+       ARTSCL AS ArthurSubclass
+    FROM MM4R4LIB.INVDPT</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 INVDPT.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DEPARTMENTNO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[DEPARTMENTNO]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DEPARTMENTNO]"
+                      name="DEPARTMENTNO"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBDEPTNO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPTNO]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBDEPTNO]"
+                      name="SUBDEPTNO"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PRODUCTCLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[PRODUCTCLASS]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PRODUCTCLASS]"
+                      name="PRODUCTCLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[NAME]"
+                      length="25"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[NAME]"
+                      name="NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SHORTNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SHORTNAME]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SHORTNAME]"
+                      name="SHORTNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[COMMISIONPLAN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[COMMISIONPLAN]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[COMMISIONPLAN]"
+                      name="COMMISIONPLAN"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[BUYER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[BUYER]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[BUYER]"
+                      name="BUYER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[RESPONSIBLELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[RESPONSIBLELEVEL]"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[RESPONSIBLELEVEL]"
+                      name="RESPONSIBLELEVEL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYLEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYLEVEL]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYLEVEL]"
+                      name="SUMMARYLEVEL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYFREQUENCY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYFREQUENCY]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYFREQUENCY]"
+                      name="SUMMARYFREQUENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DAILYRETENTION]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[DAILYRETENTION]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DAILYRETENTION]"
+                      name="DAILYRETENTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[WEEKLYRETENTION]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[WEEKLYRETENTION]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[WEEKLYRETENTION]"
+                      name="WEEKLYRETENTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PERIODRETENTION]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[PERIODRETENTION]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PERIODRETENTION]"
+                      name="PERIODRETENTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[YEARLYRETENTION]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[YEARLYRETENTION]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[YEARLYRETENTION]"
+                      name="YEARLYRETENTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[ARTHURSUBCLASS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[ARTHURSUBCLASS]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[ARTHURSUBCLASS]"
+                      name="ARTHURSUBCLASS"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[DEPARTMENTNO]"
+                      dataType="numeric"
+                      name="DEPARTMENTNO"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPTNO]"
+                      dataType="numeric"
+                      name="SUBDEPTNO"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[PRODUCTCLASS]"
+                      dataType="numeric"
+                      name="PRODUCTCLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      dataType="numeric"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SHORTNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SHORTNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[COMMISIONPLAN]"
+                      dataType="numeric"
+                      name="COMMISIONPLAN"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[BUYER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="BUYER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[RESPONSIBLELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="RESPONSIBLELEVEL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYLEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SUMMARYLEVEL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[SUMMARYFREQUENCY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SUMMARYFREQUENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[DAILYRETENTION]"
+                      dataType="decimal"
+                      name="DAILYRETENTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[WEEKLYRETENTION]"
+                      dataType="decimal"
+                      name="WEEKLYRETENTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[PERIODRETENTION]"
+                      dataType="decimal"
+                      name="PERIODRETENTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[YEARLYRETENTION]"
+                      dataType="decimal"
+                      name="YEARLYRETENTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].ExternalColumns[ARTHURSUBCLASS]"
+                      dataType="decimal"
+                      name="ARTHURSUBCLASS" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[DEPARTMENTNO]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[DEPARTMENTNO]"
+                      name="DEPARTMENTNO"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUBDEPTNO]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUBDEPTNO]"
+                      name="SUBDEPTNO"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[PRODUCTCLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[PRODUCTCLASS]"
+                      name="PRODUCTCLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[NAME]"
+                      name="NAME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SHORTNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SHORTNAME]"
+                      name="SHORTNAME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[COMMISIONPLAN]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[COMMISIONPLAN]"
+                      name="COMMISIONPLAN"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[BUYER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[BUYER]"
+                      name="BUYER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[RESPONSIBLELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[RESPONSIBLELEVEL]"
+                      name="RESPONSIBLELEVEL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUMMARYLEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUMMARYLEVEL]"
+                      name="SUMMARYLEVEL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUMMARYFREQUENCY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[SUMMARYFREQUENCY]"
+                      name="SUMMARYFREQUENCY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[DAILYRETENTION]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[DAILYRETENTION]"
+                      name="DAILYRETENTION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[WEEKLYRETENTION]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[WEEKLYRETENTION]"
+                      name="WEEKLYRETENTION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[PERIODRETENTION]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[PERIODRETENTION]"
+                      name="PERIODRETENTION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[YEARLYRETENTION]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[YEARLYRETENTION]"
+                      name="YEARLYRETENTION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ARTHURSUBCLASS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ARTHURSUBCLASS]"
+                      name="ARTHURSUBCLASS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server INVDPT"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server INVDPT"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[INVDPT]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server INVDPT.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[DEPARTMENTNO]"
+                      cachedDataType="numeric"
+                      cachedName="DEPARTMENTNO"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentNo]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DEPARTMENTNO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[SUBDEPTNO]"
+                      cachedDataType="numeric"
+                      cachedName="SUBDEPTNO"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SubDeptNo]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBDEPTNO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[PRODUCTCLASS]"
+                      cachedDataType="numeric"
+                      cachedName="PRODUCTCLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ProductClass]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PRODUCTCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[SUBCLASS]"
+                      cachedDataType="numeric"
+                      cachedName="SUBCLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUBCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[NAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="25"
+                      cachedName="NAME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[NAME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[SHORTNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="SHORTNAME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ShortName]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SHORTNAME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[COMMISIONPLAN]"
+                      cachedDataType="numeric"
+                      cachedName="COMMISIONPLAN"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[CommisionPlan]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[COMMISIONPLAN]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[BUYER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="BUYER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Buyer]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[BUYER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[RESPONSIBLELEVEL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="RESPONSIBLELEVEL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ResponsibleLevel]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[RESPONSIBLELEVEL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[SUMMARYLEVEL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SUMMARYLEVEL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SummaryLevel]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYLEVEL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[SUMMARYFREQUENCY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SUMMARYFREQUENCY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SummaryFrequency]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[SUMMARYFREQUENCY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[DAILYRETENTION]"
+                      cachedDataType="decimal"
+                      cachedName="DAILYRETENTION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[DailyRetention]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[DAILYRETENTION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[WEEKLYRETENTION]"
+                      cachedDataType="decimal"
+                      cachedName="WEEKLYRETENTION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[WeeklyRetention]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[WEEKLYRETENTION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[PERIODRETENTION]"
+                      cachedDataType="decimal"
+                      cachedName="PERIODRETENTION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[PeriodRetention]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[PERIODRETENTION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[YEARLYRETENTION]"
+                      cachedDataType="decimal"
+                      cachedName="YEARLYRETENTION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[YearlyRetention]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[YEARLYRETENTION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[ARTHURSUBCLASS]"
+                      cachedDataType="decimal"
+                      cachedName="ARTHURSUBCLASS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ArthurSubclass]"
+                      lineageId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output].Columns[ARTHURSUBCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentNo]"
+                      dataType="i4"
+                      name="DepartmentNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SubDeptNo]"
+                      dataType="i4"
+                      name="SubDeptNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ProductClass]"
+                      dataType="i4"
+                      name="ProductClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      dataType="i4"
+                      name="SubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ShortName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ShortName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[CommisionPlan]"
+                      dataType="i4"
+                      name="CommisionPlan" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Buyer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="Buyer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ResponsibleLevel]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="ResponsibleLevel" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SummaryLevel]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SummaryLevel" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[SummaryFrequency]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SummaryFrequency" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[DailyRetention]"
+                      dataType="i4"
+                      name="DailyRetention" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[WeeklyRetention]"
+                      dataType="i4"
+                      name="WeeklyRetention" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[PeriodRetention]"
+                      dataType="i4"
+                      name="PeriodRetention" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[YearlyRetention]"
+                      dataType="i4"
+                      name="YearlyRetention" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[ArthurSubclass]"
+                      dataType="i4"
+                      name="ArthurSubclass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server INVDPT.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVDPT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVDPT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVDPT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server INVDPT.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 INVDPT.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge INVDPT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A7AA9C54-41B1-4082-ABD7-6F435B88D915}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge INVDPT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_INVDPT;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate INVDPT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9F2854E9-C299-4E7E-B005-D78DEFDC859E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate INVDPT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVDPT;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D10EFE58-3F26-49B1-805A-1D90B6FFFEC5}"
+      DTS:From="Package\Truncate INVDPT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8453B1B9-5024-4AF1-80D3-B1DC369F7DA4}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge INVDPT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{046AF345-7D8B-4449-ABAE-B2795286E34E}"
+      DTS:From="Package\Merge INVDPT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="170,279" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="184,110" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Merge INVDPT"
+          TopLeft="173,200" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Truncate INVDPT"
+          TopLeft="174,30" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="251,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="247.25,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="247.25,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Load Data\SQL Server INVDPT"
+          TopLeft="145,195" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="161,111" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Load Data\AS400 INVDPT"
+          TopLeft="160,23" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="231,153">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="233,65">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server INVDPT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 INVDPT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

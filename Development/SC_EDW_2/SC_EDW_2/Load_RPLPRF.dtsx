@@ -1,0 +1,2935 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/17/2022 9:25:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{15D5750F-3518-4890-923B-7FC8D81F8136}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_RPLPRF"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{B068ED64-66E7-4516-AC6A-74B5B0359D6C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0EAEAF45-7BE0-43C8-9DE3-95CBBF5BBE7F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.RPLPRF;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{21A5465F-1DC9-4E7D-B86D-F7944DB09936}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 RPLPRF"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 RPLPRF"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT a.INUMBR AS SkuNumber,
+       ISTORE AS StoreNumber,
+       RFSTCN AS ProductStartDateCenturyCode,
+       SUBSTR(CHAR(LPAD(RFSTDT, 4, 0)), 1, 2) AS ProdStartYear,
+       SUBSTR(CHAR(LPAD(RFSTDT, 4, 0)), 3, 4) AS ProdStartMonth,
+       RFOPCN AS DateStoreOpenedCenturyCode,
+       SUBSTR(CHAR(LPAD(RFOPDT, 4, 0)), 1, 2) AS StoreOpenYear,
+       SUBSTR(CHAR(LPAD(RFOPDT, 4, 0)), 3, 4) AS StoreOpenMonth,
+       RFPROF AS Profile,
+       RFRPCD AS RPLCalc,
+       RFANUM AS VendorNumber,
+       RFSNUM AS ShipPointNum,
+       RFDSCD AS ItemStatusCode,
+       RFREPL AS ReplacementSKU,
+       RFDIST AS Options,
+       RFMSTK AS MaxStockOrdTo,
+       RFDSPY AS DisplayMinOrdTo,
+       RFMCOD AS ModelStockCode,
+       RFWHSE AS StoreWarehouse,
+       RFFDCN AS ManFcatDropDateCenturyCode,
+       SUBSTR(CHAR(LPAD(RFFDDT, 4, 0)), 1, 2) AS DropManFcatYear,
+       SUBSTR(CHAR(LPAD(RFFDDT, 4, 0)), 3, 4) AS DropManFcatMonth,
+       RFSSTR AS SameasStoreNumber,
+       RFSSKU AS SameasSkuNumber,
+       RFVWKS AS SafetyStockWks,
+       RFBSLS AS BaseSales,
+       RFTRND AS CalcdTrend,
+       RFATRN AS ActualTrend,
+       RFFCUN AS CurYrFCastUnits,
+       RFLPWS AS OrderPercentWeeks,
+       RFL#WS AS OrderNumberWeeks,
+       RFLEAD AS VendorLeadTime,
+       RFMAXS AS ModelStock,
+       RFMINS AS MinimumStock,
+       RFMRAT AS ModelStockRatio,
+       RFPRAT AS AdjPerRatio,
+       RFPPCT AS AdjPerRatioPercent,
+       RFMAX AS AdjOrderUpTo,
+       RFMIN AS AdjOrderAt,
+       RFASWP AS AvgSalesPrevious,
+       RFASWN AS AvgSalesNew,
+       RFASWH AS AvgSalesHistoric,
+       RFASWF AS AvgSalesForecast,
+       RFRVPR AS ReviewPeriodDays,
+       RFSAM AS StoreAllocMax,
+       RFRAT1 AS SkuRating1,
+       RFRNK1 AS SkuRankng1,
+       RFRAT2 AS SkuRating2,
+       RFRNK2 AS SkuRankng2,
+       RFRAT3 AS SkuRating3,
+       RFRNK3 AS SkuRankng3,
+       RFRAT4 AS SkuRating4,
+       RFRNK4 AS SkuRankng4,
+       RFMXSS AS MaxSafetyStock,
+       RFSSDY AS SafetyStockDays,
+       RFSSUN AS SafetyStockUnits,
+       RFRATT AS TotalRank,
+       RFSTRT AS TotalStores,
+       RFSDCN AS SameasStoreDropDateCenturyCode,
+       SUBSTR(CHAR(LPAD(RFFDDT, 4, 0)), 1, 2) AS SameasStoreDropYear,
+       SUBSTR(CHAR(LPAD(RFFDDT, 4, 0)), 3, 4) AS SameasStoreDropMonth,
+       RFSCUN AS SameasStoreForecastUnits,
+       RFDEPT AS Department,
+       RFSDPT AS SubDepartment,
+       RFCLAS AS Class,
+       RFSCLS AS SubClass,
+       RFWFC1 AS CurWksWghtngFactor,
+       RFWFC2 AS HistWksWghtngFactor,
+       RFPSWH AS PreviousRunsAvgSlsHist,
+       case IMCENT 
+        when 0 then varchar_format(timestamp_format(char(IMDATE+19000000), 'YYYYMMDD'), 'YYYYMMDD')
+        when 1 then varchar_format(timestamp_format(char(LPAD(IMDATE,6,0)),'YYMMDD'),'YYMMDD') end as DateLastMaint
+    FROM MM4R4LIB.RPLPRF a
+         INNER JOIN MM4R4LIB.INVMST b
+             ON a.INUMBR = b.INUMBR
+    WHERE IMDATE = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 RPLPRF.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODUCTSTARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODUCTSTARTDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODUCTSTARTDATECENTURYCODE]"
+                      name="PRODUCTSTARTDATECENTURYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODSTARTYEAR]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTYEAR]"
+                      name="PRODSTARTYEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODSTARTMONTH]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTMONTH]"
+                      name="PRODSTARTMONTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATESTOREOPENEDCENTURYCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DATESTOREOPENEDCENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATESTOREOPENEDCENTURYCODE]"
+                      name="DATESTOREOPENEDCENTURYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREOPENYEAR]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENYEAR]"
+                      name="STOREOPENYEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREOPENMONTH]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENMONTH]"
+                      name="STOREOPENMONTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PROFILE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PROFILE]"
+                      length="5"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PROFILE]"
+                      name="PROFILE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[RPLCALC]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[RPLCALC]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[RPLCALC]"
+                      name="RPLCALC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[VENDORNUMBER]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]"
+                      name="VENDORNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SHIPPOINTNUM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SHIPPOINTNUM]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SHIPPOINTNUM]"
+                      name="SHIPPOINTNUM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ITEMSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ITEMSTATUSCODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ITEMSTATUSCODE]"
+                      name="ITEMSTATUSCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REPLACEMENTSKU]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[REPLACEMENTSKU]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REPLACEMENTSKU]"
+                      name="REPLACEMENTSKU"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[OPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[OPTIONS]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[OPTIONS]"
+                      name="OPTIONS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSTOCKORDTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MAXSTOCKORDTO]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSTOCKORDTO]"
+                      name="MAXSTOCKORDTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DISPLAYMINORDTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DISPLAYMINORDTO]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DISPLAYMINORDTO]"
+                      name="DISPLAYMINORDTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCKCODE]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKCODE]"
+                      name="MODELSTOCKCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREWAREHOUSE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREWAREHOUSE]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREWAREHOUSE]"
+                      name="STOREWAREHOUSE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MANFCATDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MANFCATDROPDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MANFCATDROPDATECENTURYCODE]"
+                      name="MANFCATDROPDATECENTURYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DROPMANFCATYEAR]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATYEAR]"
+                      name="DROPMANFCATYEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DROPMANFCATMONTH]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATMONTH]"
+                      name="DROPMANFCATMONTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTORENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTORENUMBER]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTORENUMBER]"
+                      name="SAMEASSTORENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSKUNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSKUNUMBER]"
+                      name="SAMEASSKUNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKWKS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKWKS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKWKS]"
+                      name="SAFETYSTOCKWKS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[BASESALES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[BASESALES]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[BASESALES]"
+                      name="BASESALES"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CALCDTREND]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CALCDTREND]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CALCDTREND]"
+                      name="CALCDTREND"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ACTUALTREND]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ACTUALTREND]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ACTUALTREND]"
+                      name="ACTUALTREND"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURYRFCASTUNITS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CURYRFCASTUNITS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURYRFCASTUNITS]"
+                      name="CURYRFCASTUNITS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERPERCENTWEEKS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ORDERPERCENTWEEKS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERPERCENTWEEKS]"
+                      name="ORDERPERCENTWEEKS"
+                      scale="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERNUMBERWEEKS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ORDERNUMBERWEEKS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERNUMBERWEEKS]"
+                      name="ORDERNUMBERWEEKS"
+                      scale="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORLEADTIME]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[VENDORLEADTIME]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORLEADTIME]"
+                      name="VENDORLEADTIME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCK]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCK]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCK]"
+                      name="MODELSTOCK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MINIMUMSTOCK]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MINIMUMSTOCK]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MINIMUMSTOCK]"
+                      name="MINIMUMSTOCK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKRATIO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCKRATIO]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKRATIO]"
+                      name="MODELSTOCKRATIO"
+                      scale="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJPERRATIO]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIO]"
+                      name="ADJPERRATIO"
+                      scale="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIOPERCENT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJPERRATIOPERCENT]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIOPERCENT]"
+                      name="ADJPERRATIOPERCENT"
+                      scale="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERUPTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJORDERUPTO]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERUPTO]"
+                      name="ADJORDERUPTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERAT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJORDERAT]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERAT]"
+                      name="ADJORDERAT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESPREVIOUS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESPREVIOUS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESPREVIOUS]"
+                      name="AVGSALESPREVIOUS"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESNEW]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESNEW]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESNEW]"
+                      name="AVGSALESNEW"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESHISTORIC]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESHISTORIC]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESHISTORIC]"
+                      name="AVGSALESHISTORIC"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESFORECAST]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESFORECAST]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESFORECAST]"
+                      name="AVGSALESFORECAST"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REVIEWPERIODDAYS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[REVIEWPERIODDAYS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REVIEWPERIODDAYS]"
+                      name="REVIEWPERIODDAYS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREALLOCMAX]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREALLOCMAX]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREALLOCMAX]"
+                      name="STOREALLOCMAX"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING1]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING1]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING1]"
+                      name="SKURATING1"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG1]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG1]"
+                      name="SKURANKNG1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING2]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING2]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING2]"
+                      name="SKURATING2"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG2]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG2]"
+                      name="SKURANKNG2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING3]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING3]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING3]"
+                      name="SKURATING3"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG3]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG3]"
+                      name="SKURANKNG3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING4]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING4]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING4]"
+                      name="SKURATING4"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG4]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG4]"
+                      name="SKURANKNG4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSAFETYSTOCK]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MAXSAFETYSTOCK]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSAFETYSTOCK]"
+                      name="MAXSAFETYSTOCK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKDAYS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKDAYS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKDAYS]"
+                      name="SAFETYSTOCKDAYS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKUNITS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKUNITS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKUNITS]"
+                      name="SAFETYSTOCKUNITS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALRANK]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[TOTALRANK]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALRANK]"
+                      name="TOTALRANK"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALSTORES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[TOTALSTORES]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALSTORES]"
+                      name="TOTALSTORES"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      name="SAMEASSTOREDROPDATECENTURYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPYEAR]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPYEAR]"
+                      name="SAMEASSTOREDROPYEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPMONTH]"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPMONTH]"
+                      name="SAMEASSTOREDROPMONTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREFORECASTUNITS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREFORECASTUNITS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREFORECASTUNITS]"
+                      name="SAMEASSTOREFORECASTUNITS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DEPARTMENT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DEPARTMENT]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DEPARTMENT]"
+                      name="DEPARTMENT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBDEPARTMENT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPARTMENT]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBDEPARTMENT]"
+                      name="SUBDEPARTMENT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CLASS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CLASS]"
+                      name="CLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CURWKSWGHTNGFACTOR]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURWKSWGHTNGFACTOR]"
+                      name="CURWKSWGHTNGFACTOR"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[HISTWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[HISTWKSWGHTNGFACTOR]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[HISTWKSWGHTNGFACTOR]"
+                      name="HISTWKSWGHTNGFACTOR"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PREVIOUSRUNSAVGSLSHIST]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PREVIOUSRUNSAVGSLSHIST]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PREVIOUSRUNSAVGSLSHIST]"
+                      name="PREVIOUSRUNSAVGSLSHIST"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="decimal"
+                      name="SKUNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="decimal"
+                      name="STORENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODUCTSTARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      name="PRODUCTSTARTDATECENTURYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODSTARTYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="PRODSTARTYEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PRODSTARTMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="PRODSTARTMONTH" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DATESTOREOPENEDCENTURYCODE]"
+                      dataType="decimal"
+                      name="DATESTOREOPENEDCENTURYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREOPENYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="STOREOPENYEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREOPENMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="STOREOPENMONTH" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PROFILE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="PROFILE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[RPLCALC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="RPLCALC" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[VENDORNUMBER]"
+                      dataType="decimal"
+                      name="VENDORNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SHIPPOINTNUM]"
+                      dataType="decimal"
+                      name="SHIPPOINTNUM" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ITEMSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ITEMSTATUSCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[REPLACEMENTSKU]"
+                      dataType="decimal"
+                      name="REPLACEMENTSKU" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[OPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="OPTIONS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MAXSTOCKORDTO]"
+                      dataType="decimal"
+                      name="MAXSTOCKORDTO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DISPLAYMINORDTO]"
+                      dataType="decimal"
+                      name="DISPLAYMINORDTO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCKCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="MODELSTOCKCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREWAREHOUSE]"
+                      dataType="decimal"
+                      name="STOREWAREHOUSE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MANFCATDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      name="MANFCATDROPDATECENTURYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DROPMANFCATYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="DROPMANFCATYEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DROPMANFCATMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="DROPMANFCATMONTH" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTORENUMBER]"
+                      dataType="decimal"
+                      name="SAMEASSTORENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSKUNUMBER]"
+                      dataType="decimal"
+                      name="SAMEASSKUNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKWKS]"
+                      dataType="decimal"
+                      name="SAFETYSTOCKWKS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[BASESALES]"
+                      dataType="decimal"
+                      name="BASESALES" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CALCDTREND]"
+                      dataType="decimal"
+                      name="CALCDTREND"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ACTUALTREND]"
+                      dataType="decimal"
+                      name="ACTUALTREND"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CURYRFCASTUNITS]"
+                      dataType="decimal"
+                      name="CURYRFCASTUNITS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ORDERPERCENTWEEKS]"
+                      dataType="decimal"
+                      name="ORDERPERCENTWEEKS"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ORDERNUMBERWEEKS]"
+                      dataType="decimal"
+                      name="ORDERNUMBERWEEKS"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[VENDORLEADTIME]"
+                      dataType="decimal"
+                      name="VENDORLEADTIME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCK]"
+                      dataType="decimal"
+                      name="MODELSTOCK" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MINIMUMSTOCK]"
+                      dataType="decimal"
+                      name="MINIMUMSTOCK" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MODELSTOCKRATIO]"
+                      dataType="decimal"
+                      name="MODELSTOCKRATIO"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJPERRATIO]"
+                      dataType="decimal"
+                      name="ADJPERRATIO"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJPERRATIOPERCENT]"
+                      dataType="decimal"
+                      name="ADJPERRATIOPERCENT"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJORDERUPTO]"
+                      dataType="decimal"
+                      name="ADJORDERUPTO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[ADJORDERAT]"
+                      dataType="decimal"
+                      name="ADJORDERAT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESPREVIOUS]"
+                      dataType="decimal"
+                      name="AVGSALESPREVIOUS"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESNEW]"
+                      dataType="decimal"
+                      name="AVGSALESNEW" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESHISTORIC]"
+                      dataType="decimal"
+                      name="AVGSALESHISTORIC"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[AVGSALESFORECAST]"
+                      dataType="decimal"
+                      name="AVGSALESFORECAST"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[REVIEWPERIODDAYS]"
+                      dataType="decimal"
+                      name="REVIEWPERIODDAYS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[STOREALLOCMAX]"
+                      dataType="decimal"
+                      name="STOREALLOCMAX" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING1]"
+                      dataType="decimal"
+                      name="SKURATING1"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKURANKNG1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING2]"
+                      dataType="decimal"
+                      name="SKURATING2"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKURANKNG2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING3]"
+                      dataType="decimal"
+                      name="SKURATING3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKURANKNG3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURATING4]"
+                      dataType="decimal"
+                      name="SKURATING4"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SKURANKNG4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKURANKNG4" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[MAXSAFETYSTOCK]"
+                      dataType="decimal"
+                      name="MAXSAFETYSTOCK" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKDAYS]"
+                      dataType="decimal"
+                      name="SAFETYSTOCKDAYS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAFETYSTOCKUNITS]"
+                      dataType="decimal"
+                      name="SAFETYSTOCKUNITS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[TOTALRANK]"
+                      dataType="decimal"
+                      name="TOTALRANK"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[TOTALSTORES]"
+                      dataType="decimal"
+                      name="TOTALSTORES" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      name="SAMEASSTOREDROPDATECENTURYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="SAMEASSTOREDROPYEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREDROPMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="SAMEASSTOREDROPMONTH" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SAMEASSTOREFORECASTUNITS]"
+                      dataType="decimal"
+                      name="SAMEASSTOREFORECASTUNITS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DEPARTMENT]"
+                      dataType="numeric"
+                      name="DEPARTMENT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPARTMENT]"
+                      dataType="numeric"
+                      name="SUBDEPARTMENT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CLASS]"
+                      dataType="numeric"
+                      name="CLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      dataType="numeric"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[CURWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      name="CURWKSWGHTNGFACTOR"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[HISTWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      name="HISTWKSWGHTNGFACTOR"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[PREVIOUSRUNSAVGSLSHIST]"
+                      dataType="decimal"
+                      name="PREVIOUSRUNSAVGSLSHIST"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DATELASTMAINT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODUCTSTARTDATECENTURYCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODUCTSTARTDATECENTURYCODE]"
+                      name="PRODUCTSTARTDATECENTURYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODSTARTYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODSTARTYEAR]"
+                      name="PRODSTARTYEAR" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODSTARTMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PRODSTARTMONTH]"
+                      name="PRODSTARTMONTH" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DATESTOREOPENEDCENTURYCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DATESTOREOPENEDCENTURYCODE]"
+                      name="DATESTOREOPENEDCENTURYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREOPENYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREOPENYEAR]"
+                      name="STOREOPENYEAR" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREOPENMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREOPENMONTH]"
+                      name="STOREOPENMONTH" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PROFILE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PROFILE]"
+                      name="PROFILE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[RPLCALC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[RPLCALC]"
+                      name="RPLCALC" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[VENDORNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[VENDORNUMBER]"
+                      name="VENDORNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SHIPPOINTNUM]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SHIPPOINTNUM]"
+                      name="SHIPPOINTNUM" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ITEMSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ITEMSTATUSCODE]"
+                      name="ITEMSTATUSCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[REPLACEMENTSKU]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[REPLACEMENTSKU]"
+                      name="REPLACEMENTSKU" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[OPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[OPTIONS]"
+                      name="OPTIONS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MAXSTOCKORDTO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MAXSTOCKORDTO]"
+                      name="MAXSTOCKORDTO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DISPLAYMINORDTO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DISPLAYMINORDTO]"
+                      name="DISPLAYMINORDTO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCKCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCKCODE]"
+                      name="MODELSTOCKCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREWAREHOUSE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREWAREHOUSE]"
+                      name="STOREWAREHOUSE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MANFCATDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MANFCATDROPDATECENTURYCODE]"
+                      name="MANFCATDROPDATECENTURYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DROPMANFCATYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DROPMANFCATYEAR]"
+                      name="DROPMANFCATYEAR" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DROPMANFCATMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DROPMANFCATMONTH]"
+                      name="DROPMANFCATMONTH" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTORENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTORENUMBER]"
+                      name="SAMEASSTORENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSKUNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSKUNUMBER]"
+                      name="SAMEASSKUNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKWKS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKWKS]"
+                      name="SAFETYSTOCKWKS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[BASESALES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[BASESALES]"
+                      name="BASESALES" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CALCDTREND]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CALCDTREND]"
+                      name="CALCDTREND"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ACTUALTREND]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ACTUALTREND]"
+                      name="ACTUALTREND"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CURYRFCASTUNITS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CURYRFCASTUNITS]"
+                      name="CURYRFCASTUNITS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ORDERPERCENTWEEKS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ORDERPERCENTWEEKS]"
+                      name="ORDERPERCENTWEEKS"
+                      scale="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ORDERNUMBERWEEKS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ORDERNUMBERWEEKS]"
+                      name="ORDERNUMBERWEEKS"
+                      scale="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[VENDORLEADTIME]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[VENDORLEADTIME]"
+                      name="VENDORLEADTIME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCK]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCK]"
+                      name="MODELSTOCK" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MINIMUMSTOCK]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MINIMUMSTOCK]"
+                      name="MINIMUMSTOCK" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCKRATIO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MODELSTOCKRATIO]"
+                      name="MODELSTOCKRATIO"
+                      scale="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJPERRATIO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJPERRATIO]"
+                      name="ADJPERRATIO"
+                      scale="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJPERRATIOPERCENT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJPERRATIOPERCENT]"
+                      name="ADJPERRATIOPERCENT"
+                      scale="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJORDERUPTO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJORDERUPTO]"
+                      name="ADJORDERUPTO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJORDERAT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ADJORDERAT]"
+                      name="ADJORDERAT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESPREVIOUS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESPREVIOUS]"
+                      name="AVGSALESPREVIOUS"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESNEW]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESNEW]"
+                      name="AVGSALESNEW" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESHISTORIC]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESHISTORIC]"
+                      name="AVGSALESHISTORIC"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESFORECAST]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[AVGSALESFORECAST]"
+                      name="AVGSALESFORECAST"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[REVIEWPERIODDAYS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[REVIEWPERIODDAYS]"
+                      name="REVIEWPERIODDAYS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREALLOCMAX]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[STOREALLOCMAX]"
+                      name="STOREALLOCMAX" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING1]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING1]"
+                      name="SKURATING1"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG1]"
+                      name="SKURANKNG1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING2]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING2]"
+                      name="SKURATING2"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG2]"
+                      name="SKURANKNG2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING3]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING3]"
+                      name="SKURATING3"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG3]"
+                      name="SKURANKNG3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING4]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURATING4]"
+                      name="SKURATING4"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SKURANKNG4]"
+                      name="SKURANKNG4" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MAXSAFETYSTOCK]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[MAXSAFETYSTOCK]"
+                      name="MAXSAFETYSTOCK" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKDAYS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKDAYS]"
+                      name="SAFETYSTOCKDAYS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKUNITS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAFETYSTOCKUNITS]"
+                      name="SAFETYSTOCKUNITS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[TOTALRANK]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[TOTALRANK]"
+                      name="TOTALRANK"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[TOTALSTORES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[TOTALSTORES]"
+                      name="TOTALSTORES" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      name="SAMEASSTOREDROPDATECENTURYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPYEAR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPYEAR]"
+                      name="SAMEASSTOREDROPYEAR" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPMONTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREDROPMONTH]"
+                      name="SAMEASSTOREDROPMONTH" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREFORECASTUNITS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SAMEASSTOREFORECASTUNITS]"
+                      name="SAMEASSTOREFORECASTUNITS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DEPARTMENT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DEPARTMENT]"
+                      name="DEPARTMENT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SUBDEPARTMENT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SUBDEPARTMENT]"
+                      name="SUBDEPARTMENT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CLASS]"
+                      name="CLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CURWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[CURWKSWGHTNGFACTOR]"
+                      name="CURWKSWGHTNGFACTOR"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[HISTWKSWGHTNGFACTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[HISTWKSWGHTNGFACTOR]"
+                      name="HISTWKSWGHTNGFACTOR"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PREVIOUSRUNSAVGSLSHIST]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[PREVIOUSRUNSAVGSLSHIST]"
+                      name="PREVIOUSRUNSAVGSLSHIST"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATELASTMAINT,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server RPLPRF"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server RPLPRF"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[RPLPRF]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server RPLPRF.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SKUNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="STORENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[PRODUCTSTARTDATECENTURYCODE]"
+                      cachedDataType="decimal"
+                      cachedName="PRODUCTSTARTDATECENTURYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProductStartDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODUCTSTARTDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[PRODSTARTYEAR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="PRODSTARTYEAR"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProdStartYear]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[PRODSTARTMONTH]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="PRODSTARTMONTH"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProdStartMonth]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PRODSTARTMONTH]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DATESTOREOPENEDCENTURYCODE]"
+                      cachedDataType="decimal"
+                      cachedName="DATESTOREOPENEDCENTURYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DateStoreOpenedCenturyCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATESTOREOPENEDCENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[STOREOPENYEAR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STOREOPENYEAR"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreOpenYear]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[STOREOPENMONTH]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="STOREOPENMONTH"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreOpenMonth]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREOPENMONTH]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[PROFILE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="PROFILE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Profile]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PROFILE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[RPLCALC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="RPLCALC"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[RPLCalc]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[RPLCALC]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[VENDORNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="VENDORNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[VendorNumber]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SHIPPOINTNUM]"
+                      cachedDataType="decimal"
+                      cachedName="SHIPPOINTNUM"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ShipPointNum]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SHIPPOINTNUM]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ITEMSTATUSCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ITEMSTATUSCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ItemStatusCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ITEMSTATUSCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[REPLACEMENTSKU]"
+                      cachedDataType="decimal"
+                      cachedName="REPLACEMENTSKU"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ReplacementSKU]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REPLACEMENTSKU]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[OPTIONS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="OPTIONS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Options]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[OPTIONS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MAXSTOCKORDTO]"
+                      cachedDataType="decimal"
+                      cachedName="MAXSTOCKORDTO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MaxStockOrdTo]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSTOCKORDTO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DISPLAYMINORDTO]"
+                      cachedDataType="decimal"
+                      cachedName="DISPLAYMINORDTO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DisplayMinOrdTo]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DISPLAYMINORDTO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MODELSTOCKCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="MODELSTOCKCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStockCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[STOREWAREHOUSE]"
+                      cachedDataType="decimal"
+                      cachedName="STOREWAREHOUSE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreWarehouse]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREWAREHOUSE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MANFCATDROPDATECENTURYCODE]"
+                      cachedDataType="decimal"
+                      cachedName="MANFCATDROPDATECENTURYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ManFcatDropDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MANFCATDROPDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DROPMANFCATYEAR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="DROPMANFCATYEAR"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DropManFcatYear]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DROPMANFCATMONTH]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="DROPMANFCATMONTH"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DropManFcatMonth]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DROPMANFCATMONTH]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSTORENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SAMEASSTORENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreNumber]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSKUNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SAMEASSKUNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasSkuNumber]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAFETYSTOCKWKS]"
+                      cachedDataType="decimal"
+                      cachedName="SAFETYSTOCKWKS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockWks]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKWKS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[BASESALES]"
+                      cachedDataType="decimal"
+                      cachedName="BASESALES"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[BaseSales]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[BASESALES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[CALCDTREND]"
+                      cachedDataType="decimal"
+                      cachedName="CALCDTREND"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CalcdTrend]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CALCDTREND]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ACTUALTREND]"
+                      cachedDataType="decimal"
+                      cachedName="ACTUALTREND"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ActualTrend]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ACTUALTREND]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[CURYRFCASTUNITS]"
+                      cachedDataType="decimal"
+                      cachedName="CURYRFCASTUNITS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CurYrFCastUnits]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURYRFCASTUNITS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ORDERPERCENTWEEKS]"
+                      cachedDataType="decimal"
+                      cachedName="ORDERPERCENTWEEKS"
+                      cachedScale="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[OrderPercentWeeks]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERPERCENTWEEKS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ORDERNUMBERWEEKS]"
+                      cachedDataType="decimal"
+                      cachedName="ORDERNUMBERWEEKS"
+                      cachedScale="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[OrderNumberWeeks]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ORDERNUMBERWEEKS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[VENDORLEADTIME]"
+                      cachedDataType="decimal"
+                      cachedName="VENDORLEADTIME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[VendorLeadTime]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[VENDORLEADTIME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MODELSTOCK]"
+                      cachedDataType="decimal"
+                      cachedName="MODELSTOCK"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStock]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MINIMUMSTOCK]"
+                      cachedDataType="decimal"
+                      cachedName="MINIMUMSTOCK"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MinimumStock]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MINIMUMSTOCK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MODELSTOCKRATIO]"
+                      cachedDataType="decimal"
+                      cachedName="MODELSTOCKRATIO"
+                      cachedScale="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStockRatio]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MODELSTOCKRATIO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ADJPERRATIO]"
+                      cachedDataType="decimal"
+                      cachedName="ADJPERRATIO"
+                      cachedScale="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjPerRatio]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ADJPERRATIOPERCENT]"
+                      cachedDataType="decimal"
+                      cachedName="ADJPERRATIOPERCENT"
+                      cachedScale="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjPerRatioPercent]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJPERRATIOPERCENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ADJORDERUPTO]"
+                      cachedDataType="decimal"
+                      cachedName="ADJORDERUPTO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjOrderUpTo]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERUPTO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[ADJORDERAT]"
+                      cachedDataType="decimal"
+                      cachedName="ADJORDERAT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjOrderAt]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[ADJORDERAT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[AVGSALESPREVIOUS]"
+                      cachedDataType="decimal"
+                      cachedName="AVGSALESPREVIOUS"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesPrevious]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESPREVIOUS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[AVGSALESNEW]"
+                      cachedDataType="decimal"
+                      cachedName="AVGSALESNEW"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesNew]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESNEW]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[AVGSALESHISTORIC]"
+                      cachedDataType="decimal"
+                      cachedName="AVGSALESHISTORIC"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesHistoric]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESHISTORIC]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[AVGSALESFORECAST]"
+                      cachedDataType="decimal"
+                      cachedName="AVGSALESFORECAST"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesForecast]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[AVGSALESFORECAST]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[REVIEWPERIODDAYS]"
+                      cachedDataType="decimal"
+                      cachedName="REVIEWPERIODDAYS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ReviewPeriodDays]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[REVIEWPERIODDAYS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[STOREALLOCMAX]"
+                      cachedDataType="decimal"
+                      cachedName="STOREALLOCMAX"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreAllocMax]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[STOREALLOCMAX]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURATING1]"
+                      cachedDataType="decimal"
+                      cachedName="SKURATING1"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating1]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING1]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURANKNG1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKURANKNG1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng1]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG1]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURATING2]"
+                      cachedDataType="decimal"
+                      cachedName="SKURATING2"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating2]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING2]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURANKNG2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKURANKNG2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng2]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG2]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURATING3]"
+                      cachedDataType="decimal"
+                      cachedName="SKURATING3"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating3]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING3]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURANKNG3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKURANKNG3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng3]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG3]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURATING4]"
+                      cachedDataType="decimal"
+                      cachedName="SKURATING4"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating4]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURATING4]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SKURANKNG4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKURANKNG4"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng4]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SKURANKNG4]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[MAXSAFETYSTOCK]"
+                      cachedDataType="decimal"
+                      cachedName="MAXSAFETYSTOCK"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MaxSafetyStock]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[MAXSAFETYSTOCK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAFETYSTOCKDAYS]"
+                      cachedDataType="decimal"
+                      cachedName="SAFETYSTOCKDAYS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockDays]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKDAYS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAFETYSTOCKUNITS]"
+                      cachedDataType="decimal"
+                      cachedName="SAFETYSTOCKUNITS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockUnits]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAFETYSTOCKUNITS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[TOTALRANK]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALRANK"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[TotalRank]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALRANK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[TOTALSTORES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALSTORES"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[TotalStores]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[TOTALSTORES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSTOREDROPDATECENTURYCODE]"
+                      cachedDataType="decimal"
+                      cachedName="SAMEASSTOREDROPDATECENTURYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSTOREDROPYEAR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="SAMEASSTOREDROPYEAR"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropYear]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSTOREDROPMONTH]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="SAMEASSTOREDROPMONTH"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropMonth]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREDROPMONTH]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SAMEASSTOREFORECASTUNITS]"
+                      cachedDataType="decimal"
+                      cachedName="SAMEASSTOREFORECASTUNITS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreForecastUnits]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SAMEASSTOREFORECASTUNITS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DEPARTMENT]"
+                      cachedDataType="numeric"
+                      cachedName="DEPARTMENT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DEPARTMENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SUBDEPARTMENT]"
+                      cachedDataType="numeric"
+                      cachedName="SUBDEPARTMENT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SubDepartment]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBDEPARTMENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[CLASS]"
+                      cachedDataType="numeric"
+                      cachedName="CLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Class]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[SUBCLASS]"
+                      cachedDataType="numeric"
+                      cachedName="SUBCLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[SUBCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[CURWKSWGHTNGFACTOR]"
+                      cachedDataType="decimal"
+                      cachedName="CURWKSWGHTNGFACTOR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CurWksWghtngFactor]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[CURWKSWGHTNGFACTOR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[HISTWKSWGHTNGFACTOR]"
+                      cachedDataType="decimal"
+                      cachedName="HISTWKSWGHTNGFACTOR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[HistWksWghtngFactor]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[HISTWKSWGHTNGFACTOR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[PREVIOUSRUNSAVGSLSHIST]"
+                      cachedDataType="decimal"
+                      cachedName="PREVIOUSRUNSAVGSLSHIST"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[PreviousRunsAvgSlsHist]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[PREVIOUSRUNSAVGSLSHIST]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      lineageId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      dataType="i4"
+                      name="StoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProductStartDateCenturyCode]"
+                      dataType="i4"
+                      name="ProductStartDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProdStartYear]"
+                      dataType="i4"
+                      name="ProdStartYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ProdStartMonth]"
+                      dataType="i4"
+                      name="ProdStartMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DateStoreOpenedCenturyCode]"
+                      dataType="i4"
+                      name="DateStoreOpenedCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreOpenYear]"
+                      dataType="i4"
+                      name="StoreOpenYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreOpenMonth]"
+                      dataType="i4"
+                      name="StoreOpenMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Profile]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Profile" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[RPLCalc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="RPLCalc" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[VendorNumber]"
+                      dataType="i4"
+                      name="VendorNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ShipPointNum]"
+                      dataType="i4"
+                      name="ShipPointNum" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ItemStatusCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ItemStatusCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ReplacementSKU]"
+                      dataType="i4"
+                      name="ReplacementSKU" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Options]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Options" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MaxStockOrdTo]"
+                      dataType="i4"
+                      name="MaxStockOrdTo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DisplayMinOrdTo]"
+                      dataType="i4"
+                      name="DisplayMinOrdTo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStockCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="ModelStockCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreWarehouse]"
+                      dataType="i4"
+                      name="StoreWarehouse" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ManFcatDropDateCenturyCode]"
+                      dataType="i4"
+                      name="ManFcatDropDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DropManFcatYear]"
+                      dataType="i4"
+                      name="DropManFcatYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DropManFcatMonth]"
+                      dataType="i4"
+                      name="DropManFcatMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreNumber]"
+                      dataType="i4"
+                      name="SameasStoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasSkuNumber]"
+                      dataType="i4"
+                      name="SameasSkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockWks]"
+                      dataType="i4"
+                      name="SafetyStockWks" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[BaseSales]"
+                      dataType="i4"
+                      name="BaseSales" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CalcdTrend]"
+                      dataType="numeric"
+                      name="CalcdTrend"
+                      precision="5"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ActualTrend]"
+                      dataType="numeric"
+                      name="ActualTrend"
+                      precision="5"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CurYrFCastUnits]"
+                      dataType="i4"
+                      name="CurYrFCastUnits" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[OrderPercentWeeks]"
+                      dataType="numeric"
+                      name="OrderPercentWeeks"
+                      precision="4"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[OrderNumberWeeks]"
+                      dataType="numeric"
+                      name="OrderNumberWeeks"
+                      precision="4"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[VendorLeadTime]"
+                      dataType="i4"
+                      name="VendorLeadTime" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStock]"
+                      dataType="i4"
+                      name="ModelStock" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MinimumStock]"
+                      dataType="i4"
+                      name="MinimumStock" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ModelStockRatio]"
+                      dataType="numeric"
+                      name="ModelStockRatio"
+                      precision="3"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjPerRatio]"
+                      dataType="numeric"
+                      name="AdjPerRatio"
+                      precision="3"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjPerRatioPercent]"
+                      dataType="numeric"
+                      name="AdjPerRatioPercent"
+                      precision="3"
+                      scale="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjOrderUpTo]"
+                      dataType="i4"
+                      name="AdjOrderUpTo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AdjOrderAt]"
+                      dataType="i4"
+                      name="AdjOrderAt" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesPrevious]"
+                      dataType="numeric"
+                      name="AvgSalesPrevious"
+                      precision="7"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesNew]"
+                      dataType="i4"
+                      name="AvgSalesNew" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesHistoric]"
+                      dataType="numeric"
+                      name="AvgSalesHistoric"
+                      precision="7"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[AvgSalesForecast]"
+                      dataType="numeric"
+                      name="AvgSalesForecast"
+                      precision="7"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[ReviewPeriodDays]"
+                      dataType="i4"
+                      name="ReviewPeriodDays" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[StoreAllocMax]"
+                      dataType="i4"
+                      name="StoreAllocMax" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating1]"
+                      dataType="numeric"
+                      name="SkuRating1"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuRankng1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating2]"
+                      dataType="numeric"
+                      name="SkuRating2"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuRankng2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating3]"
+                      dataType="numeric"
+                      name="SkuRating3"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuRankng3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRating4]"
+                      dataType="numeric"
+                      name="SkuRating4"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SkuRankng4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuRankng4" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[MaxSafetyStock]"
+                      dataType="i4"
+                      name="MaxSafetyStock" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockDays]"
+                      dataType="i4"
+                      name="SafetyStockDays" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SafetyStockUnits]"
+                      dataType="i4"
+                      name="SafetyStockUnits" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[TotalRank]"
+                      dataType="numeric"
+                      name="TotalRank"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[TotalStores]"
+                      dataType="i4"
+                      name="TotalStores" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropDateCenturyCode]"
+                      dataType="i4"
+                      name="SameasStoreDropDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropYear]"
+                      dataType="i4"
+                      name="SameasStoreDropYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreDropMonth]"
+                      dataType="i4"
+                      name="SameasStoreDropMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SameasStoreForecastUnits]"
+                      dataType="i4"
+                      name="SameasStoreForecastUnits" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                      dataType="i4"
+                      name="Department" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SubDepartment]"
+                      dataType="i4"
+                      name="SubDepartment" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Class]"
+                      dataType="i4"
+                      name="Class" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      dataType="i4"
+                      name="SubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[CurWksWghtngFactor]"
+                      dataType="numeric"
+                      name="CurWksWghtngFactor"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[HistWksWghtngFactor]"
+                      dataType="numeric"
+                      name="HistWksWghtngFactor"
+                      precision="3"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[PreviousRunsAvgSlsHist]"
+                      dataType="numeric"
+                      name="PreviousRunsAvgSlsHist"
+                      precision="7"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DateLastMaint" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server RPLPRF.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server RPLPRF.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server RPLPRF.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server RPLPRF.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server RPLPRF.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 RPLPRF.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge RPLPRF"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{77D0374C-C595-458D-84CB-EF023BDFE242}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge RPLPRF"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_RPLPRF;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate RPLPRF"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{809119BC-8C02-463F-B721-BAADA4076BF6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate RPLPRF"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.RPLPRF;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C25B638E-82D4-42DB-A9FB-033CAC8D0F1F}"
+      DTS:From="Package\Truncate RPLPRF"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{CBDBB772-EB08-42A9-BBA2-76EC9273FC33}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge RPLPRF" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{84641B6A-799F-4474-AFA7-26F409861134}"
+      DTS:From="Package\Merge RPLPRF"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="237,263" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="246,106" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Merge RPLPRF"
+          TopLeft="240,183" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Truncate RPLPRF"
+          TopLeft="223,29" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="306.25,71">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="311.5,148">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="314,225">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="217,110" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Load Data\AS400 RPLPRF"
+          TopLeft="216,26" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Load Data\SQL Server RPLPRF"
+          TopLeft="205,197" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="289,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="288.75,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 RPLPRF">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server RPLPRF">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

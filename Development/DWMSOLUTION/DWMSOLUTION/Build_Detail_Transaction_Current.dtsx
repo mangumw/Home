@@ -1,0 +1,3314 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/5/2005 9:00:16 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG1"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{CAB41F3D-95FD-4EB4-8107-0636CE6827E1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Build_Detail_Transaction_Current"
+  DTS:PackageType="5"
+  DTS:VersionBuild="279"
+  DTS:VersionGUID="{40989155-0995-4F49-97D4-4CF02C799ED0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{592080A4-B2A1-4FA1-A6B9-F79F56D78ABF}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADsFcTr3R6D6/8aLhx0LlkZAAAAAASAAACgAAAAEAAAALpvRK27YYhF/AA+NggtQEQYAAAAmAit4dhl/yVuzYKzAKmjyCrzBoGyqc0KFAAAAN0eZPDIeP0gTHb3MZGfJ3heTuF1</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0D094260-230A-4C0A-8149-C22DBF56D562}"
+      DTS:ObjectName="bambig03.Reference.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03ReferenceInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bambig03;Initial Catalog=Reference;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+      DTS:ObjectName="bambig03.Staging.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E0142F4F-0FE4-4FCC-ACF2-197E06D14784}"
+      DTS:ObjectName="BKL400.BKL400QSYS2.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400QSYS2_DB2AS400_Infausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BLK400.BLK400]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CEA6EA52-2EB2-4305-850A-FCFE55521FEB}"
+      DTS:ObjectName="BLK400.BLK400">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::bkl400_BKL400_infausr]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bkl400;User ID=infausr;Initial Catalog=BKL400;Provider=IBMDA400.DataSource.1;Persist Security Info=True;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACBrZ01vBCNhu9UCjV58SX+AAAAAASAAACgAAAAEAAAAKmEKX2+BaDFNY/NyO4PA+YYAAAAQkPLlr1Hfg39b6RPdxyTp6FXA7IjSzeCFAAAABQUh27KqR+SSDUEFdlWSEWouNkh</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{316E3643-EFF4-4052-B82A-36F4F57A3FBC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CurDate">
+      <DTS:VariableValue
+        DTS:DataType="3">60911</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6B281CE3-D763-412A-9A58-435635551840}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DSql">
+      <DTS:VariableValue
+        DTS:DataType="8">select * from mm4r4lib.cshdete</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9D28A132-1CBB-4C8F-A31B-222077E2010A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PeriodDate">
+      <DTS:VariableValue
+        DTS:DataType="3">51127</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6982D780-6239-49AA-888C-50F0833327ED}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Period_End_LY">
+      <DTS:VariableValue
+        DTS:DataType="3">51127</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6027E71E-1DA8-403A-A8F4-9CF01DF3E006}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Period_Start_LY">
+      <DTS:VariableValue
+        DTS:DataType="3">51127</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A2059ADA-F754-4247-A8DC-64161FD9241B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Raw_Sql">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT t1.CSSTOR, t1.CSDATE, t1.CSREG#, t1.CSTRN#, t1.CSSEQ#, t1.CSTIME, t1.CSDTYP, t1.CSSKU#, t1.CSRETL, t1.CSCOST, t1.CSQTY, t1.CSEXPR, t1.CSPOVR, t1.CSUPC#, t1.CSEXDS, t1.CSRGPR, t2.CSRSNC,t1.CSDOSP  FROM MM4R4LIB.CSHDET as t1 left join MM4R4LIB.CSHDISE as T2 on t2.csstor = t1.csstor AND T2.CSCEN = T1.CSCEN AND T2.CSDATE = T1.CSDATE and T2.CSREG# = T1.CSREG# AND T2.CSROLL = T1.CSROLL AND T2.CSTRN# = T1.CSTRN# AND T2.CSSEQ# = T1.CSSEQ# WHERE t1.CSSTOR &gt; 0 AND t1.CSCEN = 1 and t1.CSDSTS &lt;&gt; 'D' and t1.csdate &gt;= 60601</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{92A5114A-D021-4C85-B3E2-5C46A3E7885E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Seldate">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{210FA06D-EED2-4DC9-8684-A70A7250CF69}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StrSql">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT t1.CSSTOR, t1.CSDATE, t1.CSREG#, t1.CSTRN#, t1.CSSEQ#, t1.CSTIME, t1.CSDTYP, t1.cscsh#,t1.CSSKU#, t1.CSRETL, t1.CSCOST, t1.CSQTY, t1.CSEXPR, t1.CSPOVR, t1.CSUPC#, t1.CSEXDS, t1.CSRGPR, t2.CSRSNC, T3.CEPDPT,t1.CSDOSP FROM MM4R4LIB.CSHDET as t1 left join MM4R4LIB.CSHDISE as T2 on t2.csstor = t1.csstor AND T2.CSCEN = T1.CSCEN AND T2.CSDATE = T1.CSDATE and T2.CSREG# = T1.CSREG# AND T2.CSROLL = T1.CSROLL AND T2.CSTRN# = T1.CSTRN# AND T2.CSSEQ# = T1.CSSEQ# AND T2.CSDSSQ = 1 left join mm4r4lib.cshdete t3 on t3.cestor = t1.csstor AND T3.CECEN = T1.CSCEN AND T3.CEDATE = T1.CSDATE and T3.CEREG# = T1.CSREG# AND T3.CEROLL = T1.CSROLL AND T3.CETRN# = T1.CSTRN# AND T3.CESEQ# = T1.CSSEQ# WHERE t1.CSCEN = 1 and t1.CSDSTS &lt;&gt; 'D' AND t1.CSDATE &gt;= 90721 and t1.csdate &lt;= 90721</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">9,7,OnError,19,OnExecStatusChanged,13,OnInformation,13,OnPostExecute,14,OnPostValidate,12,OnPreExecute,13,OnPreValidate,12,OnTaskFailed,9,OnWarning</DTS:Property>
+    <DTS:Property
+      DTS:EventName="Diagnostic"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnExecStatusChanged"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnInformation"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPipelinePostEndOfRowset"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPipelinePostPrimeOutput"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPipelinePreEndOfRowset"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPipelinePrePrimeOutput"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPipelineRowsSent"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPostExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPostValidate"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPreExecute"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnPreValidate"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnProgress"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnQueryCancel"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnTaskFailed"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnVariableValueChanged"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnWarning"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Build Dest Rows"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C476C302-B3A6-4EB0-9A45-384D3BE2F20D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Dest Rows"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+          SQLTask:SqlStatementSource="exec usp_join_detail_transaction_raw" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Build History"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FDC70BBA-784A-4B4A-A1E4-68956844C578}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build History"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+          SQLTask:SqlStatementSource="exec usp_insert_detail_transaction_history" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Construct Sql"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{9c77e15b-499d-4bec-a924-3b006e57816b}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Construct Sql"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_2ceb78c1a8dd481fb19576820ee06f46"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadOnlyVariables="Period_Start_LY,Period_End_LY"
+          ReadWriteVariables="StrSql,PeriodDate,CurDate,Raw_Sql,DSql">
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+    ' To open Object Browser, press Ctrl+Alt+J.7
+
+    'Modified 6/11/2015 by Sarah Ford to add CSSTOR > 54 and CESTOR > 54.  This will exclude outside sales from being pulled in.
+
+	Public Sub Main()
+		'
+        ' Add your code here
+        '
+
+        Dim Sql As String
+        Dim PeriodDate As String
+        Dim CurDate As String
+        Dim Raw_Sql As String
+
+
+
+        Sql = "SELECT t1.CSSTOR, t1.CSDATE, t1.CSREG#, t1.CSTRN#, t1.CSSEQ#, t1.CSTIME, t1.CSDTYP, t1.cscsh#,t1.CSSKU#, t1.CSRETL, "
+        Sql = Sql + "t1.CSCOST, t1.CSQTY, t1.CSEXPR, t1.CSPOVR, t1.CSUPC#, t1.CSEXDS, t1.CSRGPR, t2.CSRSNC, T3.CEPDPT, t1.CSDOSP"
+        Sql = Sql & " FROM MM4R4LIB.CSHDET as t1 left join MM4R4LIB.CSHDISE as T2 "
+        Sql = Sql & "on t2.csstor = t1.csstor AND T2.CSCEN = T1.CSCEN AND T2.CSDATE = T1.CSDATE "
+        Sql = Sql & "and T2.CSREG# = T1.CSREG# AND T2.CSROLL = T1.CSROLL AND T2.CSTRN# = T1.CSTRN# "
+        Sql = Sql & "AND T2.CSSEQ# = T1.CSSEQ# AND T2.CSDSSQ = 1 left join mm4r4lib.cshdete t3 "
+        Sql = Sql & "on t3.cestor = t1.csstor AND T3.CECEN = T1.CSCEN AND T3.CEDATE = T1.CSDATE "
+        Sql = Sql & "and T3.CEREG# = T1.CSREG# AND T3.CEROLL = T1.CSROLL AND T3.CETRN# = T1.CSTRN# "
+        Sql = Sql & "AND T3.CESEQ# = T1.CSSEQ# "
+        Sql = Sql & "WHERE t1.CSSTOR > 54 and t1.CSCEN = 1 and t1.CSDSTS <> 'D' "
+        Sql = Sql & "AND t1.CSDATE >= "
+
+        PeriodDate = Str(Dts.Variables("PeriodDate").Value)
+        Sql = Sql & PeriodDate
+
+        Sql = Sql & " AND t1.CSDATE <= "
+
+        CurDate = Str(Dts.Variables("CurDate").Value)
+        Sql = Sql & CurDate
+
+        Dts.Variables("StrSql").Value = Sql
+
+        Sql = "select * from mm4r4lib.cshdete where cestor > 54 and cecen = 1 and cedate >= "
+
+        Sql = Sql & PeriodDate
+
+        Sql = Sql & " AND CEDATE <= "
+
+        Sql = Sql & CurDate
+
+        Dts.Variables("DSql").Value = Sql
+
+
+        Dts.TaskResult = ScriptResults.Success
+
+
+    End Sub
+
+
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="ST_2ceb78c1a8dd481fb19576820ee06f46.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1065903f-e1a7-4e72-b00c-a304a732e9ac}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_4415f6197bab4be48dde9bba7b2aaa8b</RootNamespace>
+    <AssemblyName>ST_2ceb78c1a8dd481fb19576820ee06f46</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_2ceb78c1a8dd481fb19576820ee06f46</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_2ceb78c1a8dd481fb19576820ee06f46</msb:DisplayName>
+		<msb:ProjectId>{9D40AADF-6CBF-40AB-B204-A6CAE1151D9B}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_2ceb78c1a8dd481fb19576820ee06f46.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_2ceb78c1a8dd481fb19576820ee06f46.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAC0KTVoAAAAAAAAAAOAAIiALAVAAABwAAAAGAAAAAAAASjoA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAPg5AABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAUBoAAAAgAAAAHAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAeAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAIgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAs
+OgAAAAAAAEgAAAACAAUAwCIAADgXAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAEkBAAABAAARcgEAAHAKBnLsAABwKBoAAAoKBnLF
+AQBwKBoAAAoKBnJBAgBwKBoAAAoKBnLaAgBwKBoAAAoKBnJ5AwBwKBoAAAoKBnIQBABwKBoAAAoK
+BnKpBABwKBoAAAoKBnJIBQBwKBoAAAoKBnJ+BQBwKBoAAAoKBnL2BQBwKBoAAAoKAigbAAAKbxwA
+AApyGgYAcG8dAAAKbx4AAAooHwAACiggAAAKCwYHKBoAAAoKBnIwBgBwKBoAAAoKAigbAAAKbxwA
+AApyVgYAcG8dAAAKbx4AAAooHwAACiggAAAKDAYIKBoAAAoKAigbAAAKbxwAAApyZgYAcG8dAAAK
+Bm8hAAAKcnQGAHAKBgcoGgAACgoGchEHAHAoGgAACgoGCCgaAAAKCgIoGwAACm8cAAAKcjEHAHBv
+HQAACgZvIQAACgIoGwAAChZvIgAACio2AgMoHwAACigjAAAKKh4CKCQAAAoqLtAGAAACKCUAAAoq
+HgIoJgAACioAEzABABQAAAACAAARAowFAAAbLQgoAQAAKworAgIKBioiA/4VBQAAGyoeAigoAAAK
+KgAAABMwAgAoAAAAAwAAEQJ7KQAACm8qAAAKCgaMCAAAGy0SKAIAACsKAnspAAAKBm8rAAAKBipK
+AigoAAAKAnMsAAAKfSkAAAoqAEJTSkIBAAEAAAAAAAwAAAB2NC4wLjMwMzE5AAAAAAUAbAAAAPQF
+AAAjfgAAYAYAAOAGAAAjU3RyaW5ncwAAAABADQAAPAcAACNVUwB8FAAAEAAAACNHVUlEAAAAjBQA
+AKwCAAAjQmxvYgAAAAAAAAACAAABVx2iCQkOAAAA+gEzABYAAAEAAAAhAAAACAAAAAgAAAASAAAA
+AwAAACwAAAACAAAAKgAAAAMAAAACAAAABQAAAAUAAAAIAAAAAQAAAAUAAAADAAAAAwAAAAIAAAAA
+AAkEAQAAAAAABgCuAgwGBgAGAwwGBgDxAU0FDwAsBgAABgBiAkcDCgDaAfkECgCwAfMDCgAFAvMD
+DgCgAZwFDgApBWAFBgB7Ak0FDgAyAuUFDgBKAt0ABgCEBjoEDgAVBZwFDgCTAt0ABgB3AToEBgAe
+AsYFDgABALcDCgDFAUYEEgDkAo4DBgDOAjoEEgCEAY4DBgBqAzoEBgBBBDoEBgBjAzoEEgDhA44D
+FgA/BlQBFgAnAVQBBgBQBgwGDgBuBN0ABgAwAToEBgAyBToEAAAAAE8AAAAAAAEAAQAAAAAAiQSu
+BiUAAQABAAAAAAAnBa4GKQABAAIAAAEQAIsGrgY5AAEAAwABAAAAYwSoAF0ABQAIAAUBAACOBQAA
+OQAFAAoABQEAABAAAAA5AAUAEQACAQAAbwYAAGUABgATADEAwgT0ADEAmQT8ADEArQQEATEA2wQM
+ASEApAayAAYGoAAUAVaAXwYXAVaAfAEXAVAgAAAAAAYYPAUGAAEAWCAAAAAABhg8BQYAAQBgIAAA
+AAARGEIFGwEBAIogAAAAABMIGgUfAQEAliAAAAAAEwh5BCQBAQCiIAAAAAATCBEFKQEBAK4gAAAA
+ABMIfgUuAQEAuiAAAAAABhg8BQYAAQDEIAAAAAAGAGkEBgABABkiAAAAAMYCSQZ+AAEAJyIAAAAA
+xgIbAYMAAgAvIgAAAACDAHQBMwECADsiAAAAAMYCYQOPAAIARCIAAAAAEQCNADgBAgBkIgAAAAAB
+AHkAQAEDAG0iAAAAAAYYPAUGAAQAeCIAAAAAAwgCAUoABACsIgAAAAAGGDwFBgAEAAAAAQCXBAAA
+AQASAQAAAQASAQkAPAUBABEAPAUGABkAPAUKACkAPAUQADEAPAUVAEEAPAUbAFkAPAUGAGEAPAUG
+AGkAPAUGAIEAPAUhAJEAPAUpAKEAPAUQAKkAPAUGALEAPAUpAEkAPAUGAFEAPAUGAAwAPAUGABQA
+PAUGABwAPAUGACQAPAUGAAwAAgFKABQAAgFKABwAAgFKACQAAgFKALkAPAUGANEAfQZVALkAZwZb
+ANkAOwZgAOEAMQRlAOkAJANrAPEAOANvAPkASQV0AOkALgN5ANkAlQYBAHEASQZ+AHEAGwGDAIkA
+QgGHAHEAYQOPAAkB8wCbAHEAPAUGADQApAayADwAJANKADwALgPJADwAPAUGAAgAHADqAAgAIADv
+ACkAYwBkAi4ACwBhAS4AEwBqAS4AGwCJAS4AIwCSAUAAOwDvAEAAMwDaAUMAKwDjAUMAMwDaAUkA
+YwB1AmMAKwDjAWMAMwDaAWkAYwCJAoAAOwDvAIMAQwDvAIMASwDvAIMAKwDjAYkAYwCWAqAAOwDv
+AKMAawDvAKMAcwD8AcAAOwDvAMMAMwDaAcMAUwACAuAAOwDvAOMAMwDaAeMAWwD8AUABMwDaAUAB
+OwDvAGABMwDaAWABOwDvAIABMwDaAYABOwDvAKABMwDaAaABOwDvAMABOwDvAOABOwDvAAACOwDv
+AAACMwDaASACOwDvAEACOwDvAEACMwDaAU8AkwCmAAQAAQAHAAUAAAApBUgBAACLBE0BAAAVBVIB
+AACQBVcBAAAGAVwBAgAEAAMAAgAFAAUAAgAGAAcAAgAHAAkAAgARAAsALgA1ADwAQwCYAKsAugDB
+AASAAAAAAAAAAAAAAAAAAAAAACsAAAAEAAAAAAAAAAAAAADPANQAAAAAAAQAAAAAAAAAAAAAAM8A
+OgQAAAAACgAAAAAAAAAAAAAA2ADdAAAAAAAMAAAAAAAAAAAAAADhAG8DAAAAAAwAAAAAAAAAAAAA
+AOEAWAAAAAAABgAEAAcABAAIAAUAAAAQAA4AdwAAABAAHQB3AAAAAAAfAHcATwChAE8AxAAAAABD
+b250ZXh0VmFsdWVgMQBUaHJlYWRTYWZlT2JqZWN0UHJvdmlkZXJgMQBTVF8yY2ViNzhjMWE4ZGQ0
+ODFmYjE5NTc2ODIwZWUwNmY0NgA8TW9kdWxlPgBNaWNyb3NvZnQuU3FsU2VydmVyLk1hbmFnZWRE
+VFMAVABEaXNwb3NlX19JbnN0YW5jZV9fAENyZWF0ZV9fSW5zdGFuY2VfXwB2YWx1ZV9fAFNjcmlw
+dFRhc2tfNDQxNWY2MTk3YmFiNGJlNDhkZGU5YmJhN2IyYWFhOGIAbXNjb3JsaWIATWljcm9zb2Z0
+LlZpc3VhbEJhc2ljAENyZWF0ZUluc3RhbmNlAGdldF9HZXRJbnN0YW5jZQBpbnN0YW5jZQBHZXRI
+YXNoQ29kZQBWYXJpYWJsZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBNaWNy
+b3NvZnQuU3FsU2VydmVyLkR0cy5SdW50aW1lAEdldFR5cGUARmFpbHVyZQBWU1RBUlRTY3JpcHRP
+YmplY3RNb2RlbEJhc2UAQXBwbGljYXRpb25CYXNlAEVkaXRvckJyb3dzYWJsZVN0YXRlAEhlbHBL
+ZXl3b3JkQXR0cmlidXRlAEdlbmVyYXRlZENvZGVBdHRyaWJ1dGUARGVidWdnYWJsZUF0dHJpYnV0
+ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1dGUAQ29tVmlzaWJsZUF0dHJpYnV0ZQBTdGFuZGFyZE1v
+ZHVsZUF0dHJpYnV0ZQBIaWRlTW9kdWxlTmFtZUF0dHJpYnV0ZQBUYXJnZXRGcmFtZXdvcmtBdHRy
+aWJ1dGUARGVidWdnZXJIaWRkZW5BdHRyaWJ1dGUATXlHcm91cENvbGxlY3Rpb25BdHRyaWJ1dGUA
+Q29tcGlsYXRpb25SZWxheGF0aW9uc0F0dHJpYnV0ZQBDTFNDb21wbGlhbnRBdHRyaWJ1dGUAU1NJ
+U1NjcmlwdFRhc2tFbnRyeVBvaW50QXR0cmlidXRlAFJ1bnRpbWVDb21wYXRpYmlsaXR5QXR0cmli
+dXRlAGdldF9WYWx1ZQBzZXRfVmFsdWUAR2V0T2JqZWN0VmFsdWUAU3lzdGVtLlJ1bnRpbWUuVmVy
+c2lvbmluZwBUb1N0cmluZwBNYXRoAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNy
+b3NvZnQuU3FsU2VydmVyLkR0cy5UYXNrcy5TY3JpcHRUYXNrAE1pY3Jvc29mdC5WaXN1YWxCYXNp
+Yy5NeVNlcnZpY2VzLkludGVybmFsAFNjcmlwdE9iamVjdE1vZGVsAFN5c3RlbS5Db21wb25lbnRN
+b2RlbABTVF8yY2ViNzhjMWE4ZGQ0ODFmYjE5NTc2ODIwZWUwNmY0Ni5kbGwAZ2V0X0l0ZW0AU3lz
+dGVtAEVudW0AU3lzdGVtLkNvbXBvbmVudE1vZGVsLkRlc2lnbgBTY3JpcHRNYWluAENvbnZlcnNp
+b24AZ2V0X0FwcGxpY2F0aW9uAE15QXBwbGljYXRpb24AbwBtX0FwcE9iamVjdFByb3ZpZGVyAG1f
+VXNlck9iamVjdFByb3ZpZGVyAG1fQ29tcHV0ZXJPYmplY3RQcm92aWRlcgBtX015V2ViU2Vydmlj
+ZXNPYmplY3RQcm92aWRlcgBTeXN0ZW0uQ29kZURvbS5Db21waWxlcgBnZXRfVXNlcgBnZXRfQ29t
+cHV0ZXIATXlDb21wdXRlcgBBY3RpdmF0b3IALmN0b3IALmNjdG9yAFN0cgBTeXN0ZW0uRGlhZ25v
+c3RpY3MATWljcm9zb2Z0LlZpc3VhbEJhc2ljLkRldmljZXMAZ2V0X1dlYlNlcnZpY2VzAE15V2Vi
+U2VydmljZXMATWljcm9zb2Z0LlZpc3VhbEJhc2ljLkFwcGxpY2F0aW9uU2VydmljZXMAU3lzdGVt
+LlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5Db21waWxlclNl
+cnZpY2VzAFN5c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMARGVidWdnaW5nTW9kZXMAZ2V0
+X1ZhcmlhYmxlcwBFcXVhbHMAUnVudGltZUhlbHBlcnMAU3VjY2VzcwBnZXRfRHRzAFNjcmlwdFJl
+c3VsdHMAQ29uY2F0AE9iamVjdABNeVByb2plY3QAc2V0X1Rhc2tSZXN1bHQAbV9Db250ZXh0AFNj
+cmlwdFRhc2tfNDQxNWY2MTk3YmFiNGJlNDhkZGU5YmJhN2IyYWFhOGIuTXkAAAAAAIDpUwBFAEwA
+RQBDAFQAIAB0ADEALgBDAFMAUwBUAE8AUgAsACAAdAAxAC4AQwBTAEQAQQBUAEUALAAgAHQAMQAu
+AEMAUwBSAEUARwAjACwAIAB0ADEALgBDAFMAVABSAE4AIwAsACAAdAAxAC4AQwBTAFMARQBRACMA
+LAAgAHQAMQAuAEMAUwBUAEkATQBFACwAIAB0ADEALgBDAFMARABUAFkAUAAsACAAdAAxAC4AYwBz
+AGMAcwBoACMALAB0ADEALgBDAFMAUwBLAFUAIwAsACAAdAAxAC4AQwBTAFIARQBUAEwALAAgAACA
+13QAMQAuAEMAUwBDAE8AUwBUACwAIAB0ADEALgBDAFMAUQBUAFkALAAgAHQAMQAuAEMAUwBFAFgA
+UABSACwAIAB0ADEALgBDAFMAUABPAFYAUgAsACAAdAAxAC4AQwBTAFUAUABDACMALAAgAHQAMQAu
+AEMAUwBFAFgARABTACwAIAB0ADEALgBDAFMAUgBHAFAAUgAsACAAdAAyAC4AQwBTAFIAUwBOAEMA
+LAAgAFQAMwAuAEMARQBQAEQAUABUACwAIAB0ADEALgBDAFMARABPAFMAUAAAeyAARgBSAE8ATQAg
+AE0ATQA0AFIANABMAEkAQgAuAEMAUwBIAEQARQBUACAAYQBzACAAdAAxACAAbABlAGYAdAAgAGoA
+bwBpAG4AIABNAE0ANABSADQATABJAEIALgBDAFMASABEAEkAUwBFACAAYQBzACAAVAAyACAAAICX
+bwBuACAAdAAyAC4AYwBzAHMAdABvAHIAIAA9ACAAdAAxAC4AYwBzAHMAdABvAHIAIABBAE4ARAAg
+AFQAMgAuAEMAUwBDAEUATgAgAD0AIABUADEALgBDAFMAQwBFAE4AIABBAE4ARAAgAFQAMgAuAEMA
+UwBEAEEAVABFACAAPQAgAFQAMQAuAEMAUwBEAEEAVABFACAAAICdYQBuAGQAIABUADIALgBDAFMA
+UgBFAEcAIwAgAD0AIABUADEALgBDAFMAUgBFAEcAIwAgAEEATgBEACAAVAAyAC4AQwBTAFIATwBM
+AEwAIAA9ACAAVAAxAC4AQwBTAFIATwBMAEwAIABBAE4ARAAgAFQAMgAuAEMAUwBUAFIATgAjACAA
+PQAgAFQAMQAuAEMAUwBUAFIATgAjACAAAICVQQBOAEQAIABUADIALgBDAFMAUwBFAFEAIwAgAD0A
+IABUADEALgBDAFMAUwBFAFEAIwAgAEEATgBEACAAVAAyAC4AQwBTAEQAUwBTAFEAIAA9ACAAMQAg
+AGwAZQBmAHQAIABqAG8AaQBuACAAbQBtADQAcgA0AGwAaQBiAC4AYwBzAGgAZABlAHQAZQAgAHQA
+MwAgAACAl28AbgAgAHQAMwAuAGMAZQBzAHQAbwByACAAPQAgAHQAMQAuAGMAcwBzAHQAbwByACAA
+QQBOAEQAIABUADMALgBDAEUAQwBFAE4AIAA9ACAAVAAxAC4AQwBTAEMARQBOACAAQQBOAEQAIABU
+ADMALgBDAEUARABBAFQARQAgAD0AIABUADEALgBDAFMARABBAFQARQAgAACAnWEAbgBkACAAVAAz
+AC4AQwBFAFIARQBHACMAIAA9ACAAVAAxAC4AQwBTAFIARQBHACMAIABBAE4ARAAgAFQAMwAuAEMA
+RQBSAE8ATABMACAAPQAgAFQAMQAuAEMAUwBSAE8ATABMACAAQQBOAEQAIABUADMALgBDAEUAVABS
+AE4AIwAgAD0AIABUADEALgBDAFMAVABSAE4AIwAgAAA1QQBOAEQAIABUADMALgBDAEUAUwBFAFEA
+IwAgAD0AIABUADEALgBDAFMAUwBFAFEAIwAgAAB3VwBIAEUAUgBFACAAdAAxAC4AQwBTAFMAVABP
+AFIAIAA+ACAANQA0ACAAYQBuAGQAIAB0ADEALgBDAFMAQwBFAE4AIAA9ACAAMQAgAGEAbgBkACAA
+dAAxAC4AQwBTAEQAUwBUAFMAIAA8AD4AIAAnAEQAJwAgAAEjQQBOAEQAIAB0ADEALgBDAFMARABB
+AFQARQAgAD4APQAgAAAVUABlAHIAaQBvAGQARABhAHQAZQAAJSAAQQBOAEQAIAB0ADEALgBDAFMA
+RABBAFQARQAgADwAPQAgAAAPQwB1AHIARABhAHQAZQAADVMAdAByAFMAcQBsAACAm3MAZQBsAGUA
+YwB0ACAAKgAgAGYAcgBvAG0AIABtAG0ANAByADQAbABpAGIALgBjAHMAaABkAGUAdABlACAAdwBo
+AGUAcgBlACAAYwBlAHMAdABvAHIAIAA+ACAANQA0ACAAYQBuAGQAIABjAGUAYwBlAG4AIAA9ACAA
+MQAgAGEAbgBkACAAYwBlAGQAYQB0AGUAIAA+AD0AIAAAHyAAQQBOAEQAIABDAEUARABBAFQARQAg
+ADwAPQAgAAAJRABTAHEAbAAAAPjfkP8vhd9ChIwKhezsjTQABCABAQgDIAABBSABARERBCABAQ4F
+IAIBDg4FIAEBER0HIAQBDg4ODgQgAQECBhUSHAESDAYVEhwBEggGFRIcARI9BhUSHAESGAQgABMA
+BQcDDg4OBQACDg4OBCAAEm0EIAAScQUgARJ1HAMgABwEAAEcHAQAAQ4cBCABARwEIAECHAMgAAgH
+AAESRRGAgQMgAA4EBwEeAAIeAAUQAQAeAAQKAR4ABAcBEwAGFRIcARMABwYVEk0BEwAGFRJNARMA
+AhMABAoBEwAFIAEBEwAIt3pcVhk04IkIsD9ffxHVCjoIiYRdzYCAzJEEAAAAAAQBAAAABwYVEhwB
+EgwHBhUSHAESCAcGFRIcARI9BwYVEhwBEhgCBggDBhEgAwAAAQQAABIMBAAAEggEAAASPQQAABIY
+BCAAEkUHEAEBHgAeAAcwAQEBEB4ABAgAEgwECAASCAQIABI9BAgAEhgEKAATAAgBAAgAAAAAAB4B
+AAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAAAABHAQAaLk5FVEZyYW1ld29yayxW
+ZXJzaW9uPXY0LjABAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEC5ORVQgRnJhbWV3b3JrIDQIAQAB
+AAAAAAAYAQAKTXlUZW1wbGF0ZQgxMS4wLjAuMAAABQEAAAAAYQEANFN5c3RlbS5XZWIuU2Vydmlj
+ZXMuUHJvdG9jb2xzLlNvYXBIdHRwQ2xpZW50UHJvdG9jb2wSQ3JlYXRlX19JbnN0YW5jZV9fE0Rp
+c3Bvc2VfX0luc3RhbmNlX18AAAAQAQALTXkuQ29tcHV0ZXIAABMBAA5NeS5BcHBsaWNhdGlvbgAA
+DAEAB015LlVzZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAAAAAgOgAAAAAAAAAAAAA6OgAAACAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAALDoAAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2NvcmVlLmRsbAAA
+AAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB
+ABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABIAAAA
+WEAAALQCAAAAAAAAAAAAALQCNAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAAAAC9
+BO/+AAABAAAAAAAAAAAAAAAAAAAAAAA/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAAAAEA
+VgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4AAAAA
+AAAAsAQUAgAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAADwAQAAAQAwADAAMAAwADAA
+NABiADAAAAAsAAIAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAIAAAADAACAAB
+AEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMAAuADAALgAwAC4AMAAAAHAAKAABAEkAbgB0AGUA
+cgBuAGEAbABOAGEAbQBlAAAAUwBUAF8AMgBjAGUAYgA3ADgAYwAxAGEAOABkAGQANAA4ADEAZgBi
+ADEAOQA1ADcANgA4ADIAMABlAGUAMAA2AGYANAA2AC4AZABsAGwAAAAoAAIAAQBMAGUAZwBhAGwA
+QwBvAHAAeQByAGkAZwBoAHQAAAAgAAAAeAAoAAEATwByAGkAZwBpAG4AYQBsAEYAaQBsAGUAbgBh
+AG0AZQAAAFMAVABfADIAYwBlAGIANwA4AGMAMQBhADgAZABkADQAOAAxAGYAYgAxADkANQA3ADYA
+OAAyADAAZQBlADAANgBmADQANgAuAGQAbABsAAAANAAIAAEAUAByAG8AZAB1AGMAdABWAGUAcgBz
+AGkAbwBuAAAAMAAuADAALgAwAC4AMAAAADgACAABAEEAcwBzAGUAbQBiAGwAeQAgAFYAZQByAHMA
+aQBvAG4AAAAwAC4AMAAuADAALgAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAMAAAATDoAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{E30B3A2C-2B86-4A8F-8E3C-31550B4A2D11}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              localeId="1033"
+              name="OLE DB Destination 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[wrk_CSHDETE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CESTOR]"
+                      cachedDataType="decimal"
+                      cachedName="CESTOR"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CESTOR]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESTOR]"
+                      name="CESTOR" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CECEN]"
+                      cachedDataType="decimal"
+                      cachedName="CECEN"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CECEN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CECEN]"
+                      name="CECEN" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CEDATE]"
+                      cachedDataType="numeric"
+                      cachedName="CEDATE"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEDATE]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEDATE]"
+                      name="CEDATE" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CEREG#]"
+                      cachedDataType="decimal"
+                      cachedName="CEREG#"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEREG#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEREG#]"
+                      name="CEREG#" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CEROLL]"
+                      cachedDataType="decimal"
+                      cachedName="CEROLL"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEROLL]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEROLL]"
+                      name="CEROLL" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CETRN#]"
+                      cachedDataType="decimal"
+                      cachedName="CETRN#"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CETRN#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETRN#]"
+                      name="CETRN#" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CESEQ#]"
+                      cachedDataType="decimal"
+                      cachedName="CESEQ#"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CESEQ#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESEQ#]"
+                      name="CESEQ#" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CEPDPT]"
+                      cachedDataType="decimal"
+                      cachedName="CEPDPT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEPDPT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]"
+                      name="CEPDPT" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[CETEX]"
+                      cachedDataType="bytes"
+                      cachedLength="15"
+                      cachedName="CETEX"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CETEX]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETEX]"
+                      name="CETEX" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CESTOR]"
+                      dataType="numeric"
+                      name="CESTOR"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CECEN]"
+                      dataType="numeric"
+                      name="CECEN"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEDATE]"
+                      dataType="numeric"
+                      name="CEDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEREG#]"
+                      dataType="numeric"
+                      name="CEREG#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEROLL]"
+                      dataType="numeric"
+                      name="CEROLL"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CETRN#]"
+                      dataType="numeric"
+                      name="CETRN#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CESEQ#]"
+                      dataType="numeric"
+                      name="CESEQ#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CEPDPT]"
+                      dataType="numeric"
+                      name="CEPDPT"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[CETEX]"
+                      dataType="bytes"
+                      length="15"
+                      name="CETEX" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::DSql</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESTOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CESTOR]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESTOR]"
+                      name="CESTOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CECEN]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CECEN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CECEN]"
+                      name="CECEN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEDATE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEDATE]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEDATE]"
+                      name="CEDATE"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEREG#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEREG#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEREG#]"
+                      name="CEREG#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEROLL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEROLL]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEROLL]"
+                      name="CEROLL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETRN#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CETRN#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETRN#]"
+                      name="CETRN#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESEQ#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CESEQ#]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CESEQ#]"
+                      name="CESEQ#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEPDPT]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]"
+                      name="CEPDPT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETEX]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CETEX]"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CETEX]"
+                      name="CETEX"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CESTOR]"
+                      dataType="decimal"
+                      name="CESTOR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CECEN]"
+                      dataType="decimal"
+                      name="CECEN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEDATE]"
+                      dataType="numeric"
+                      name="CEDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEREG#]"
+                      dataType="decimal"
+                      name="CEREG#" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEROLL]"
+                      dataType="decimal"
+                      name="CEROLL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CETRN#]"
+                      dataType="decimal"
+                      name="CETRN#" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CESEQ#]"
+                      dataType="decimal"
+                      name="CESEQ#" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEPDPT]"
+                      dataType="decimal"
+                      name="CEPDPT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CETEX]"
+                      dataType="bytes"
+                      length="15"
+                      name="CETEX" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CESTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CESTOR]"
+                      name="CESTOR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CECEN]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CECEN]"
+                      name="CECEN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEDATE]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEDATE]"
+                      name="CEDATE"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEREG#]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEREG#]"
+                      name="CEREG#" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEROLL]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEROLL]"
+                      name="CEROLL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CETRN#]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CETRN#]"
+                      name="CETRN#" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CESEQ#]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CESEQ#]"
+                      name="CESEQ#" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEPDPT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEPDPT]"
+                      name="CEPDPT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CETEX]"
+                      dataType="bytes"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CETEX]"
+                      name="CETEX" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DEB144CC-5FAB-42C5-8639-60774E455CCE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_DateToInt(staging.dbo.fn_DateOnly(getdate())) as CurDate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="CurDate"
+            SQLTask:DtsVariableName="User::CurDate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Cshdet TY"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C061EFF6-D885-45C8-8BE2-ACB505A20DCC}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Cshdet TY">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{98688BDF-6697-4B44-818D-FD401BCCAB7C}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="Period_Date_LY">
+          <DTS:VariableValue
+            DTS:DataType="3">51127</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{E1B5189C-7FBC-4258-89D6-B24602148169}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="Variable">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2">
+        <DTS:Property
+          DTS:DataType="8"
+          DTS:Name="EventFilter">9,7,OnError,13,OnInformation,13,OnPostExecute,12,OnPreExecute,12,OnTaskFailed,18,PipelineBufferLeak,21,PipelineExecutionPlan,22,PipelineExecutionTrees,22,PipelineInitialization</DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnError"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnInformation"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPostExecute"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnPreExecute"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnTaskFailed"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="PipelineBufferLeak"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="PipelineExecutionPlan"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="PipelineExecutionTrees"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+        <DTS:Property
+          DTS:EventName="PipelineInitialization"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+      </DTS:LoggingOptions>
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Get Cshdet TY\Bad Rows"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Bad Rows"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Detail_Transaction_Bad]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Get Cshdet TY\Bad Rows.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSSTOR]"
+                      cachedDataType="decimal"
+                      cachedName="CSSTOR"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSTOR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSTOR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSDATE]"
+                      cachedDataType="numeric"
+                      cachedName="CSDATE"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSDATE]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDATE]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSREG#]"
+                      cachedDataType="decimal"
+                      cachedName="CSREG#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSREG#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSREG#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSTRN#]"
+                      cachedDataType="decimal"
+                      cachedName="CSTRN#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSTRN#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTRN#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSSEQ#]"
+                      cachedDataType="decimal"
+                      cachedName="CSSEQ#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSEQ#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSEQ#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSTIME]"
+                      cachedDataType="decimal"
+                      cachedName="CSTIME"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSTIME]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTIME]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSDTYP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="CSDTYP"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSDTYP]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDTYP]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSSKU#]"
+                      cachedDataType="decimal"
+                      cachedName="CSSKU#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSKU#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSKU#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSRETL]"
+                      cachedDataType="decimal"
+                      cachedName="CSRETL"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRETL]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRETL]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSCOST]"
+                      cachedDataType="decimal"
+                      cachedName="CSCOST"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSCOST]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSCOST]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSQTY]"
+                      cachedDataType="decimal"
+                      cachedName="CSQTY"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSQTY]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSQTY]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSEXPR]"
+                      cachedDataType="decimal"
+                      cachedName="CSEXPR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSEXPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXPR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSPOVR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="CSPOVR"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSPOVR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSPOVR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSEXDS]"
+                      cachedDataType="decimal"
+                      cachedName="CSEXDS"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSEXDS]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXDS]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSRGPR]"
+                      cachedDataType="decimal"
+                      cachedName="CSRGPR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRGPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRGPR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[CSRSNC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="CSRSNC"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRSNC]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRSNC]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                      cachedDataType="i4"
+                      cachedName="ErrorCode"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                      cachedDataType="i4"
+                      cachedName="ErrorColumn"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSTOR]"
+                      dataType="numeric"
+                      name="CSSTOR"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSDATE]"
+                      dataType="numeric"
+                      name="CSDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSREG#]"
+                      dataType="numeric"
+                      name="CSREG#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSTRN#]"
+                      dataType="numeric"
+                      name="CSTRN#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSEQ#]"
+                      dataType="numeric"
+                      name="CSSEQ#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSTIME]"
+                      dataType="numeric"
+                      name="CSTIME"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSDTYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CSDTYP" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSSKU#]"
+                      dataType="numeric"
+                      name="CSSKU#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRETL]"
+                      dataType="numeric"
+                      name="CSRETL"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSCOST]"
+                      dataType="numeric"
+                      name="CSCOST"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSQTY]"
+                      dataType="numeric"
+                      name="CSQTY"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSEXPR]"
+                      dataType="numeric"
+                      name="CSEXPR"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSPOVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CSPOVR" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSEXDS]"
+                      dataType="numeric"
+                      name="CSEXDS"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRGPR]"
+                      dataType="numeric"
+                      name="CSRGPR"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[CSRSNC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="CSRSNC" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      dataType="i4"
+                      name="ErrorCode" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      dataType="i4"
+                      name="ErrorColumn" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Get Cshdet TY\Bad Rows.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\Bad Rows.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\Bad Rows.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\Bad Rows.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Get Cshdet TY\Detail Transaction Raw"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Detail Transaction Raw"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Detail_Transaction_Period_Raw]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Get Cshdet TY\Detail Transaction Raw.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Staging.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSSTOR]"
+                      cachedDataType="decimal"
+                      cachedName="CSSTOR"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSTOR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSTOR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSDATE]"
+                      cachedDataType="numeric"
+                      cachedName="CSDATE"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDATE]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDATE]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSREG#]"
+                      cachedDataType="decimal"
+                      cachedName="CSREG#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSREG#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSREG#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSTRN#]"
+                      cachedDataType="decimal"
+                      cachedName="CSTRN#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSTRN#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTRN#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSSEQ#]"
+                      cachedDataType="decimal"
+                      cachedName="CSSEQ#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSEQ#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSEQ#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSTIME]"
+                      cachedDataType="decimal"
+                      cachedName="CSTIME"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSTIME]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTIME]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSDTYP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="CSDTYP"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDTYP]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDTYP]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSSKU#]"
+                      cachedDataType="decimal"
+                      cachedName="CSSKU#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSKU#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSKU#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSRETL]"
+                      cachedDataType="decimal"
+                      cachedName="CSRETL"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRETL]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRETL]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSCOST]"
+                      cachedDataType="decimal"
+                      cachedName="CSCOST"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSCOST]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCOST]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSQTY]"
+                      cachedDataType="decimal"
+                      cachedName="CSQTY"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSQTY]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSQTY]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSEXPR]"
+                      cachedDataType="decimal"
+                      cachedName="CSEXPR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSEXPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXPR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSPOVR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="CSPOVR"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSPOVR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSPOVR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSEXDS]"
+                      cachedDataType="decimal"
+                      cachedName="CSEXDS"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSEXDS]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXDS]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSRGPR]"
+                      cachedDataType="decimal"
+                      cachedName="CSRGPR"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRGPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRGPR]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSRSNC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="CSRSNC"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRSNC]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRSNC]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSUPC#]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="CSUPC#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSUPC#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSUPC#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSCSH#]"
+                      cachedDataType="decimal"
+                      cachedName="CSCSH#"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSCSH#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCSH#]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CEPDPT]"
+                      cachedDataType="decimal"
+                      cachedName="CEPDPT"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CEPDPT]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]" />
+                    <inputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].Columns[CSDOSP]"
+                      cachedDataType="decimal"
+                      cachedName="CSDOSP"
+                      externalMetadataColumnId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDOSP]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDOSP]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSTOR]"
+                      dataType="numeric"
+                      name="CSSTOR"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDATE]"
+                      dataType="numeric"
+                      name="CSDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSREG#]"
+                      dataType="numeric"
+                      name="CSREG#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSTRN#]"
+                      dataType="numeric"
+                      name="CSTRN#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSEQ#]"
+                      dataType="numeric"
+                      name="CSSEQ#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSTIME]"
+                      dataType="numeric"
+                      name="CSTIME"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDTYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CSDTYP" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSSKU#]"
+                      dataType="numeric"
+                      name="CSSKU#"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRETL]"
+                      dataType="numeric"
+                      name="CSRETL"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSCOST]"
+                      dataType="numeric"
+                      name="CSCOST"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSQTY]"
+                      dataType="numeric"
+                      name="CSQTY"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSEXPR]"
+                      dataType="numeric"
+                      name="CSEXPR"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSPOVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CSPOVR" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSEXDS]"
+                      dataType="numeric"
+                      name="CSEXDS"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRGPR]"
+                      dataType="numeric"
+                      name="CSRGPR"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSRSNC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="CSRSNC" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSUPC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="CSUPC#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSCSH#]"
+                      dataType="i4"
+                      name="CSCSH#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CEPDPT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CEPDPT" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input].ExternalColumns[CSDOSP]"
+                      dataType="i4"
+                      name="CSDOSP" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Get Cshdet TY\Detail Transaction Raw.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\Detail Transaction Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\Detail Transaction Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\Detail Transaction Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Get Cshdet TY\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::StrSql</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Get Cshdet TY\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BLK400.BLK400]"
+                  connectionManagerRefId="Package.ConnectionManagers[BLK400.BLK400]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSTOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSTOR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSTOR]"
+                      name="CSSTOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDATE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDATE]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDATE]"
+                      name="CSDATE"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSREG#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSREG#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSREG#]"
+                      name="CSREG#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTRN#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSTRN#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTRN#]"
+                      name="CSTRN#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSEQ#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSEQ#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSEQ#]"
+                      name="CSSEQ#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTIME]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSTIME]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSTIME]"
+                      name="CSTIME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDTYP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDTYP]"
+                      length="2"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDTYP]"
+                      name="CSDTYP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCSH#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSCSH#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCSH#]"
+                      name="CSCSH#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSKU#]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSKU#]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSSKU#]"
+                      name="CSSKU#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRETL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRETL]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRETL]"
+                      name="CSRETL"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCOST]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSCOST]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSCOST]"
+                      name="CSCOST"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSQTY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSQTY]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSQTY]"
+                      name="CSQTY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXPR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSEXPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXPR]"
+                      name="CSEXPR"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSPOVR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSPOVR]"
+                      length="1"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSPOVR]"
+                      name="CSPOVR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSUPC#]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSUPC#]"
+                      length="27"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSUPC#]"
+                      name="CSUPC#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXDS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSEXDS]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSEXDS]"
+                      name="CSEXDS"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRGPR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRGPR]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRGPR]"
+                      name="CSRGPR"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRSNC]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRSNC]"
+                      length="10"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSRSNC]"
+                      name="CSRSNC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEPDPT]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CEPDPT]"
+                      name="CEPDPT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDOSP]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="RedirectRow"
+                      externalMetadataColumnId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDOSP]"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].Columns[CSDOSP]"
+                      name="CSDOSP"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSTOR]"
+                      dataType="decimal"
+                      name="CSSTOR" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDATE]"
+                      dataType="numeric"
+                      name="CSDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSREG#]"
+                      dataType="decimal"
+                      name="CSREG#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSTRN#]"
+                      dataType="decimal"
+                      name="CSTRN#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSEQ#]"
+                      dataType="decimal"
+                      name="CSSEQ#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSTIME]"
+                      dataType="decimal"
+                      name="CSTIME" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDTYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CSDTYP" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSCSH#]"
+                      dataType="decimal"
+                      name="CSCSH#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSSKU#]"
+                      dataType="decimal"
+                      name="CSSKU#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRETL]"
+                      dataType="decimal"
+                      name="CSRETL"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSCOST]"
+                      dataType="decimal"
+                      name="CSCOST"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSQTY]"
+                      dataType="decimal"
+                      name="CSQTY" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSEXPR]"
+                      dataType="decimal"
+                      name="CSEXPR"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSPOVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CSPOVR" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSUPC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="CSUPC#" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSEXDS]"
+                      dataType="decimal"
+                      name="CSEXDS"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRGPR]"
+                      dataType="decimal"
+                      name="CSRGPR"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSRSNC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="CSRSNC" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CEPDPT]"
+                      dataType="decimal"
+                      name="CEPDPT" />
+                    <externalMetadataColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CSDOSP]"
+                      dataType="decimal"
+                      name="CSDOSP" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSTOR]"
+                      name="CSSTOR" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDATE]"
+                      dataType="numeric"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDATE]"
+                      name="CSDATE"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSREG#]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSREG#]"
+                      name="CSREG#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTRN#]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTRN#]"
+                      name="CSTRN#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSEQ#]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSEQ#]"
+                      name="CSSEQ#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTIME]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSTIME]"
+                      name="CSTIME" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDTYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDTYP]"
+                      name="CSDTYP" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSCSH#]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSCSH#]"
+                      name="CSCSH#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSKU#]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSSKU#]"
+                      name="CSSKU#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRETL]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRETL]"
+                      name="CSRETL"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSCOST]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSCOST]"
+                      name="CSCOST"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSQTY]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSQTY]"
+                      name="CSQTY" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXPR]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXPR]"
+                      name="CSEXPR"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSPOVR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSPOVR]"
+                      name="CSPOVR" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSUPC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSUPC#]"
+                      name="CSUPC#" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXDS]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSEXDS]"
+                      name="CSEXDS"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRGPR]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRGPR]"
+                      name="CSRGPR"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRSNC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSRSNC]"
+                      name="CSRSNC" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEPDPT]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CEPDPT]"
+                      name="CEPDPT" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDOSP]"
+                      dataType="decimal"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CSDOSP]"
+                      name="CSDOSP" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Get Cshdet TY.Paths[OLE DB Source Error Output]"
+              endId="Package\Get Cshdet TY\Bad Rows.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Error Output"
+              startId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Error Output]" />
+            <path
+              refId="Package\Get Cshdet TY.Paths[OLE DB Source Output]"
+              endId="Package\Get Cshdet TY\Detail Transaction Raw.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Get Cshdet TY\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Period Begin Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E9834A25-9402-4B0E-A713-826696F1F763}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Period Begin Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{FD47EA7B-4C86-446A-8F1E-CB04CE48D118}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="CurDate">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{2370A4A3-7EFA-4C71-85E9-4ACF43F6BD51}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="Seldate">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_DateToInt(dateadd(dd,-12,getdate())) as SelDate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="SelDate"
+            SQLTask:DtsVariableName="User::PeriodDate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Detail_Transaction_Period"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8E720EAF-889B-4BDD-831C-68AC464B91DF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Detail_Transaction_Period"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1E7138F-0C12-47BB-8202-577CC8341696}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="truncate table Detail_Transaction_Period_Raw&#xA;truncate table wrk_cshdete" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6C47D3BA-F9CC-4338-92F9-40FCDB96F688}"
+      DTS:From="Package\Truncate Detail_Transaction_Period"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Construct Sql" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{24428DD5-D54D-457B-9F6D-25508BFD9E46}"
+      DTS:From="Package\Construct Sql"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Get Cshdet TY" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{828CA75C-3B8A-4268-A093-4672E607B2BC}"
+      DTS:From="Package\Get Period Begin Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Truncate Detail_Transaction_Period" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{46A8BF24-887D-4385-AFAD-1118F421EA5F}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Get Period Begin Date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{7DB7F306-30C6-4030-90F2-F6149D328E20}"
+      DTS:From="Package\Get Cshdet TY"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{7B0F622B-2EF6-4B25-A030-2289F14F69B9}"
+      DTS:From="Package\Build Dest Rows"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Build History" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{9534BC31-46E3-4C2E-B6C8-DFBF66C3293A}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Build Dest Rows" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Build Dest Rows"
+          TopLeft="184.133962264151,95.183018867925" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Build History"
+          TopLeft="183.598113207547,192.707103210066" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Construct Sql"
+          TopLeft="8,85.6" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="184.896226415094,8.66981132075472" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Execute SQL Task"
+          TopLeft="5.5,336.745283018868" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Get Cshdet TY"
+          TopLeft="5.80188679245282,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Period Begin Date"
+          TopLeft="5.53773584905659,253.650943396226" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate Detail_Transaction_Period"
+          TopLeft="6.60188679245282,165.235849056604" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="74.1009433962264,165.235849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-38.035849056604"
+              Start="0,0"
+              End="0,-30.535849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-30.535849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="73.7009433962264,85.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-38.5"
+              Start="0,0"
+              End="0,-31">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-31" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="74.0698113207547,253.650943396226">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-44.415094339622"
+              Start="0,0"
+              End="0,-36.915094339622">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-36.915094339622" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="73.3867924528302,336.745283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.0377358490566024,-39.1698113207547"
+              Start="0,0"
+              End="0.0377358490566024,-31.6698113207547">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-19.5849056603774" />
+                  <mssgle:LineSegment
+                    End="0.0377358490566024,-19.5849056603774" />
+                  <mssgle:LineSegment
+                    End="0.0377358490566024,-31.6698113207547" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="141.801886792453,28.4849056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="43.0943396226412,0"
+              Start="0,0"
+              End="35.5943396226412,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="35.5943396226412,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="251.866037735849,139.183018867925">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.524084342141"
+              Start="0,0"
+              End="0,46.024084342141">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.024084342141" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="252.515094339622,52.6698113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42.5132075471703"
+              Start="0,0"
+              End="0,35.0132075471703">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0132075471703" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="397.8,106" />
+        <NodeLayout
+          Size="180,41.6"
+          Id="Package\Data Flow Task\OLE DB Destination 1"
+          TopLeft="24.3679245283019,99.9150943396226" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="397.8,123.757547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-193.432075471698,0"
+              Start="0,0"
+              End="-185.932075471698,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-185.932075471698,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination 1">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Get Cshdet TY">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Cshdet TY\Detail Transaction Raw"
+          TopLeft="46.4433962264151,205.847169811321" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Cshdet TY\Bad Rows"
+          TopLeft="46.3,95.560377358491" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Get Cshdet TY\OLE DB Source"
+          TopLeft="551.4,178" />
+        <EdgeLayout
+          Id="Package\Get Cshdet TY.Paths[OLE DB Source Output]"
+          TopLeft="551.4,198.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-368.956603773585,29.047169811321"
+              Start="0,0"
+              End="-361.456603773585,29.047169811321">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-180.478301886792,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-180.478301886792,0"
+                    Point2="-184.478301886792,0"
+                    Point3="-184.478301886792,4" />
+                  <mssgle:LineSegment
+                    End="-184.478301886792,25.047169811321" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-184.478301886792,25.047169811321"
+                    Point2="-184.478301886792,29.047169811321"
+                    Point3="-188.478301886792,29.047169811321" />
+                  <mssgle:LineSegment
+                    End="-361.456603773585,29.047169811321" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Get Cshdet TY.Paths[OLE DB Source Error Output]"
+          TopLeft="626.6,178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-512.3,-38.439622641509"
+              Start="0,0"
+              End="-512.3,-30.939622641509">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-15.2198113207545" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-15.2198113207545"
+                    Point2="0,-19.2198113207545"
+                    Point3="-4,-19.2198113207545" />
+                  <mssgle:LineSegment
+                    End="-508.3,-19.2198113207545" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-508.3,-19.2198113207545"
+                    Point2="-512.3,-19.2198113207545"
+                    Point3="-512.3,-23.2198113207545" />
+                  <mssgle:LineSegment
+                    End="-512.3,-30.939622641509" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-319.58390625,-14.2198113207545,126.8678125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get Cshdet TY\Detail Transaction Raw">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get Cshdet TY\Bad Rows">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get Cshdet TY\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

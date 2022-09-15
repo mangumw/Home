@@ -1,0 +1,2233 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/10/2022 11:26:50 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MANGUMW"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{78A9637E-2EC1-43B3-A62A-79D9C4EB304D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_INVMSTE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{2B52993F-E0B6-4C22-8BD9-4A37CE694F1C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{86FB1187-9EC1-462C-B039-67F16182DB61}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVMSTE;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{087ACBEF-CBAF-413E-940A-D6FBEDA6DC32}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 INVMSTE"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 INVMSTE"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT IASNUM AS StyleVendor,
+       ISTYL# AS StyleNumber,
+       INUMBR AS SkuNumber,
+       ICENT AS FirstActivityCentury,
+       CASE ICENT
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(IDATE + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(IDATE, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS FirstActivityDate,
+       IBSPCT AS BackStockPct,
+       IBSQTY AS BackStockQty,
+       ICHORD AS ChainOrder,
+       IPRQTY AS PublisherRunQty,
+       IOPFLG AS OutofPrintTitleFlag,
+       IPLFLG AS PrivateLabelFlag,
+       ISDCDE AS SellDownActivityCode,
+       IMPFLG AS ImportFlag,
+       IMTH AS Method,
+       IMTHPC AS MethodPercent,
+       IPUBC AS PublisherCost,
+       IPBPCT AS PublisherCostPercent,
+       ITMDW AS DWItemnumber,
+       ITMCVT AS Converteditem,
+       ISTSCN AS StatusChangeCentury,
+       CASE ISTSCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(ISTSDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(ISTSDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS StatusChangeDate,
+       ITYPCN AS TypeChangeCentury,
+       CASE ITYPCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(ITYPDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(ITYPDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS TypeChangeDate,
+       IENTCN AS ItemEntryCentury,
+       CASE IENTCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(IENTDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(IENTDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS ItemEntryDate,
+       IMGRUP AS GroupDist,
+       IMLTAD AS LimitAddGroup,
+       IMLOTP AS LOFLAG,
+       IMLOGG AS LOGRPOFGRPS,
+       IMLOST AS LOSTORE,
+       INLORD AS InitialOrderQuantity,
+       IEXRCN AS ExpectedReceiptCentury,
+       CASE IEXRCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(IEXRDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(IEXRDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS ExpectdReceiptDate,
+       INLALC AS InitialAllocQuantity,
+       INLSTR AS InitialStrength,
+       INLSTK AS InitialStockto,
+       IMNTBY AS LastMaintainedby
+    FROM MM4R4LIB.INVMSTE
+    WHERE IDATE = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 INVMSTE.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STYLEVENDOR]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]"
+                      name="STYLEVENDOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]"
+                      name="FIRSTACTIVITYCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]"
+                      name="FIRSTACTIVITYDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKPCT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[BACKSTOCKPCT]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKPCT]"
+                      name="BACKSTOCKPCT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKQTY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[BACKSTOCKQTY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKQTY]"
+                      name="BACKSTOCKQTY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CHAINORDER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[CHAINORDER]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CHAINORDER]"
+                      name="CHAINORDER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERRUNQTY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERRUNQTY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERRUNQTY]"
+                      name="PUBLISHERRUNQTY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[OUTOFPRINTTITLEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[OUTOFPRINTTITLEFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[OUTOFPRINTTITLEFLAG]"
+                      name="OUTOFPRINTTITLEFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PRIVATELABELFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PRIVATELABELFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PRIVATELABELFLAG]"
+                      name="PRIVATELABELFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SELLDOWNACTIVITYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[SELLDOWNACTIVITYCODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SELLDOWNACTIVITYCODE]"
+                      name="SELLDOWNACTIVITYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[IMPORTFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[IMPORTFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[IMPORTFLAG]"
+                      name="IMPORTFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHOD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[METHOD]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHOD]"
+                      name="METHOD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHODPERCENT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[METHODPERCENT]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHODPERCENT]"
+                      name="METHODPERCENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOST]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERCOST]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOST]"
+                      name="PUBLISHERCOST"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOSTPERCENT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERCOSTPERCENT]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOSTPERCENT]"
+                      name="PUBLISHERCOSTPERCENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CONVERTEDITEM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[CONVERTEDITEM]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CONVERTEDITEM]"
+                      name="CONVERTEDITEM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGECENTURY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]"
+                      name="STATUSCHANGECENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGEDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]"
+                      name="STATUSCHANGEDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGECENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[TYPECHANGECENTURY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGECENTURY]"
+                      name="TYPECHANGECENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[TYPECHANGEDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGEDATE]"
+                      name="TYPECHANGEDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[ITEMENTRYCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYCENTURY]"
+                      name="ITEMENTRYCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[ITEMENTRYDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYDATE]"
+                      name="ITEMENTRYDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[GROUPDIST]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[GROUPDIST]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[GROUPDIST]"
+                      name="GROUPDIST"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LIMITADDGROUP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LIMITADDGROUP]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LIMITADDGROUP]"
+                      name="LIMITADDGROUP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOFLAG]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOFLAG]"
+                      name="LOFLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOGRPOFGRPS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOGRPOFGRPS]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOGRPOFGRPS]"
+                      name="LOGRPOFGRPS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOSTORE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOSTORE]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOSTORE]"
+                      name="LOSTORE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALORDERQUANTITY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALORDERQUANTITY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALORDERQUANTITY]"
+                      name="INITIALORDERQUANTITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTEDRECEIPTCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[EXPECTEDRECEIPTCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTEDRECEIPTCENTURY]"
+                      name="EXPECTEDRECEIPTCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTDRECEIPTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[EXPECTDRECEIPTDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTDRECEIPTDATE]"
+                      name="EXPECTDRECEIPTDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALALLOCQUANTITY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALALLOCQUANTITY]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALALLOCQUANTITY]"
+                      name="INITIALALLOCQUANTITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTRENGTH]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALSTRENGTH]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTRENGTH]"
+                      name="INITIALSTRENGTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTOCKTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALSTOCKTO]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTOCKTO]"
+                      name="INITIALSTOCKTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LASTMAINTAINEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LASTMAINTAINEDBY]"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LASTMAINTAINEDBY]"
+                      name="LASTMAINTAINEDBY"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STYLEVENDOR]"
+                      dataType="decimal"
+                      name="STYLEVENDOR" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="STYLENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="decimal"
+                      name="SKUNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      name="FIRSTACTIVITYCENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="FIRSTACTIVITYDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[BACKSTOCKPCT]"
+                      dataType="decimal"
+                      name="BACKSTOCKPCT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[BACKSTOCKQTY]"
+                      dataType="decimal"
+                      name="BACKSTOCKQTY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[CHAINORDER]"
+                      dataType="decimal"
+                      name="CHAINORDER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERRUNQTY]"
+                      dataType="decimal"
+                      name="PUBLISHERRUNQTY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[OUTOFPRINTTITLEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="OUTOFPRINTTITLEFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PRIVATELABELFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PRIVATELABELFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[SELLDOWNACTIVITYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SELLDOWNACTIVITYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[IMPORTFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IMPORTFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[METHOD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="METHOD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[METHODPERCENT]"
+                      dataType="decimal"
+                      name="METHODPERCENT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERCOST]"
+                      dataType="decimal"
+                      name="PUBLISHERCOST"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[PUBLISHERCOSTPERCENT]"
+                      dataType="decimal"
+                      name="PUBLISHERCOSTPERCENT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWITEMNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[CONVERTEDITEM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CONVERTEDITEM" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      name="STATUSCHANGECENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="STATUSCHANGEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[TYPECHANGECENTURY]"
+                      dataType="decimal"
+                      name="TYPECHANGECENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[TYPECHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="TYPECHANGEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[ITEMENTRYCENTURY]"
+                      dataType="decimal"
+                      name="ITEMENTRYCENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[ITEMENTRYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="ITEMENTRYDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[GROUPDIST]"
+                      dataType="decimal"
+                      name="GROUPDIST" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LIMITADDGROUP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="LIMITADDGROUP" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="LOFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOGRPOFGRPS]"
+                      dataType="decimal"
+                      name="LOGRPOFGRPS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LOSTORE]"
+                      dataType="decimal"
+                      name="LOSTORE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALORDERQUANTITY]"
+                      dataType="decimal"
+                      name="INITIALORDERQUANTITY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[EXPECTEDRECEIPTCENTURY]"
+                      dataType="decimal"
+                      name="EXPECTEDRECEIPTCENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[EXPECTDRECEIPTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="EXPECTDRECEIPTDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALALLOCQUANTITY]"
+                      dataType="decimal"
+                      name="INITIALALLOCQUANTITY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALSTRENGTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="INITIALSTRENGTH" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[INITIALSTOCKTO]"
+                      dataType="decimal"
+                      name="INITIALSTOCKTO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].ExternalColumns[LASTMAINTAINEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="LASTMAINTAINEDBY" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STYLEVENDOR]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STYLEVENDOR]"
+                      name="STYLEVENDOR" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYCENTURY]"
+                      name="FIRSTACTIVITYCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[FIRSTACTIVITYDATE]"
+                      name="FIRSTACTIVITYDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[BACKSTOCKPCT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[BACKSTOCKPCT]"
+                      name="BACKSTOCKPCT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[BACKSTOCKQTY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[BACKSTOCKQTY]"
+                      name="BACKSTOCKQTY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[CHAINORDER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[CHAINORDER]"
+                      name="CHAINORDER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERRUNQTY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERRUNQTY]"
+                      name="PUBLISHERRUNQTY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[OUTOFPRINTTITLEFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[OUTOFPRINTTITLEFLAG]"
+                      name="OUTOFPRINTTITLEFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PRIVATELABELFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PRIVATELABELFLAG]"
+                      name="PRIVATELABELFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[SELLDOWNACTIVITYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[SELLDOWNACTIVITYCODE]"
+                      name="SELLDOWNACTIVITYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[IMPORTFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[IMPORTFLAG]"
+                      name="IMPORTFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[METHOD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[METHOD]"
+                      name="METHOD" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[METHODPERCENT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[METHODPERCENT]"
+                      name="METHODPERCENT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERCOST]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERCOST]"
+                      name="PUBLISHERCOST"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERCOSTPERCENT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[PUBLISHERCOSTPERCENT]"
+                      name="PUBLISHERCOSTPERCENT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[CONVERTEDITEM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[CONVERTEDITEM]"
+                      name="CONVERTEDITEM" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGECENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGECENTURY]"
+                      name="STATUSCHANGECENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[STATUSCHANGEDATE]"
+                      name="STATUSCHANGEDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[TYPECHANGECENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[TYPECHANGECENTURY]"
+                      name="TYPECHANGECENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[TYPECHANGEDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[TYPECHANGEDATE]"
+                      name="TYPECHANGEDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ITEMENTRYCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ITEMENTRYCENTURY]"
+                      name="ITEMENTRYCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ITEMENTRYDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ITEMENTRYDATE]"
+                      name="ITEMENTRYDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[GROUPDIST]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[GROUPDIST]"
+                      name="GROUPDIST" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LIMITADDGROUP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LIMITADDGROUP]"
+                      name="LIMITADDGROUP" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOFLAG]"
+                      name="LOFLAG" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOGRPOFGRPS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOGRPOFGRPS]"
+                      name="LOGRPOFGRPS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOSTORE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LOSTORE]"
+                      name="LOSTORE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALORDERQUANTITY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALORDERQUANTITY]"
+                      name="INITIALORDERQUANTITY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[EXPECTEDRECEIPTCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[EXPECTEDRECEIPTCENTURY]"
+                      name="EXPECTEDRECEIPTCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[EXPECTDRECEIPTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[EXPECTDRECEIPTDATE]"
+                      name="EXPECTDRECEIPTDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALALLOCQUANTITY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALALLOCQUANTITY]"
+                      name="INITIALALLOCQUANTITY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALSTRENGTH]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALSTRENGTH]"
+                      name="INITIALSTRENGTH" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALSTOCKTO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[INITIALSTOCKTO]"
+                      name="INITIALSTOCKTO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LASTMAINTAINEDBY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[LASTMAINTAINEDBY]"
+                      name="LASTMAINTAINEDBY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_FirstActivityDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEW_FirstActivityDate"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_FirstActivityDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_StatusChangeDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEW_StatusChangeDate"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_StatusChangeDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_TypeChangeDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEW_TypeChangeDate"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_TypeChangeDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_ItemEntryDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEW_ItemEntryDate"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ItemEntryDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_ExpectedReceiptDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEW_ExpectedReceiptDate"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ExpectedReceiptDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_FirstActivityDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_FirstActivityDate]"
+                      name="ALTERED_NEW_FirstActivityDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_FirstActivityDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_StatusChangeDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_StatusChangeDate]"
+                      name="ALTERED_NEW_StatusChangeDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_StatusChangeDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_TypeChangeDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_TypeChangeDate]"
+                      name="ALTERED_NEW_TypeChangeDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_TypeChangeDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ItemEntryDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ItemEntryDate]"
+                      name="ALTERED_NEW_ItemEntryDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ItemEntryDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ExpectedReceiptDate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ExpectedReceiptDate]"
+                      name="ALTERED_NEW_ExpectedReceiptDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ExpectedReceiptDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[FIRSTACTIVITYDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="FIRSTACTIVITYDATE"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[STATUSCHANGEDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="STATUSCHANGEDATE"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[TYPECHANGEDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="TYPECHANGEDATE"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGEDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[ITEMENTRYDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ITEMENTRYDATE"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[EXPECTDRECEIPTDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="EXPECTDRECEIPTDATE"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTDRECEIPTDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_FirstActivityDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_FirstActivityDate]"
+                      name="NEW_FirstActivityDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]}) ? "1900-01-01" : #{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYDATE]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(FIRSTACTIVITYDATE) ? "1900-01-01" : FIRSTACTIVITYDATE</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_StatusChangeDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_StatusChangeDate]"
+                      name="NEW_StatusChangeDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]}) ? "1900-01-01" : #{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGEDATE]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(STATUSCHANGEDATE) ? "1900-01-01" : STATUSCHANGEDATE</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_TypeChangeDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_TypeChangeDate]"
+                      name="NEW_TypeChangeDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGEDATE]}) ? "1900-01-01" : #{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGEDATE]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(TYPECHANGEDATE) ? "1900-01-01" : TYPECHANGEDATE</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ItemEntryDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ItemEntryDate]"
+                      name="NEW_ItemEntryDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYDATE]}) ? "1900-01-01" : #{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYDATE]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(ITEMENTRYDATE) ? "1900-01-01" : ITEMENTRYDATE</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ExpectedReceiptDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ExpectedReceiptDate]"
+                      name="NEW_ExpectedReceiptDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[ISNULL](#{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTDRECEIPTDATE]}) ? "1900-01-01" : #{Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTDRECEIPTDATE]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL(EXPECTDRECEIPTDATE) ? "1900-01-01" : EXPECTDRECEIPTDATE</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server INVMSTE"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server INVMSTE"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[INVMSTE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server INVMSTE.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[STYLEVENDOR]"
+                      cachedDataType="decimal"
+                      cachedName="STYLEVENDOR"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StyleVendor]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLEVENDOR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[STYLENUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="STYLENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STYLENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SKUNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[FIRSTACTIVITYCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="FIRSTACTIVITYCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityCentury]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[FIRSTACTIVITYCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[BACKSTOCKPCT]"
+                      cachedDataType="decimal"
+                      cachedName="BACKSTOCKPCT"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[BackStockPct]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKPCT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[BACKSTOCKQTY]"
+                      cachedDataType="decimal"
+                      cachedName="BACKSTOCKQTY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[BackStockQty]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[BACKSTOCKQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[CHAINORDER]"
+                      cachedDataType="decimal"
+                      cachedName="CHAINORDER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ChainOrder]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CHAINORDER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[PUBLISHERRUNQTY]"
+                      cachedDataType="decimal"
+                      cachedName="PUBLISHERRUNQTY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherRunQty]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERRUNQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[OUTOFPRINTTITLEFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="OUTOFPRINTTITLEFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[OutofPrintTitleFlag]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[OUTOFPRINTTITLEFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[PRIVATELABELFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="PRIVATELABELFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PrivateLabelFlag]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PRIVATELABELFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[SELLDOWNACTIVITYCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SELLDOWNACTIVITYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[SellDownActivityCode]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[SELLDOWNACTIVITYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[IMPORTFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IMPORTFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ImportFlag]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[IMPORTFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[METHOD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="METHOD"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Method]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHOD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[METHODPERCENT]"
+                      cachedDataType="decimal"
+                      cachedName="METHODPERCENT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[MethodPercent]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[METHODPERCENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[PUBLISHERCOST]"
+                      cachedDataType="decimal"
+                      cachedName="PUBLISHERCOST"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherCost]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOST]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[PUBLISHERCOSTPERCENT]"
+                      cachedDataType="decimal"
+                      cachedName="PUBLISHERCOSTPERCENT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherCostPercent]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[PUBLISHERCOSTPERCENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[DWITEMNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="DWITEMNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[DWItemnumber]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[CONVERTEDITEM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="CONVERTEDITEM"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Converteditem]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[CONVERTEDITEM]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[STATUSCHANGECENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="STATUSCHANGECENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeCentury]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[STATUSCHANGECENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[TYPECHANGECENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="TYPECHANGECENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[TypeChangeCentury]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[TYPECHANGECENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ITEMENTRYCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="ITEMENTRYCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ItemEntryCentury]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[ITEMENTRYCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[GROUPDIST]"
+                      cachedDataType="decimal"
+                      cachedName="GROUPDIST"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[GroupDist]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[GROUPDIST]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[LIMITADDGROUP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="LIMITADDGROUP"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LimitAddGroup]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LIMITADDGROUP]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[LOFLAG]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="LOFLAG"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOFLAG]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOFLAG]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[LOGRPOFGRPS]"
+                      cachedDataType="decimal"
+                      cachedName="LOGRPOFGRPS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOGRPOFGRPS]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOGRPOFGRPS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[LOSTORE]"
+                      cachedDataType="decimal"
+                      cachedName="LOSTORE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOSTORE]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LOSTORE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[INITIALORDERQUANTITY]"
+                      cachedDataType="decimal"
+                      cachedName="INITIALORDERQUANTITY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialOrderQuantity]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALORDERQUANTITY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[EXPECTEDRECEIPTCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="EXPECTEDRECEIPTCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ExpectedReceiptCentury]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[EXPECTEDRECEIPTCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[INITIALALLOCQUANTITY]"
+                      cachedDataType="decimal"
+                      cachedName="INITIALALLOCQUANTITY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialAllocQuantity]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALALLOCQUANTITY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[INITIALSTRENGTH]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="INITIALSTRENGTH"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialStrength]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTRENGTH]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[INITIALSTOCKTO]"
+                      cachedDataType="decimal"
+                      cachedName="INITIALSTOCKTO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialStockto]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[INITIALSTOCKTO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[LASTMAINTAINEDBY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="LASTMAINTAINEDBY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LastMaintainedby]"
+                      lineageId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output].Columns[LASTMAINTAINEDBY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ALTERED_NEW_FirstActivityDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ALTERED_NEW_FirstActivityDate"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_FirstActivityDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ALTERED_NEW_StatusChangeDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ALTERED_NEW_StatusChangeDate"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_StatusChangeDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ALTERED_NEW_TypeChangeDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ALTERED_NEW_TypeChangeDate"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[TypeChangeDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_TypeChangeDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ALTERED_NEW_ItemEntryDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ALTERED_NEW_ItemEntryDate"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ItemEntryDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ItemEntryDate]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].Columns[ALTERED_NEW_ExpectedReceiptDate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ALTERED_NEW_ExpectedReceiptDate"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ExpectdReceiptDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[ALTERED_NEW_ExpectedReceiptDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StyleVendor]"
+                      dataType="i4"
+                      name="StyleVendor" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="StyleNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityCentury]"
+                      dataType="i4"
+                      name="FirstActivityCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[FirstActivityDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="FirstActivityDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[BackStockPct]"
+                      dataType="numeric"
+                      name="BackStockPct"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[BackStockQty]"
+                      dataType="i4"
+                      name="BackStockQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ChainOrder]"
+                      dataType="i4"
+                      name="ChainOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherRunQty]"
+                      dataType="i4"
+                      name="PublisherRunQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[OutofPrintTitleFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="OutofPrintTitleFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PrivateLabelFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="PrivateLabelFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[SellDownActivityCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SellDownActivityCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ImportFlag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ImportFlag" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Method]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Method" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[MethodPercent]"
+                      dataType="numeric"
+                      name="MethodPercent"
+                      precision="10"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherCost]"
+                      dataType="numeric"
+                      name="PublisherCost"
+                      precision="9"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[PublisherCostPercent]"
+                      dataType="numeric"
+                      name="PublisherCostPercent"
+                      precision="10"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[DWItemnumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWItemnumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Converteditem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Converteditem" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeCentury]"
+                      dataType="i4"
+                      name="StatusChangeCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[StatusChangeDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="StatusChangeDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[TypeChangeCentury]"
+                      dataType="i4"
+                      name="TypeChangeCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[TypeChangeDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="TypeChangeDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ItemEntryCentury]"
+                      dataType="i4"
+                      name="ItemEntryCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ItemEntryDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="ItemEntryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[GroupDist]"
+                      dataType="i4"
+                      name="GroupDist" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LimitAddGroup]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="LimitAddGroup" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOFLAG]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="LOFLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOGRPOFGRPS]"
+                      dataType="i4"
+                      name="LOGRPOFGRPS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LOSTORE]"
+                      dataType="i4"
+                      name="LOSTORE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialOrderQuantity]"
+                      dataType="i4"
+                      name="InitialOrderQuantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ExpectedReceiptCentury]"
+                      dataType="i4"
+                      name="ExpectedReceiptCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[ExpectdReceiptDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="ExpectdReceiptDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialAllocQuantity]"
+                      dataType="i4"
+                      name="InitialAllocQuantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialStrength]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="InitialStrength" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[InitialStockto]"
+                      dataType="i4"
+                      name="InitialStockto" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[LastMaintainedby]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="LastMaintainedby" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server INVMSTE.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVMSTE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVMSTE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVMSTE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Data Conversion Output]"
+              endId="Package\Load Data\SQL Server INVMSTE.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 INVMSTE.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge INVMSTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EB550CD9-0D8D-4C22-A2BE-76ED597A97D1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge INVMSTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_INVMSTE;&#xA;      " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate INVMSTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8BEA48B7-34EE-44CE-8EDA-9E81C2538DC4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate INVMSTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.INVMSTE;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1995BA7E-C130-4712-92A4-478CB726B4E1}"
+      DTS:From="Package\Truncate INVMSTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{03BC4D8A-AA58-4BDB-9F60-7271CA7E9D56}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge INVMSTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{9B9FF9FB-BB93-4D67-B5A1-538313604158}"
+      DTS:From="Package\Merge INVMSTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="197,292" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Load Data"
+          TopLeft="213,121" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Merge INVMSTE"
+          TopLeft="193,209" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Truncate INVMSTE"
+          TopLeft="190,40" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="277.5,82">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="276,163">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="275.5,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="191,117" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load Data\Data Conversion"
+          TopLeft="184,196" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Load Data\SQL Server INVMSTE"
+          TopLeft="166,271" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Load Data\AS400 INVMSTE"
+          TopLeft="186,34" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="265.5,76">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="263.75,159">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Data Conversion Output]"
+          TopLeft="262.25,238">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server INVMSTE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 INVMSTE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

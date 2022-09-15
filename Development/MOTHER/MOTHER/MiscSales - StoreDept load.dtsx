@@ -1,0 +1,902 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/21/2008 11:32:17 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG01"
+  DTS:CreatorName="BAM\infausr"
+  DTS:Description="DTS package description"
+  DTS:DTSID="{1F164AD8-D2CB-4703-9E41-B9FE532BA5DE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MiscSales - StoreDept load"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{36356457-AAB1-4751-8BF6-4A62F46A9CAA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F0ABC05D-750E-4168-AE40-CBCD9D5EA59B}"
+      DTS:ObjectName="BAMBIG03.Staging">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMITR05.MiscSales.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{EEEDB863-663A-4B7C-A8CC-EE9791E53361}"
+      DTS:ObjectName="BAMITR05.MiscSales.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BAMITR05MiscSalesInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMITR05;User Id=infausr;Initial Catalog=MiscSales;Provider=SQLOLEDB.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADF8SjasW6BYmYtvtIWuMB+AAAAAASAAACgAAAAEAAAAEtHZV5l7dVqIN4GMvfDqIMYAAAAhN5PmUbrthYcPJ8wfPPkx4HTtgzwyonmFAAAAOSYZsKK3TYV1a3wsE1FYVESdYA9</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F33951BA-00C8-4D9C-B03A-58458EB75B17}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DateFrom">
+      <DTS:VariableValue
+        DTS:DataType="8">20707</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1A6A7EF6-182D-480C-8D33-B6E255A8A35A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DateTo">
+      <DTS:VariableValue
+        DTS:DataType="8">20713</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Clean up 0 sales entries"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Clean up 0 sales entries"
+      DTS:DTSID="{401B167F-21E7-4A3B-9C3B-F8C7BC18760D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clean up 0 sales entries"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{EEEDB863-663A-4B7C-A8CC-EE9791E53361}"
+          SQLTask:SqlStatementSource="DELETE FROM StoreDept WHERE SalesAmt = 0 or SalesUnits = 0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Clear Sort Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Clear Sort Tables"
+      DTS:DTSID="{92FBE506-212D-48A9-9F1B-7008C04EECC0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clear Sort Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{EEEDB863-663A-4B7C-A8CC-EE9791E53361}"
+          SQLTask:SqlStatementSource="Truncate Table RegionSort&#xA;&#xA;Truncate Table DistrictSort&#xA;&#xA;Truncate Table StoreSort&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Clear StoreDept Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Clear StoreDept Table"
+      DTS:DTSID="{E136DD4F-4A8C-4BE6-8458-176DAD25A038}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clear StoreDept Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{EEEDB863-663A-4B7C-A8CC-EE9791E53361}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE StoreDept" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DTSTask_DTSDataPumpTask_1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Load StoreDept from DataMart"
+      DTS:DTSID="{4895C198-6B88-4481-8465-C6C3082B8C64}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DTSTask_DTSDataPumpTask_1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Inputs[Data Conversion Input].Columns[store_number]"
+                      cachedDataType="i4"
+                      cachedName="store_number"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[store_number]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of store_number]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of store_number]"
+                      name="Copy of store_number"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[store_number]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[StoreDept]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMITR05.MiscSales.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMITR05.MiscSales.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dept]"
+                      cachedDataType="numeric"
+                      cachedName="dept"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Dept]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[dept]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of store_number]"
+                      cachedDataType="i2"
+                      cachedName="Copy of store_number"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StoreNo]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of store_number]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[cashier_number]"
+                      cachedDataType="numeric"
+                      cachedName="cashier_number"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[cashier_number]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[units_sold]"
+                      cachedDataType="i4"
+                      cachedName="units_sold"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[units_sold]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ext_price]"
+                      cachedDataType="cy"
+                      cachedName="ext_price"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmt]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[ext_price]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[misc_units_sold]"
+                      cachedDataType="i4"
+                      cachedName="misc_units_sold"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MiscSalesUnits]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_units_sold]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[misc_ext_price]"
+                      cachedDataType="cy"
+                      cachedName="misc_ext_price"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MiscSalesAmt]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_ext_price]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StoreNo]"
+                      dataType="i2"
+                      name="StoreNo" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Dept]"
+                      dataType="i2"
+                      name="Dept" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                      dataType="i4"
+                      name="Cashier" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                      dataType="i4"
+                      name="SalesUnits" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmt]"
+                      dataType="cy"
+                      name="SalesAmt" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MiscSalesUnits]"
+                      dataType="i4"
+                      name="MiscSalesUnits" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MiscSalesAmt]"
+                      dataType="cy"
+                      name="MiscSalesAmt" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[tmp_MiscScan]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">execute usp_Misc_Scans_by_Cashier</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[store_number]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[store_number]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[store_number]"
+                      name="store_number"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[dept]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[dept]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[dept]"
+                      name="dept"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[cashier_number]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[cashier_number]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[cashier_number]"
+                      name="cashier_number"
+                      precision="18"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[units_sold]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[units_sold]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[units_sold]"
+                      name="units_sold"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[ext_price]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ext_price]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[ext_price]"
+                      name="ext_price"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_units_sold]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[misc_units_sold]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_units_sold]"
+                      name="misc_units_sold"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_ext_price]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[misc_ext_price]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[misc_ext_price]"
+                      name="misc_ext_price"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[store_number]"
+                      dataType="i4"
+                      name="store_number" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[dept]"
+                      dataType="numeric"
+                      name="dept"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[cashier_number]"
+                      dataType="numeric"
+                      name="cashier_number"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[units_sold]"
+                      dataType="i4"
+                      name="units_sold" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ext_price]"
+                      dataType="cy"
+                      name="ext_price" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[misc_units_sold]"
+                      dataType="i4"
+                      name="misc_units_sold" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[misc_ext_price]"
+                      dataType="cy"
+                      name="misc_ext_price" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[store_number]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[store_number]"
+                      name="store_number" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[dept]"
+                      dataType="numeric"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[dept]"
+                      name="dept"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[cashier_number]"
+                      dataType="numeric"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[cashier_number]"
+                      name="cashier_number"
+                      precision="18" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[units_sold]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[units_sold]"
+                      name="units_sold" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ext_price]"
+                      dataType="cy"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ext_price]"
+                      name="ext_price" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[misc_units_sold]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[misc_units_sold]"
+                      name="misc_units_sold" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[misc_ext_price]"
+                      dataType="cy"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[misc_ext_price]"
+                      name="misc_ext_price" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DTSTask_DTSDataPumpTask_1.Paths[Data Conversion Output]"
+              endId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\DTSTask_DTSDataPumpTask_1.Paths[OLE DB Source Output]"
+              endId="Package\DTSTask_DTSDataPumpTask_1\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Sort Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Load Sort Tables"
+      DTS:DTSID="{A3D844DB-0DE1-4A26-9ECA-632920E96111}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Sort Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{EEEDB863-663A-4B7C-A8CC-EE9791E53361}"
+          SQLTask:SqlStatementSource="BEGIN TRANSACTION&#xA;&#xA;INSERT INTO RegionSort (Region, AvgPctMiscUnits)&#xA;  SELECT s.Region,&#xA;  cast(sum(sd.MiscSalesUnits) as decimal(8,0))/cast(sum(sd.SalesUnits) as decimal(8,0)) AS '% Misc Sales Units'&#xA;  FROM Finance.dbo.Stores s INNER JOIN StoreDept sd ON&#xA;  s.StoreNo = sd.StoreNo&#xA;  GROUP BY s.Region&#xA;  ORDER BY '% Misc Sales Units' DESC&#xA;&#xA;INSERT INTO DistrictSort (District, AvgPctMiscUnits)&#xA;  SELECT s.District,&#xA;  cast(sum(sd.MiscSalesUnits) as decimal(8,0))/cast(sum(sd.SalesUnits) as decimal(8,0)) AS '% Misc Sales Units'&#xA;  FROM Finance.dbo.Stores s INNER JOIN StoreDept sd ON&#xA;  s.StoreNo = sd.StoreNo&#xA;  GROUP BY s.District&#xA;  ORDER BY '% Misc Sales Units' DESC&#xA;&#xA;INSERT INTO StoreSort (StoreNo, AvgPctMiscUnits)&#xA;  SELECT s.StoreNo,&#xA;  cast(sum(sd.MiscSalesUnits) as decimal(8,0))/cast(sum(sd.SalesUnits) as decimal(8,0)) AS '% Misc Sales Units'&#xA;  FROM Finance.dbo.Stores s INNER JOIN StoreDept sd ON&#xA;  s.StoreNo = sd.StoreNo&#xA;  GROUP BY s.StoreNo&#xA;  ORDER BY '% Misc Sales Units' DESC&#xA;&#xA;COMMIT TRANSACTION&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{131E1CE0-2388-4C57-8426-1FCDDE0C7F80\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{131E1CE0-2388-4C57-8426-1FCDDE0C7F80}"
+      DTS:From="Package\Clean up 0 sales entries"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{131E1CE0-2388-4C57-8426-1FCDDE0C7F80}"
+      DTS:To="Package\Clear Sort Tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{60BCD1E8-8D3B-40B3-B628-4CAB11ECD3A7\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{60BCD1E8-8D3B-40B3-B628-4CAB11ECD3A7}"
+      DTS:From="Package\Clear StoreDept Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{60BCD1E8-8D3B-40B3-B628-4CAB11ECD3A7}"
+      DTS:To="Package\DTSTask_DTSDataPumpTask_1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{8BCD3EB6-DA65-4234-A5CD-000723F817D6\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{8BCD3EB6-DA65-4234-A5CD-000723F817D6}"
+      DTS:From="Package\DTSTask_DTSDataPumpTask_1"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{8BCD3EB6-DA65-4234-A5CD-000723F817D6}"
+      DTS:To="Package\Clean up 0 sales entries" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{DB56A706-2DDE-4487-98A2-BDEAD0B6D690\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{DB56A706-2DDE-4487-98A2-BDEAD0B6D690}"
+      DTS:From="Package\Clear Sort Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{DB56A706-2DDE-4487-98A2-BDEAD0B6D690}"
+      DTS:To="Package\Load Sort Tables" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Clean up 0 sales entries"
+          TopLeft="5.5,168.820754716981" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Clear Sort Tables"
+          TopLeft="6.3,250.481132075472" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Clear StoreDept Table"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_1"
+          TopLeft="5.5,86.5486126440284" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Load Sort Tables"
+          TopLeft="5.5,332.941509433962" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{131E1CE0-2388-4C57-8426-1FCDDE0C7F80\}]"
+          TopLeft="73.9,212.820754716981">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.660377358491"
+              Start="0,0"
+              End="0,30.160377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.160377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{60BCD1E8-8D3B-40B3-B628-4CAB11ECD3A7\}]"
+          TopLeft="73.5,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.0486126440284"
+              Start="0,0"
+              End="0,29.5486126440284">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5486126440284" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{8BCD3EB6-DA65-4234-A5CD-000723F817D6\}]"
+          TopLeft="73.5,130.548612644028">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.2721420729527"
+              Start="0,0"
+              End="0,30.7721420729527">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.7721420729527" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{DB56A706-2DDE-4487-98A2-BDEAD0B6D690\}]"
+          TopLeft="73.9,294.481132075472">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.46037735849"
+              Start="0,0"
+              End="0,30.96037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.96037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination"
+          TopLeft="324.8,184" />
+        <NodeLayout
+          Size="155.2,41.6"
+          Id="Package\DTSTask_DTSDataPumpTask_1\Data Conversion"
+          TopLeft="317.714291124928,43.670588870197" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source"
+          TopLeft="65.5000010217939,5.5" />
+        <EdgeLayout
+          Id="Package\DTSTask_DTSDataPumpTask_1.Paths[OLE DB Source Output]"
+          TopLeft="201.500001021794,27.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="116.214290103134,31.370588870197"
+              Start="0,0"
+              End="108.714290103134,31.370588870197">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="63.1460342818108,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="63.1460342818108,0"
+                    Point2="67.1460342818108,0"
+                    Point3="67.1460342818108,4" />
+                  <mssgle:LineSegment
+                    End="67.1460342818108,27.370588870197" />
+                  <mssgle:CubicBezierSegment
+                    Point1="67.1460342818108,27.370588870197"
+                    Point2="67.1460342818108,31.370588870197"
+                    Point3="71.1460342818108,31.370588870197" />
+                  <mssgle:LineSegment
+                    End="108.714290103134,31.370588870197" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DTSTask_DTSDataPumpTask_1.Paths[Data Conversion Output]"
+          TopLeft="399.257145562464,85.270588870197">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,98.729411129803"
+              Start="0,0"
+              End="0,91.229411129803">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,91.229411129803" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1172 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/16/2022 12:03:03 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{7C545B38-C5B5-449C-A2C8-FD7A7536B73A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_RDI010"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{1B25B2E9-5FC5-4382-9001-59FEC5A76B61}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6476A200-1FD9-4CA2-A954-8997F11A9339}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.RDI010;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{3E2A9BC2-C8C3-4961-A17B-0B3C9E47EB51}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 RDI010"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 RDI010"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT RSSTR AS STORENUMBER,
+       RSSKU AS SKUNUMBER,
+       RSISBN AS PRIMARYISBN,
+       RSDWIN AS DWITEMNUMBER,
+       RSQTY1 AS STOCKTOQTY,
+       RSQTY2 AS ONHANDQTY,
+       RSSTAT AS SKUSTATUSCODE,
+       RSTYPE AS SKUTYPECODE,
+       RSRPCD AS SKUREPLENCODE,
+       to_date(CHAR(RSCDAT), 'YYYYMMDD') AS DATECREATED,
+       RSDEPT AS DEPT,
+       RSSDPT AS SUBDEPT,
+       RSCLAS AS CLASS,
+       RSSCLS AS SUBCLASS,
+       case IMCENT 
+        when 0 then varchar_format(timestamp_format(char(IMDATE+19000000), 'YYYYMMDD'), 'YYYYMMDD')
+        when 1 then varchar_format(timestamp_format(char(LPAD(IMDATE,6,0)),'YYMMDD'),'YYMMDD') end as DateLastMaint
+    FROM MM4R4LIB.RDI010 a
+    INNER JOIN MM4R4LIB.INVMST b
+        ON a.RSSKU = b.INUMBR
+    WHERE IMDATE = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 RDI010.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      precision="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[PRIMARYISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[PRIMARYISBN]"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[PRIMARYISBN]"
+                      name="PRIMARYISBN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[STOCKTOQTY]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]"
+                      name="STOCKTOQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[ONHANDQTY]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[ONHANDQTY]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[ONHANDQTY]"
+                      name="ONHANDQTY"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUSTATUSCODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUSTATUSCODE]"
+                      name="SKUSTATUSCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUTYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUTYPECODE]"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUTYPECODE]"
+                      name="SKUTYPECODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUREPLENCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUREPLENCODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUREPLENCODE]"
+                      name="SKUREPLENCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATECREATED]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DATECREATED]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATECREATED]"
+                      name="DATECREATED"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DEPT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DEPT]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DEPT]"
+                      name="DEPT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBDEPT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPT]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBDEPT]"
+                      name="SUBDEPT"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[CLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[CLASS]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[CLASS]"
+                      name="CLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="numeric"
+                      name="STORENUMBER"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUNUMBER]"
+                      dataType="numeric"
+                      name="SKUNUMBER"
+                      precision="9" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[PRIMARYISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="PRIMARYISBN" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWITEMNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[STOCKTOQTY]"
+                      dataType="numeric"
+                      name="STOCKTOQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[ONHANDQTY]"
+                      dataType="numeric"
+                      name="ONHANDQTY"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKUSTATUSCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUTYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="SKUTYPECODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SKUREPLENCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SKUREPLENCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DATECREATED]"
+                      dataType="dbTimeStamp2"
+                      name="DATECREATED"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DEPT]"
+                      dataType="numeric"
+                      name="DEPT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SUBDEPT]"
+                      dataType="numeric"
+                      name="SUBDEPT"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[CLASS]"
+                      dataType="numeric"
+                      name="CLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[SUBCLASS]"
+                      dataType="numeric"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].ExternalColumns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DATELASTMAINT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUNUMBER]"
+                      name="SKUNUMBER"
+                      precision="9" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[PRIMARYISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[PRIMARYISBN]"
+                      name="PRIMARYISBN" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DWITEMNUMBER]"
+                      name="DWITEMNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[STOCKTOQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[STOCKTOQTY]"
+                      name="STOCKTOQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ONHANDQTY]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ONHANDQTY]"
+                      name="ONHANDQTY"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUSTATUSCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUSTATUSCODE]"
+                      name="SKUSTATUSCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUTYPECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUTYPECODE]"
+                      name="SKUTYPECODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUREPLENCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SKUREPLENCODE]"
+                      name="SKUREPLENCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DATECREATED]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DATECREATED]"
+                      name="DATECREATED"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DEPT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DEPT]"
+                      name="DEPT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SUBDEPT]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SUBDEPT]"
+                      name="SUBDEPT"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[CLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[CLASS]"
+                      name="CLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[SUBCLASS]"
+                      name="SUBCLASS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[DATELASTMAINT]"
+                      name="DATELASTMAINT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[DATECREATED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATECREATED"
+                      cachedScale="7"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATECREATED]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATECREATED]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATECREATED,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(DATELASTMAINT,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server RDI010"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server RDI010"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[RDI010]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server RDI010.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="STORENUMBER"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SKUNUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="SKUNUMBER"
+                      cachedPrecision="9"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[PRIMARYISBN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="PRIMARYISBN"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryISBN]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[PRIMARYISBN]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[DWITEMNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="DWITEMNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DWItemNumber]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DWITEMNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[STOCKTOQTY]"
+                      cachedDataType="numeric"
+                      cachedName="STOCKTOQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[StockToQty]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[STOCKTOQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[ONHANDQTY]"
+                      cachedDataType="numeric"
+                      cachedName="ONHANDQTY"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[OnHandQty]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[ONHANDQTY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SKUSTATUSCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKUSTATUSCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuStatusCode]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUSTATUSCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SKUTYPECODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="SKUTYPECODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuTypeCode]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUTYPECODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SKUREPLENCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SKUREPLENCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuReplenCode]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SKUREPLENCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[DATECREATED]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DATECREATED"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DateCreated]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATECREATED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[DEPT]"
+                      cachedDataType="numeric"
+                      cachedName="DEPT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Dept]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DEPT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SUBDEPT]"
+                      cachedDataType="numeric"
+                      cachedName="SUBDEPT"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SubDept]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBDEPT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[CLASS]"
+                      cachedDataType="numeric"
+                      cachedName="CLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Class]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[CLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[SUBCLASS]"
+                      cachedDataType="numeric"
+                      cachedName="SUBCLASS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[SUBCLASS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].Columns[DATELASTMAINT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="DATELASTMAINT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      lineageId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output].Columns[DATELASTMAINT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      dataType="i4"
+                      name="StoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuNumber]"
+                      dataType="i4"
+                      name="SkuNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryISBN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="PrimaryISBN" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DWItemNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="DWItemNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[StockToQty]"
+                      dataType="i4"
+                      name="StockToQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[OnHandQty]"
+                      dataType="i4"
+                      name="OnHandQty" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuStatusCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuStatusCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuTypeCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="SkuTypeCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SkuReplenCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SkuReplenCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DateCreated]"
+                      dataType="dbTimeStamp"
+                      name="DateCreated" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Dept]"
+                      dataType="i4"
+                      name="Dept" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SubDept]"
+                      dataType="i4"
+                      name="SubDept" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Class]"
+                      dataType="i4"
+                      name="Class" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[SubClass]"
+                      dataType="i4"
+                      name="SubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input].ExternalColumns[DateLastMaint]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="DateLastMaint" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server RDI010.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server RDI010.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server RDI010.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server RDI010.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server RDI010.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 RDI010.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge RDI010"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{559761DA-8F7F-4278-A0CF-C4AB9FE61A1C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge RDI010"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_RDI010;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate RDI010"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3E772DC4-F9F5-4E24-97E8-B2584428859C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate RDI010"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.RDI010;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BA83C9C4-D11D-4A98-B9F7-2461FF9607A8}"
+      DTS:From="Package\Truncate RDI010"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{BF1D5C08-3F8E-4221-9B22-F953CB29EC3A}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge RDI010" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{F0695C50-0327-4537-97FF-EB98E50044AE}"
+      DTS:From="Package\Merge RDI010"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="203,267" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="214,115" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Merge RDI010"
+          TopLeft="205,193" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Truncate RDI010"
+          TopLeft="199,32" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="278,74">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="278,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="279.5,235">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="230,115" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Load Data\AS400 RDI010"
+          TopLeft="226,40" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Data\SQL Server RDI010"
+          TopLeft="213,194" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="300,82">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="299.25,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 RDI010">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server RDI010">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

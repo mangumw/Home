@@ -1,0 +1,2234 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/5/2022 10:10:42 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MANGUMW"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{E5E7F4F2-9DA8-470C-8B98-142A967D6A59}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_TRFHDR"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{3C362B57-D24F-46D8-9A22-8DAD7DAA3889}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C8C04DA6-EE22-4CC2-8343-1E4618F13D24}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.TRFHDR" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{39E350DB-62B1-4811-B127-4166F2FA1819}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 TRFHDR"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 TRFHDR"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT TRFBCH AS TransferBatchNumber,
+       TRFSTS AS TransferStatusOptions,
+       TRFTYP AS TransferType,
+       TRFPTY AS TransferPriorityCodes,
+       TRFFLC AS FromStoreorWarehouse,
+       TRFTLC AS ToStoreorWarehouse,
+       TRFICN AS InitiationDateCenturyCode,
+--       to_date(CHAR(LPAD(TRFIDT, 6, 0)), 'YYMMDD') as InitiationDate,
+       CASE TRFICN
+           WHEN 0 THEN DATE(TIMESTAMP_FORMAT(CHAR(TRFIDT + 19000000), 'YYYYMMDD'))
+           WHEN 1 THEN to_date(CHAR(LPAD(TRFIDT, 6, 0)), 'YYMMDD')
+       END AS InitiationDate,
+       TRFBCN AS ShipbyDateCenturyCode,
+       CASE TRFBCN
+           WHEN 0 THEN DATE(TIMESTAMP_FORMAT(CHAR(TRFBDT + 19000000), 'YYYYMMDD'))
+           WHEN 1 THEN to_date(CHAR(LPAD(TRFBDT, 6, 0)), 'YYMMDD')
+       END AS ShipbyDate,
+--       to_date(CHAR(LPAD(TRFBDT, 6, 0)), 'YYMMDD') AS ShipByDate,
+       TRFSCN AS ShippingDateCenturyCode,
+       CASE TRFSCN
+           WHEN 0 THEN DATE(TIMESTAMP_FORMAT(CHAR(TRFSDT + 19000000), 'YYYYMMDD'))
+           WHEN 1 THEN to_date(CHAR(LPAD(TRFSDT, 6, 0)), 'YYMMDD')
+       END AS ShippingDate,
+--       to_date(CHAR(LPAD(TRFSDT, 6, 0)), 'YYMMDD') AS ShippingDate,
+       TRFRCN AS ReceivingDateCenturyCode,
+       CASE TRFRCN
+           WHEN 0 THEN DATE(TIMESTAMP_FORMAT(CHAR(TRFRDT + 19000000), 'YYYYMMDD'))
+           WHEN 1 THEN to_date(CHAR(LPAD(TRFRDT, 6, 0)), 'YYMMDD')
+       END AS RecvDate,
+       TRFINS AS SpecialInstructionsLine,
+       TRFDLC AS DefaultWarehouseSlot,
+       TRFREF AS TransferReferenceNumberPONumberWONumber,
+       TRFPYN AS ShippingDocumentPrinted,
+       TRINIT AS TransferInitiatedByCode,
+       TRFPO# AS PurchaseOrderNumber,
+       TRFBO# AS PurchaseOrderBackOrder,
+       THTUNT AS TotalUnitsRequestedforallDetail,
+       THTPCK AS TotalPicksRequestedforallDetail,
+       THTPLT AS TotalPalletsRequestforallDetail,
+       THTCTN AS TotalCartonsRequestedforallDetail,
+       THTIPK AS TotalInnerPacksRequestedforallDetail,
+       THTRTA AS TotalRetailValueofallDetailLines,
+       THTCST AS TotalCostValueofallDetailLines,
+       THTCUB AS TotalCubeMeasureofallDetailLines,
+       THTUNP AS TotalUnitsPickedofallDetail,
+       THTPLP AS TotalPalletsPickedofallDetail,
+       THTCTP AS TotalCartonsPickedofallDetail,
+       THTIPP AS TotalInnerPacksPickedofallDetail,
+       THTRTP AS TotalRetailValueofallallPickedDetailLines,
+       THTCSP AS TotalCostValueofallPickedDetailLines,
+       THTPCU AS TotalCubicMeasureofallPickedDetailLines,
+       TRPKLN AS TransferLinestoPick,
+       THCYCL AS WarehouseCycleNumber,
+       THSCWV AS ScheduleWaveNumber,
+       THSCSQ AS ScheduleWaveSequence,
+       THSCNM AS ScheduleName,
+       TRFXRF AS TransferXRef,
+       THCNYN AS ConsolidateTransfer
+    FROM MM4R4LIB.TRFHDR
+    WHERE TRFIDT = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 TRFHDR.Connections[OleDbConnection]"
+                  connectionManagerID="{C4C0C6CD-41CC-4D84-A55A-0DA6496CA1FA}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400.BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERBATCHNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERBATCHNUMBER]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERBATCHNUMBER]"
+                      name="TRANSFERBATCHNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERSTATUSOPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERSTATUSOPTIONS]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERSTATUSOPTIONS]"
+                      name="TRANSFERSTATUSOPTIONS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERTYPE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERTYPE]"
+                      name="TRANSFERTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERPRIORITYCODES]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERPRIORITYCODES]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERPRIORITYCODES]"
+                      name="TRANSFERPRIORITYCODES"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[FROMSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[FROMSTOREORWAREHOUSE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[FROMSTOREORWAREHOUSE]"
+                      name="FROMSTOREORWAREHOUSE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOSTOREORWAREHOUSE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOSTOREORWAREHOUSE]"
+                      name="TOSTOREORWAREHOUSE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATECENTURYCODE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[INITIATIONDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATECENTURYCODE]"
+                      name="INITIATIONDATECENTURYCODE"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[INITIATIONDATE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATE]"
+                      name="INITIATIONDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATECENTURYCODE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPBYDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATECENTURYCODE]"
+                      name="SHIPBYDATECENTURYCODE"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPBYDATE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATE]"
+                      name="SHIPBYDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATECENTURYCODE]"
+                      name="SHIPPINGDATECENTURYCODE"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDATE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATE]"
+                      name="SHIPPINGDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECEIVINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[RECEIVINGDATECENTURYCODE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECEIVINGDATECENTURYCODE]"
+                      name="RECEIVINGDATECENTURYCODE"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECVDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[RECVDATE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECVDATE]"
+                      name="RECVDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SPECIALINSTRUCTIONSLINE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SPECIALINSTRUCTIONSLINE]"
+                      length="30"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SPECIALINSTRUCTIONSLINE]"
+                      name="SPECIALINSTRUCTIONSLINE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[DEFAULTWAREHOUSESLOT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[DEFAULTWAREHOUSESLOT]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[DEFAULTWAREHOUSESLOT]"
+                      name="DEFAULTWAREHOUSESLOT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      name="TRANSFERREFERENCENUMBERPONUMBERWONUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDOCUMENTPRINTED]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDOCUMENTPRINTED]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDOCUMENTPRINTED]"
+                      name="SHIPPINGDOCUMENTPRINTED"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERINITIATEDBYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERINITIATEDBYCODE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERINITIATEDBYCODE]"
+                      name="TRANSFERINITIATEDBYCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[PURCHASEORDERNUMBER]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERNUMBER]"
+                      name="PURCHASEORDERNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERBACKORDER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[PURCHASEORDERBACKORDER]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERBACKORDER]"
+                      name="PURCHASEORDERBACKORDER"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      name="TOTALUNITSREQUESTEDFORALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      name="TOTALPICKSREQUESTEDFORALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      name="TOTALPALLETSREQUESTFORALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      name="TOTALCARTONSREQUESTEDFORALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      name="TOTALINNERPACKSREQUESTEDFORALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      name="TOTALRETAILVALUEOFALLDETAILLINES"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      name="TOTALCOSTVALUEOFALLDETAILLINES"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      name="TOTALCUBEMEASUREOFALLDETAILLINES"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      name="TOTALUNITSPICKEDOFALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      name="TOTALPALLETSPICKEDOFALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      name="TOTALCARTONSPICKEDOFALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      name="TOTALINNERPACKSPICKEDOFALLDETAIL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      name="TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      name="TOTALCOSTVALUEOFALLPICKEDDETAILLINES"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      name="TOTALCUBICMEASUREOFALLPICKEDDETAILLINES"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERLINESTOPICK]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERLINESTOPICK]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERLINESTOPICK]"
+                      name="TRANSFERLINESTOPICK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[WAREHOUSECYCLENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[WAREHOUSECYCLENUMBER]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[WAREHOUSECYCLENUMBER]"
+                      name="WAREHOUSECYCLENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVENUMBER]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULEWAVENUMBER]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVENUMBER]"
+                      name="SCHEDULEWAVENUMBER"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVESEQUENCE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULEWAVESEQUENCE]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVESEQUENCE]"
+                      name="SCHEDULEWAVESEQUENCE"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULENAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULENAME]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULENAME]"
+                      name="SCHEDULENAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERXREF]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERXREF]"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERXREF]"
+                      name="TRANSFERXREF"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[CONSOLIDATETRANSFER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[CONSOLIDATETRANSFER]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[CONSOLIDATETRANSFER]"
+                      name="CONSOLIDATETRANSFER"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERBATCHNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TRANSFERBATCHNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERSTATUSOPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TRANSFERSTATUSOPTIONS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TRANSFERTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERPRIORITYCODES]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TRANSFERPRIORITYCODES" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[FROMSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      name="FROMSTOREORWAREHOUSE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      name="TOSTOREORWAREHOUSE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[INITIATIONDATECENTURYCODE]"
+                      dataType="numeric"
+                      name="INITIATIONDATECENTURYCODE"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[INITIATIONDATE]"
+                      dataType="dbTimeStamp2"
+                      name="INITIATIONDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPBYDATECENTURYCODE]"
+                      dataType="numeric"
+                      name="SHIPBYDATECENTURYCODE"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPBYDATE]"
+                      dataType="dbTimeStamp2"
+                      name="SHIPBYDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      name="SHIPPINGDATECENTURYCODE"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDATE]"
+                      dataType="dbTimeStamp2"
+                      name="SHIPPINGDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[RECEIVINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      name="RECEIVINGDATECENTURYCODE"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[RECVDATE]"
+                      dataType="dbTimeStamp2"
+                      name="RECVDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SPECIALINSTRUCTIONSLINE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SPECIALINSTRUCTIONSLINE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[DEFAULTWAREHOUSESLOT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="DEFAULTWAREHOUSESLOT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TRANSFERREFERENCENUMBERPONUMBERWONUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SHIPPINGDOCUMENTPRINTED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="SHIPPINGDOCUMENTPRINTED" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERINITIATEDBYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TRANSFERINITIATEDBYCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[PURCHASEORDERNUMBER]"
+                      dataType="decimal"
+                      name="PURCHASEORDERNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[PURCHASEORDERBACKORDER]"
+                      dataType="numeric"
+                      name="PURCHASEORDERBACKORDER"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALUNITSREQUESTEDFORALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALPICKSREQUESTEDFORALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALPALLETSREQUESTFORALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALCARTONSREQUESTEDFORALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALINNERPACKSREQUESTEDFORALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALRETAILVALUEOFALLDETAILLINES"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALCOSTVALUEOFALLDETAILLINES"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALCUBEMEASUREOFALLDETAILLINES"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALUNITSPICKEDOFALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALPALLETSPICKEDOFALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALCARTONSPICKEDOFALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      name="TOTALINNERPACKSPICKEDOFALLDETAIL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALCOSTVALUEOFALLPICKEDDETAILLINES"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      name="TOTALCUBICMEASUREOFALLPICKEDDETAILLINES"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERLINESTOPICK]"
+                      dataType="decimal"
+                      name="TRANSFERLINESTOPICK" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[WAREHOUSECYCLENUMBER]"
+                      dataType="decimal"
+                      name="WAREHOUSECYCLENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULEWAVENUMBER]"
+                      dataType="numeric"
+                      name="SCHEDULEWAVENUMBER"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULEWAVESEQUENCE]"
+                      dataType="numeric"
+                      name="SCHEDULEWAVESEQUENCE"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[SCHEDULENAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SCHEDULENAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[TRANSFERXREF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TRANSFERXREF" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].ExternalColumns[CONSOLIDATETRANSFER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CONSOLIDATETRANSFER" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERBATCHNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERBATCHNUMBER]"
+                      name="TRANSFERBATCHNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERSTATUSOPTIONS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERSTATUSOPTIONS]"
+                      name="TRANSFERSTATUSOPTIONS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERTYPE]"
+                      name="TRANSFERTYPE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERPRIORITYCODES]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERPRIORITYCODES]"
+                      name="TRANSFERPRIORITYCODES" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[FROMSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[FROMSTOREORWAREHOUSE]"
+                      name="FROMSTOREORWAREHOUSE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOSTOREORWAREHOUSE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOSTOREORWAREHOUSE]"
+                      name="TOSTOREORWAREHOUSE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[INITIATIONDATECENTURYCODE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[INITIATIONDATECENTURYCODE]"
+                      name="INITIATIONDATECENTURYCODE"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[INITIATIONDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[INITIATIONDATE]"
+                      name="INITIATIONDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPBYDATECENTURYCODE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPBYDATECENTURYCODE]"
+                      name="SHIPBYDATECENTURYCODE"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPBYDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPBYDATE]"
+                      name="SHIPBYDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDATECENTURYCODE]"
+                      name="SHIPPINGDATECENTURYCODE"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDATE]"
+                      name="SHIPPINGDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[RECEIVINGDATECENTURYCODE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[RECEIVINGDATECENTURYCODE]"
+                      name="RECEIVINGDATECENTURYCODE"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[RECVDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[RECVDATE]"
+                      name="RECVDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SPECIALINSTRUCTIONSLINE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SPECIALINSTRUCTIONSLINE]"
+                      name="SPECIALINSTRUCTIONSLINE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[DEFAULTWAREHOUSESLOT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[DEFAULTWAREHOUSESLOT]"
+                      name="DEFAULTWAREHOUSESLOT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      name="TRANSFERREFERENCENUMBERPONUMBERWONUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDOCUMENTPRINTED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SHIPPINGDOCUMENTPRINTED]"
+                      name="SHIPPINGDOCUMENTPRINTED" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERINITIATEDBYCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERINITIATEDBYCODE]"
+                      name="TRANSFERINITIATEDBYCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[PURCHASEORDERNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[PURCHASEORDERNUMBER]"
+                      name="PURCHASEORDERNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[PURCHASEORDERBACKORDER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[PURCHASEORDERBACKORDER]"
+                      name="PURCHASEORDERBACKORDER"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      name="TOTALUNITSREQUESTEDFORALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      name="TOTALPICKSREQUESTEDFORALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      name="TOTALPALLETSREQUESTFORALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      name="TOTALCARTONSREQUESTEDFORALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      name="TOTALINNERPACKSREQUESTEDFORALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      name="TOTALRETAILVALUEOFALLDETAILLINES"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      name="TOTALCOSTVALUEOFALLDETAILLINES"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      name="TOTALCUBEMEASUREOFALLDETAILLINES"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      name="TOTALUNITSPICKEDOFALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      name="TOTALPALLETSPICKEDOFALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      name="TOTALCARTONSPICKEDOFALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      name="TOTALINNERPACKSPICKEDOFALLDETAIL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      name="TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      name="TOTALCOSTVALUEOFALLPICKEDDETAILLINES"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      name="TOTALCUBICMEASUREOFALLPICKEDDETAILLINES"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERLINESTOPICK]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERLINESTOPICK]"
+                      name="TRANSFERLINESTOPICK" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[WAREHOUSECYCLENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[WAREHOUSECYCLENUMBER]"
+                      name="WAREHOUSECYCLENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULEWAVENUMBER]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULEWAVENUMBER]"
+                      name="SCHEDULEWAVENUMBER"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULEWAVESEQUENCE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULEWAVESEQUENCE]"
+                      name="SCHEDULEWAVESEQUENCE"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULENAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[SCHEDULENAME]"
+                      name="SCHEDULENAME" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERXREF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[TRANSFERXREF]"
+                      name="TRANSFERXREF" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[CONSOLIDATETRANSFER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[CONSOLIDATETRANSFER]"
+                      name="CONSOLIDATETRANSFER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[INITIATIONDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="INITIATIONDATE"
+                      cachedScale="7"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[SHIPBYDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="SHIPBYDATE"
+                      cachedScale="7"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[SHIPPINGDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="SHIPPINGDATE"
+                      cachedScale="7"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input].Columns[RECVDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="RECVDATE"
+                      cachedScale="7"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECVDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_INITIATIONDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_INITIATIONDATE]"
+                      name="NEW_INITIATIONDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPBYDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPBYDATE]"
+                      name="NEW_SHIPBYDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPPINGDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPPINGDATE]"
+                      name="NEW_SHIPPINGDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_RECVDATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_RECVDATE]"
+                      name="NEW_RECVDATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECVDATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server TRFHDR"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server TRFHDR"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[TRFHDR]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server TRFHDR.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERBATCHNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="TRANSFERBATCHNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferBatchNumber]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERBATCHNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERSTATUSOPTIONS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="TRANSFERSTATUSOPTIONS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferStatusOptions]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERSTATUSOPTIONS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="TRANSFERTYPE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferType]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERTYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERPRIORITYCODES]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="TRANSFERPRIORITYCODES"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferPriorityCodes]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERPRIORITYCODES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[FROMSTOREORWAREHOUSE]"
+                      cachedDataType="decimal"
+                      cachedName="FROMSTOREORWAREHOUSE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[FromStoreorWarehouse]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[FROMSTOREORWAREHOUSE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOSTOREORWAREHOUSE]"
+                      cachedDataType="decimal"
+                      cachedName="TOSTOREORWAREHOUSE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ToStoreorWarehouse]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOSTOREORWAREHOUSE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[INITIATIONDATECENTURYCODE]"
+                      cachedDataType="numeric"
+                      cachedName="INITIATIONDATECENTURYCODE"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[InitiationDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[INITIATIONDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SHIPBYDATECENTURYCODE]"
+                      cachedDataType="numeric"
+                      cachedName="SHIPBYDATECENTURYCODE"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShipbyDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPBYDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SHIPPINGDATECENTURYCODE]"
+                      cachedDataType="numeric"
+                      cachedName="SHIPPINGDATECENTURYCODE"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[RECEIVINGDATECENTURYCODE]"
+                      cachedDataType="numeric"
+                      cachedName="RECEIVINGDATECENTURYCODE"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ReceivingDateCenturyCode]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[RECEIVINGDATECENTURYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SPECIALINSTRUCTIONSLINE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="SPECIALINSTRUCTIONSLINE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[SpecialInstructionsLine]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SPECIALINSTRUCTIONSLINE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[DEFAULTWAREHOUSESLOT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="DEFAULTWAREHOUSESLOT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[DefaultWarehouseSlot]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[DEFAULTWAREHOUSESLOT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="TRANSFERREFERENCENUMBERPONUMBERWONUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferReferenceNumberPONumberWONumber]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERREFERENCENUMBERPONUMBERWONUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SHIPPINGDOCUMENTPRINTED]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="SHIPPINGDOCUMENTPRINTED"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDocumentPrinted]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SHIPPINGDOCUMENTPRINTED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERINITIATEDBYCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="TRANSFERINITIATEDBYCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferInitiatedByCode]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERINITIATEDBYCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[PURCHASEORDERNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="PURCHASEORDERNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderNumber]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[PURCHASEORDERBACKORDER]"
+                      cachedDataType="numeric"
+                      cachedName="PURCHASEORDERBACKORDER"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderBackOrder]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[PURCHASEORDERBACKORDER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALUNITSREQUESTEDFORALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalUnitsRequestedforallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSREQUESTEDFORALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALPICKSREQUESTEDFORALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPicksRequestedforallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPICKSREQUESTEDFORALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALPALLETSREQUESTFORALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALPALLETSREQUESTFORALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPalletsRequestforallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSREQUESTFORALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCARTONSREQUESTEDFORALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCartonsRequestedforallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSREQUESTEDFORALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALINNERPACKSREQUESTEDFORALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalInnerPacksRequestedforallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSREQUESTEDFORALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALRETAILVALUEOFALLDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALRETAILVALUEOFALLDETAILLINES"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalRetailValueofallDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCOSTVALUEOFALLDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCOSTVALUEOFALLDETAILLINES"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostValueofallDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCUBEMEASUREOFALLDETAILLINES"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCubeMeasureofallDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBEMEASUREOFALLDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALUNITSPICKEDOFALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALUNITSPICKEDOFALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalUnitsPickedofallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALUNITSPICKEDOFALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALPALLETSPICKEDOFALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALPALLETSPICKEDOFALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPalletsPickedofallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALPALLETSPICKEDOFALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCARTONSPICKEDOFALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCARTONSPICKEDOFALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCartonsPickedofallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCARTONSPICKEDOFALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALINNERPACKSPICKEDOFALLDETAIL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalInnerPacksPickedofallDetail]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALINNERPACKSPICKEDOFALLDETAIL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalRetailValueofallallPickedDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALRETAILVALUEOFALLALLPICKEDDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCOSTVALUEOFALLPICKEDDETAILLINES"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostValueofallPickedDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCOSTVALUEOFALLPICKEDDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]"
+                      cachedDataType="decimal"
+                      cachedName="TOTALCUBICMEASUREOFALLPICKEDDETAILLINES"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCubicMeasureofallPickedDetailLines]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TOTALCUBICMEASUREOFALLPICKEDDETAILLINES]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERLINESTOPICK]"
+                      cachedDataType="decimal"
+                      cachedName="TRANSFERLINESTOPICK"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferLinestoPick]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERLINESTOPICK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[WAREHOUSECYCLENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="WAREHOUSECYCLENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[WarehouseCycleNumber]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[WAREHOUSECYCLENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SCHEDULEWAVENUMBER]"
+                      cachedDataType="numeric"
+                      cachedName="SCHEDULEWAVENUMBER"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleWaveNumber]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SCHEDULEWAVESEQUENCE]"
+                      cachedDataType="numeric"
+                      cachedName="SCHEDULEWAVESEQUENCE"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleWaveSequence]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULEWAVESEQUENCE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[SCHEDULENAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="SCHEDULENAME"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleName]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[SCHEDULENAME]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[TRANSFERXREF]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="TRANSFERXREF"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferXRef]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[TRANSFERXREF]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[CONSOLIDATETRANSFER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="CONSOLIDATETRANSFER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ConsolidateTransfer]"
+                      lineageId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output].Columns[CONSOLIDATETRANSFER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[NEW_RECVDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="NEW_RECVDATE"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[RecvDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_RECVDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[NEW_INITIATIONDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="NEW_INITIATIONDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[InitiationDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_INITIATIONDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[NEW_SHIPBYDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="NEW_SHIPBYDATE"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShipbyDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPBYDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].Columns[NEW_SHIPPINGDATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="NEW_SHIPPINGDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDate]"
+                      lineageId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_SHIPPINGDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferBatchNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TransferBatchNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferStatusOptions]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TransferStatusOptions" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TransferType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferPriorityCodes]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TransferPriorityCodes" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[FromStoreorWarehouse]"
+                      dataType="i4"
+                      name="FromStoreorWarehouse" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ToStoreorWarehouse]"
+                      dataType="i4"
+                      name="ToStoreorWarehouse" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[InitiationDateCenturyCode]"
+                      dataType="i4"
+                      name="InitiationDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[InitiationDate]"
+                      dataType="dbTimeStamp"
+                      name="InitiationDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShipbyDateCenturyCode]"
+                      dataType="i4"
+                      name="ShipbyDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShipbyDate]"
+                      dataType="dbTimeStamp"
+                      name="ShipbyDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDateCenturyCode]"
+                      dataType="i4"
+                      name="ShippingDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDate]"
+                      dataType="dbTimeStamp"
+                      name="ShippingDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ReceivingDateCenturyCode]"
+                      dataType="i4"
+                      name="ReceivingDateCenturyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[RecvDate]"
+                      dataType="dbTimeStamp"
+                      name="RecvDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[SpecialInstructionsLine]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SpecialInstructionsLine" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[DefaultWarehouseSlot]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="DefaultWarehouseSlot" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferReferenceNumberPONumberWONumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TransferReferenceNumberPONumberWONumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ShippingDocumentPrinted]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ShippingDocumentPrinted" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferInitiatedByCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="TransferInitiatedByCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderNumber]"
+                      dataType="i4"
+                      name="PurchaseOrderNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderBackOrder]"
+                      dataType="i4"
+                      name="PurchaseOrderBackOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalUnitsRequestedforallDetail]"
+                      dataType="i4"
+                      name="TotalUnitsRequestedforallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPicksRequestedforallDetail]"
+                      dataType="i4"
+                      name="TotalPicksRequestedforallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPalletsRequestforallDetail]"
+                      dataType="i4"
+                      name="TotalPalletsRequestforallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCartonsRequestedforallDetail]"
+                      dataType="i4"
+                      name="TotalCartonsRequestedforallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalInnerPacksRequestedforallDetail]"
+                      dataType="i4"
+                      name="TotalInnerPacksRequestedforallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalRetailValueofallDetailLines]"
+                      dataType="numeric"
+                      name="TotalRetailValueofallDetailLines"
+                      precision="11"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostValueofallDetailLines]"
+                      dataType="numeric"
+                      name="TotalCostValueofallDetailLines"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCubeMeasureofallDetailLines]"
+                      dataType="numeric"
+                      name="TotalCubeMeasureofallDetailLines"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalUnitsPickedofallDetail]"
+                      dataType="i4"
+                      name="TotalUnitsPickedofallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalPalletsPickedofallDetail]"
+                      dataType="i4"
+                      name="TotalPalletsPickedofallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCartonsPickedofallDetail]"
+                      dataType="i4"
+                      name="TotalCartonsPickedofallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalInnerPacksPickedofallDetail]"
+                      dataType="i4"
+                      name="TotalInnerPacksPickedofallDetail" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalRetailValueofallallPickedDetailLines]"
+                      dataType="numeric"
+                      name="TotalRetailValueofallallPickedDetailLines"
+                      precision="11"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostValueofallPickedDetailLines]"
+                      dataType="numeric"
+                      name="TotalCostValueofallPickedDetailLines"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TotalCubicMeasureofallPickedDetailLines]"
+                      dataType="numeric"
+                      name="TotalCubicMeasureofallPickedDetailLines"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferLinestoPick]"
+                      dataType="i4"
+                      name="TransferLinestoPick" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[WarehouseCycleNumber]"
+                      dataType="i4"
+                      name="WarehouseCycleNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleWaveNumber]"
+                      dataType="i4"
+                      name="ScheduleWaveNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleWaveSequence]"
+                      dataType="i4"
+                      name="ScheduleWaveSequence" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ScheduleName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ScheduleName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[TransferXRef]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="TransferXRef" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[ConsolidateTransfer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ConsolidateTransfer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp2"
+                      name="Last_Modified"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server TRFHDR.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server TRFHDR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server TRFHDR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server TRFHDR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Data Conversion Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Data\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server TRFHDR.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 TRFHDR.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge TRFHDR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D1ACF7BA-4736-4DAC-B43E-E94004826F5C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge TRFHDR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_TRFHDR" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate TRFHDR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EA132829-E4F3-4423-8D6D-4EAF64A01A55}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate TRFHDR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.TRFHDR;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{EB4CBCAB-8622-4478-9A66-C8F16A908C5C}"
+      DTS:From="Package\Truncate TRFHDR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D64BE2BC-C1D9-4940-9D72-F5CDF0F016BF}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge TRFHDR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{95942DC9-1459-43A3-BAD5-BC503301AC4F}"
+      DTS:From="Package\Merge TRFHDR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="184,298" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Load Data"
+          TopLeft="205,122" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Merge TRFHDR"
+          TopLeft="184,209" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Truncate TRFHDR"
+          TopLeft="190,32" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="272.75,74">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="266.5,164">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="263.5,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load Data\Data Conversion"
+          TopLeft="170,103" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Load Data\SQL Server TRFHDR"
+          TopLeft="157,250" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Load Data\AS400 TRFHDR"
+          TopLeft="173,25" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="176,176" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="251.75,67">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="248.5,218">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Data Conversion Output]"
+          TopLeft="249.25,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server TRFHDR">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 TRFHDR">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

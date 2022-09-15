@@ -1,0 +1,2733 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/21/2007 2:56:06 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG1"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{E4F5E244-ACA8-4FBA-806E-7B0072536090}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_ORDERS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="53"
+  DTS:VersionGUID="{32A796D8-78BE-4DEA-B16D-A6586DF5B2A4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{9FBA4352-C9EA-4532-974C-82D4742FC874}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA1B9Gnbvf/oz37oW6CjxEAAAAAAASAAACgAAAAEAAAAP8j9B8mH6vp6EyAzd2AILEYAAAADyQpBVqG61J9fNtjzPBXpDDSdPDe9OcEFAAAAGPAeIdIVAvjXiGXFOJjT1EaJTvw</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{75C72FCE-1541-4C0D-A1DA-7A0882ED1D5D}"
+      DTS:ObjectName="bambig03.Reference.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03ReferenceInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bambig03;Initial Catalog=Reference;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E0142F4F-0FE4-4FCC-ACF2-197E06D14784}"
+      DTS:ObjectName="BKL400.BKL400QSYS2.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400QSYS2_DB2AS400_Infausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2D8DD232-7D67-4E15-9BA7-6F83B9137C38}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sqlHSDET">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT T2.odcsno,t2.odcono,t2.odorno,t2.odorgn,t2.odorsq,t2.odlitp,t2.odortp,t2.oDitno,t2.oditd1,t2.oditd2,t2.odqtor,t2.odqtsh,t2.odboqt,t2.oditcl,t2.oditsc,t2.odlspr,t2.odaslp,t2.odlnam,t2.odsyam,t2.odcavc,t2.odlnvl,t2.odcstx from aplus2faw.orhed t1, aplus2faw.ordet t2 where t2.oditcl in ('51','52','53','54','57','61','62','63','64','65','70','72','73') and t2.oditsc = 'SS' and t2.odcsno = t1.ohcsno and t2.odcono = t1.ohcono and t2.odorno = t1.ohorno and t1.ohetdt &gt;=  70316</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E0986B75-D8E9-4264-9F9E-589BC459369B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sqlHSHED">
+      <DTS:VariableValue
+        DTS:DataType="8">Select OHCSNO,OHCONO,OHORNO,OHORTP,OHETDT,OHDUDT,OHCSPO,OHISAM,OHINAM,OHTNAM,OHCSCL,OHCSSC,OHCLDT FROM APLUS2FAW.ORHED WHERE OHETDT &gt;= 70318</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2731E5F3-BAEB-47ED-9B38-13170FEB53BA}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Start_Date">
+      <DTS:VariableValue
+        DTS:DataType="3">70318</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Construct ORDET SQL"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{477b77c0-a267-42aa-806a-53137d7c92f4}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Construct ORDET SQL"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_d4346b74ee01469491fa861ea81eb983"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadWriteVariables="Start_Date,sqlHSDET">
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+    ' To open Object Browser, press Ctrl+Alt+J.7
+
+	Public Sub Main()
+		'
+        ' Add your code here
+        '
+
+        Dim Sql As String
+        Dim PeriodDate As String
+        Dim CurDate As String
+
+        Sql = "SELECT T2.odcsno,t2.odcono,t2.odorno,t2.odorgn,t2.odorsq,t2.odlitp,"
+        Sql = Sql + "t2.odortp,t2.oditno,t2.oditd1,t2.oditd2,t2.odqtor,t2.odqtsh,"
+        Sql = Sql + "t2.odboqt,t2.oditcl,t2.oditsc,t2.odlspr,t2.odaslp,t2.odlnam,"
+        Sql = Sql + "t2.odsyam,t2.odcavc,t2.odlnvl,t2.odcstx "
+        Sql = Sql + "from aplus2faw.orhed t1, aplus2faw.ordet t2 "
+        Sql = Sql + "where t2.oditcl in ('51','52','53','54','57','61','62','63','64','65','70','72','73') "
+        Sql = Sql + "and t2.oditsc = 'SS' and t2.odcsno = t1.ohcsno and t2.odcono = t1.ohcono "
+        Sql = Sql + "and t2.odorno = t1.ohorno and t1.ohetdt >= "
+        PeriodDate = Str(Dts.Variables("Start_Date").Value)
+        Sql = Sql & PeriodDate
+
+        Dts.Variables("sqlHSDET").Value = Sql
+        Dts.TaskResult = ScriptResults.Success
+
+
+    End Sub
+
+
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="ST_d4346b74ee01469491fa861ea81eb983.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{86a246b7-181e-47e7-b6bc-342b5840f5bc}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_0f5d21847bd34c0aae2359f9b1c888cc</RootNamespace>
+    <AssemblyName>ST_d4346b74ee01469491fa861ea81eb983</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_d4346b74ee01469491fa861ea81eb983</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_d4346b74ee01469491fa861ea81eb983</msb:DisplayName>
+		<msb:ProjectId>{7C7F5D52-792B-436C-BFBA-AEA29B0DD341}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_d4346b74ee01469491fa861ea81eb983.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_d4346b74ee01469491fa861ea81eb983.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACkKTVoAAAAAAAAAAOAAIiALAVAAABgAAAAGAAAAAAAAZjYA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAABQ2AABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAbBYAAAAgAAAAGAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAaAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAHgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABI
+NgAAAAAAAEgAAAACAAUAKCIAAOwTAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAK8AAAABAAARcgEAAHAKBnKKAABwKBoAAAoKBnIE
+AQBwKBoAAAoKBnJ+AQBwKBoAAAoKBnLQAQBwKBoAAAoKBnIqAgBwKBoAAAoKBnLZAgBwKBoAAAoK
+BnJuAwBwKBoAAAoKAigbAAAKbxwAAApyxgMAcG8dAAAKbx4AAAooHwAACiggAAAKCwYHKBoAAAoK
+AigbAAAKbxwAAApy3AMAcG8dAAAKBm8hAAAKAigbAAAKFm8iAAAKKjYCAygfAAAKKCMAAAoqHgIo
+JAAACiou0AYAAAIoJQAACioeAigmAAAKKgAAABMwAQAUAAAAAgAAEQKMBQAAGy0IKAEAACsKKwIC
+CgYqIgP+FQUAABsqHgIoKAAACioAAAATMAIAKAAAAAMAABECeykAAApvKgAACgoGjAgAABstEigC
+AAArCgJ7KQAACgZvKwAACgYqSgIoKAAACgJzLAAACn0pAAAKKgBCU0pCAQABAAAAAAAMAAAAdjQu
+MC4zMDMxOQAAAAAFAGwAAAD0BQAAI34AAGAGAADgBgAAI1N0cmluZ3MAAAAAQA0AAPADAAAjVVMA
+MBEAABAAAAAjR1VJRAAAAEARAACsAgAAI0Jsb2IAAAAAAAAAAgAAAVcdogkJDgAAAPoBMwAWAAAB
+AAAAIQAAAAgAAAAIAAAAEgAAAAMAAAAsAAAAAgAAACoAAAADAAAAAgAAAAUAAAAFAAAACAAAAAEA
+AAAFAAAAAwAAAAMAAAACAAAAAAAJBAEAAAAAAAYArgIMBgYABgMMBgYA8QFNBQ8ALAYAAAYAYgJH
+AwoA2gH5BAoAsAHzAwoABQLzAw4AoAGcBQ4AKQVgBQYAewJNBQ4AMgLlBQ4ASgLdAAYAhAY6BA4A
+FQWcBQ4AkwLdAAYAdwE6BAYAHgLGBQ4AAQC3AwoAxQFGBBIA5AKOAwYAzgI6BBIAhAGOAwYAagM6
+BAYAQQQ6BAYAYwM6BBIA4QOOAxYAPwZUARYAJwFUAQYAUAYMBg4AbgTdAAYAMAE6BAYAMgU6BAAA
+AABPAAAAAAABAAEAAAAAAIkErgYlAAEAAQAAAAAAJwWuBikAAQACAAABEACLBq4GOQABAAMAAQAA
+AGMEsQBdAAUACAAFAQAAjgUAADkABQAKAAUBAAAQAAAAOQAFABEAAgEAAG8GAABlAAYAEwAxAMIE
+8wAxAJkE+wAxAK0EAwExANsECwEhAKQGsQAGBqAAEwFWgF8GFgFWgHwBFgFQIAAAAAAGGDwFBgAB
+AFggAAAAAAYYPAUGAAEAYCAAAAAAERhCBRoBAQCKIAAAAAATCBoFHgEBAJYgAAAAABMIeQQjAQEA
+oiAAAAAAEwgRBSgBAQCuIAAAAAATCH4FLQEBALogAAAAAAYYPAUGAAEAxCAAAAAABgBpBAYAAQB/
+IQAAAADGAkkGfQABAI0hAAAAAMYCGwGCAAIAlSEAAAAAgwB0ATIBAgChIQAAAADGAmEDjgACAKwh
+AAAAABEAjQA3AQIAzCEAAAAAAQB5AD8BAwDVIQAAAAAGGDwFBgAEAOAhAAAAAAMIAgFKAAQAFCIA
+AAAABhg8BQYABAAAAAEAlwQAAAEAEgEAAAEAEgEJADwFAQARADwFBgAZADwFCgApADwFEAAxADwF
+FQBBADwFGwBZADwFBgBhADwFBgBpADwFBgCBADwFIQCRADwFKQChADwFEACpADwFBgCxADwFKQBJ
+ADwFBgBRADwFBgAMADwFBgAUADwFBgAcADwFBgAkADwFBgAMAAIBSgAUAAIBSgAcAAIBSgAkAAIB
+SgC5ADwFBgDRAH0GVAC5AGcGWgDZADsGXwDhADEEZADpACQDagDxADgDbgD5AEkFcwDpAC4DeADZ
+AJUGAQBxAEkGfQBxABsBggCJAEIBhgBxAGEDjgAJAfMAmgBxADwFBgA0AKQGsQA8ACQDSgA8AC4D
+yAA8ADwFBgAIABwA6QAIACAA7gApAGMAYwIuAAsAYAEuABMAaQEuABsAiAEuACMAkQFAADsA7gBA
+ADMA2QFDACsA4gFDADMA2QFJAGMAdAJjACsA4gFjADMA2QFpAGMAiAKAADsA7gCDAEMA7gCDAEsA
+7gCDACsA4gGJAGMAlQKgADsA7gCjAGsA7gCjAHMA+wHAADsA7gDDADMA2QHDAFMAAQLgADsA7gDj
+ADMA2QHjAFsA+wFAATMA2QFAATsA7gBgATMA2QFgATsA7gCAATMA2QGAATsA7gCgATMA2QGgATsA
+7gDAATsA7gDgATsA7gAAAjsA7gAAAjMA2QEgAjsA7gBAAjsA7gBAAjMA2QFPAJIApQAEAAEABwAF
+AAAAKQVHAQAAiwRMAQAAFQVRAQAAkAVWAQAABgFbAQIABAADAAIABQAFAAIABgAHAAIABwAJAAIA
+EQALAC4ANQA8AEMAlwCqALkAwAAEgAAAAAAAAAAAAAAAAAAAAAArAAAABAAAAAAAAAAAAAAAzgCo
+AAAAAAAEAAAAAAAAAAAAAADOADoEAAAAAAoAAAAAAAAAAAAAANcA3QAAAAAADAAAAAAAAAAAAAAA
+4ABvAwAAAAAMAAAAAAAAAAAAAADgAFgAAAAAAAYABAAHAAQACAAFAAAAEAAOAHcAAAAQAB0AdwAA
+AAAAHwB3AE8AoABPAMMAAAAAQ29udGV4dFZhbHVlYDEAVGhyZWFkU2FmZU9iamVjdFByb3ZpZGVy
+YDEAU1RfZDQzNDZiNzRlZTAxNDY5NDkxZmE4NjFlYTgxZWI5ODMAPE1vZHVsZT4ATWljcm9zb2Z0
+LlNxbFNlcnZlci5NYW5hZ2VkRFRTAFQARGlzcG9zZV9fSW5zdGFuY2VfXwBDcmVhdGVfX0luc3Rh
+bmNlX18AdmFsdWVfXwBtc2NvcmxpYgBTY3JpcHRUYXNrXzBmNWQyMTg0N2JkMzRjMGFhZTIzNTlm
+OWIxYzg4OGNjAE1pY3Jvc29mdC5WaXN1YWxCYXNpYwBDcmVhdGVJbnN0YW5jZQBnZXRfR2V0SW5z
+dGFuY2UAaW5zdGFuY2UAR2V0SGFzaENvZGUAVmFyaWFibGUAUnVudGltZVR5cGVIYW5kbGUAR2V0
+VHlwZUZyb21IYW5kbGUATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZQBHZXRUeXBlAEZh
+aWx1cmUAVlNUQVJUU2NyaXB0T2JqZWN0TW9kZWxCYXNlAEFwcGxpY2F0aW9uQmFzZQBFZGl0b3JC
+cm93c2FibGVTdGF0ZQBIZWxwS2V5d29yZEF0dHJpYnV0ZQBHZW5lcmF0ZWRDb2RlQXR0cmlidXRl
+AERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0cmlidXRlAENvbVZpc2libGVB
+dHRyaWJ1dGUAU3RhbmRhcmRNb2R1bGVBdHRyaWJ1dGUASGlkZU1vZHVsZU5hbWVBdHRyaWJ1dGUA
+VGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAERlYnVnZ2VySGlkZGVuQXR0cmlidXRlAE15R3JvdXBD
+b2xsZWN0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQ0xTQ29t
+cGxpYW50QXR0cmlidXRlAFNTSVNTY3JpcHRUYXNrRW50cnlQb2ludEF0dHJpYnV0ZQBSdW50aW1l
+Q29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBnZXRfVmFsdWUAc2V0X1ZhbHVlAEdldE9iamVjdFZhbHVl
+AFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcAVG9TdHJpbmcATWF0aABNaWNyb3NvZnQuU3FsU2Vy
+dmVyLlNjcmlwdFRhc2sATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuVGFza3MuU2NyaXB0VGFzawBN
+aWNyb3NvZnQuVmlzdWFsQmFzaWMuTXlTZXJ2aWNlcy5JbnRlcm5hbABTY3JpcHRPYmplY3RNb2Rl
+bABTeXN0ZW0uQ29tcG9uZW50TW9kZWwAU1RfZDQzNDZiNzRlZTAxNDY5NDkxZmE4NjFlYTgxZWI5
+ODMuZGxsAGdldF9JdGVtAFN5c3RlbQBFbnVtAFN5c3RlbS5Db21wb25lbnRNb2RlbC5EZXNpZ24A
+U2NyaXB0TWFpbgBDb252ZXJzaW9uAGdldF9BcHBsaWNhdGlvbgBNeUFwcGxpY2F0aW9uAG8AbV9B
+cHBPYmplY3RQcm92aWRlcgBtX1VzZXJPYmplY3RQcm92aWRlcgBtX0NvbXB1dGVyT2JqZWN0UHJv
+dmlkZXIAbV9NeVdlYlNlcnZpY2VzT2JqZWN0UHJvdmlkZXIAU3lzdGVtLkNvZGVEb20uQ29tcGls
+ZXIAZ2V0X1VzZXIAZ2V0X0NvbXB1dGVyAE15Q29tcHV0ZXIAQWN0aXZhdG9yAC5jdG9yAC5jY3Rv
+cgBTdHIAU3lzdGVtLkRpYWdub3N0aWNzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5EZXZpY2VzAGdl
+dF9XZWJTZXJ2aWNlcwBNeVdlYlNlcnZpY2VzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5BcHBsaWNh
+dGlvblNlcnZpY2VzAFN5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcwBNaWNyb3NvZnQuVmlz
+dWFsQmFzaWMuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2Vz
+AERlYnVnZ2luZ01vZGVzAGdldF9WYXJpYWJsZXMARXF1YWxzAFJ1bnRpbWVIZWxwZXJzAFN1Y2Nl
+c3MAZ2V0X0R0cwBTY3JpcHRSZXN1bHRzAENvbmNhdABPYmplY3QATXlQcm9qZWN0AHNldF9UYXNr
+UmVzdWx0AG1fQ29udGV4dABTY3JpcHRUYXNrXzBmNWQyMTg0N2JkMzRjMGFhZTIzNTlmOWIxYzg4
+OGNjLk15AAAAAACAh1MARQBMAEUAQwBUACAAVAAyAC4AbwBkAGMAcwBuAG8ALAB0ADIALgBvAGQA
+YwBvAG4AbwAsAHQAMgAuAG8AZABvAHIAbgBvACwAdAAyAC4AbwBkAG8AcgBnAG4ALAB0ADIALgBv
+AGQAbwByAHMAcQAsAHQAMgAuAG8AZABsAGkAdABwACwAAHl0ADIALgBvAGQAbwByAHQAcAAsAHQA
+MgAuAG8AZABpAHQAbgBvACwAdAAyAC4AbwBkAGkAdABkADEALAB0ADIALgBvAGQAaQB0AGQAMgAs
+AHQAMgAuAG8AZABxAHQAbwByACwAdAAyAC4AbwBkAHEAdABzAGgALAAAeXQAMgAuAG8AZABiAG8A
+cQB0ACwAdAAyAC4AbwBkAGkAdABjAGwALAB0ADIALgBvAGQAaQB0AHMAYwAsAHQAMgAuAG8AZABs
+AHMAcAByACwAdAAyAC4AbwBkAGEAcwBsAHAALAB0ADIALgBvAGQAbABuAGEAbQAsAABRdAAyAC4A
+bwBkAHMAeQBhAG0ALAB0ADIALgBvAGQAYwBhAHYAYwAsAHQAMgAuAG8AZABsAG4AdgBsACwAdAAy
+AC4AbwBkAGMAcwB0AHgAIAAAWWYAcgBvAG0AIABhAHAAbAB1AHMAMgBmAGEAdwAuAG8AcgBoAGUA
+ZAAgAHQAMQAsACAAYQBwAGwAdQBzADIAZgBhAHcALgBvAHIAZABlAHQAIAB0ADIAIAAAgK13AGgA
+ZQByAGUAIAB0ADIALgBvAGQAaQB0AGMAbAAgAGkAbgAgACgAJwA1ADEAJwAsACcANQAyACcALAAn
+ADUAMwAnACwAJwA1ADQAJwAsACcANQA3ACcALAAnADYAMQAnACwAJwA2ADIAJwAsACcANgAzACcA
+LAAnADYANAAnACwAJwA2ADUAJwAsACcANwAwACcALAAnADcAMgAnACwAJwA3ADMAJwApACAAAYCT
+YQBuAGQAIAB0ADIALgBvAGQAaQB0AHMAYwAgAD0AIAAnAFMAUwAnACAAYQBuAGQAIAB0ADIALgBv
+AGQAYwBzAG4AbwAgAD0AIAB0ADEALgBvAGgAYwBzAG4AbwAgAGEAbgBkACAAdAAyAC4AbwBkAGMA
+bwBuAG8AIAA9ACAAdAAxAC4AbwBoAGMAbwBuAG8AIAABV2EAbgBkACAAdAAyAC4AbwBkAG8AcgBu
+AG8AIAA9ACAAdAAxAC4AbwBoAG8AcgBuAG8AIABhAG4AZAAgAHQAMQAuAG8AaABlAHQAZAB0ACAA
+PgA9ACAAABVTAHQAYQByAHQAXwBEAGEAdABlAAARcwBxAGwASABTAEQARQBUAAAAAGOOjSi8KNRJ
+iqieavyQKB8ABCABAQgDIAABBSABARERBCABAQ4FIAIBDg4FIAEBER0HIAQBDg4ODgQgAQECBhUS
+HAESDAYVEhwBEggGFRIcARI9BhUSHAESGAQgABMABAcCDg4FAAIODg4EIAASbQQgABJxBSABEnUc
+AyAAHAQAARwcBAABDhwEIAEBHAQgAQIcAyAACAcAARJFEYCBAyAADgQHAR4AAh4ABRABAB4ABAoB
+HgAEBwETAAYVEhwBEwAHBhUSTQETAAYVEk0BEwACEwAECgETAAUgAQETAAi3elxWGTTgiQiwP19/
+EdUKOgiJhF3NgIDMkQQAAAAABAEAAAAHBhUSHAESDAcGFRIcARIIBwYVEhwBEj0HBhUSHAESGAIG
+CAMGESADAAABBAAAEgwEAAASCAQAABI9BAAAEhgEIAASRQcQAQEeAB4ABzABAQEQHgAECAASDAQI
+ABIIBAgAEj0ECAASGAQoABMACAEACAAAAAAAHgEAAQBUAhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dz
+AQgBAAIAAAAAAEcBABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuMAEAVA4URnJhbWV3b3JrRGlz
+cGxheU5hbWUQLk5FVCBGcmFtZXdvcmsgNAgBAAEAAAAAABgBAApNeVRlbXBsYXRlCDExLjAuMC4w
+AAAFAQAAAABhAQA0U3lzdGVtLldlYi5TZXJ2aWNlcy5Qcm90b2NvbHMuU29hcEh0dHBDbGllbnRQ
+cm90b2NvbBJDcmVhdGVfX0luc3RhbmNlX18TRGlzcG9zZV9fSW5zdGFuY2VfXwAAABABAAtNeS5D
+b21wdXRlcgAAEwEADk15LkFwcGxpY2F0aW9uAAAMAQAHTXkuVXNlcgAAEwEADk15LldlYlNlcnZp
+Y2VzAAAAAAA8NgAAAAAAAAAAAABWNgAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASDYAAAAAAAAA
+AAAAAABfQ29yRGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAEAEAAAABgAAIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgA
+AABYQAAAtAIAAAAAAAAAAAAAtAI0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAA
+AL0E7/4AAAEAAAAAAAAAAAAAAAAAAAAAAD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAA
+AQBWAGEAcgBGAGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAA
+AAAAAACwBBQCAAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAAPABAAABADAAMAAwADAA
+MAA0AGIAMAAAACwAAgABAEYAaQBsAGUARABlAHMAYwByAGkAcAB0AGkAbwBuAAAAAAAgAAAAMAAI
+AAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAwAC4AMAAuADAALgAwAAAAcAAoAAEASQBuAHQA
+ZQByAG4AYQBsAE4AYQBtAGUAAABTAFQAXwBkADQAMwA0ADYAYgA3ADQAZQBlADAAMQA0ADYAOQA0
+ADkAMQBmAGEAOAA2ADEAZQBhADgAMQBlAGIAOQA4ADMALgBkAGwAbAAAACgAAgABAEwAZQBnAGEA
+bABDAG8AcAB5AHIAaQBnAGgAdAAAACAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBu
+AGEAbQBlAAAAUwBUAF8AZAA0ADMANAA2AGIANwA0AGUAZQAwADEANAA2ADkANAA5ADEAZgBhADgA
+NgAxAGUAYQA4ADEAZQBiADkAOAAzAC4AZABsAGwAAAA0AAgAAQBQAHIAbwBkAHUAYwB0AFYAZQBy
+AHMAaQBvAG4AAAAwAC4AMAAuADAALgAwAAAAOAAIAAEAQQBzAHMAZQBtAGIAbAB5ACAAVgBlAHIA
+cwBpAG8AbgAAADAALgAwAC4AMAAuADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAwAAABoNgAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Construct ORHED SQL"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{e4650924-a2e0-465a-b3e4-58b94a469a3f}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Construct ORHED SQL"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="2" />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_e5303b894b60480ea656b515676b2c68"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadWriteVariables="Start_Date,sqlHSHED">
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+    ' To open Object Browser, press Ctrl+Alt+J.7
+
+	Public Sub Main()
+		'
+        ' Add your code here
+        '
+
+        Dim Sql As String
+        Dim PeriodDate As String
+        Dim CurDate As String
+
+
+        Sql = "Select OHCSNO,OHCONO,OHORNO,OHORTP,OHETDT,OHDUDT,OHCSPO,OHISAM,OHINAM,OHTNAM,OHCSCL,OHCSSC,OHCLDT "
+        Sql = Sql + "FROM APLUS2FAW.ORHED WHERE OHETDT >= "
+        PeriodDate = Str(Dts.Variables("Start_Date").Value)
+        Sql = Sql & PeriodDate
+
+        Dts.Variables("sqlHSHED").Value = Sql
+        Dts.TaskResult = ScriptResults.Success
+
+
+    End Sub
+
+
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="ST_e5303b894b60480ea656b515676b2c68.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{c62ec863-8fd2-4dda-9441-37cc0abeca6e}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_e37fdd6abbec439cb385669e146a1a6f</RootNamespace>
+    <AssemblyName>ST_e5303b894b60480ea656b515676b2c68</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_e5303b894b60480ea656b515676b2c68</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_e5303b894b60480ea656b515676b2c68</msb:DisplayName>
+		<msb:ProjectId>{C9128934-ACAA-44B9-87E4-14E31E65FD06}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_e5303b894b60480ea656b515676b2c68.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_e5303b894b60480ea656b515676b2c68.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACkKTVoAAAAAAAAAAOAAIiALAVAAABQAAAAGAAAAAAAAajMA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAABgzAABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAcBMAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABM
+MwAAAAAAAEgAAAACAAUA4CEAADgRAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAGcAAAABAAARcgEAAHAKBnLIAABwKBoAAAoKAigb
+AAAKbxwAAApyFAEAcG8dAAAKbx4AAAooHwAACiggAAAKCwYHKBoAAAoKAigbAAAKbxwAAApyKgEA
+cG8dAAAKBm8hAAAKAigbAAAKFm8iAAAKKjYCAygfAAAKKCMAAAoqHgIoJAAACiou0AYAAAIoJQAA
+CioeAigmAAAKKgAAABMwAQAUAAAAAgAAEQKMBQAAGy0IKAEAACsKKwICCgYqIgP+FQUAABsqHgIo
+KAAACioAAAATMAIAKAAAAAMAABECeykAAApvKgAACgoGjAgAABstEigCAAArCgJ7KQAACgZvKwAA
+CgYqSgIoKAAACgJzLAAACn0pAAAKKgBCU0pCAQABAAAAAAAMAAAAdjQuMC4zMDMxOQAAAAAFAGwA
+AAD0BQAAI34AAGAGAADgBgAAI1N0cmluZ3MAAAAAQA0AADwBAAAjVVMAfA4AABAAAAAjR1VJRAAA
+AIwOAACsAgAAI0Jsb2IAAAAAAAAAAgAAAVcdogkJDgAAAPoBMwAWAAABAAAAIQAAAAgAAAAIAAAA
+EgAAAAMAAAAsAAAAAgAAACoAAAADAAAAAgAAAAUAAAAFAAAACAAAAAEAAAAFAAAAAwAAAAMAAAAC
+AAAAAAAJBAEAAAAAAAYAggIMBgYA2gIMBgYAxQFNBQ8ALAYAAAYANgJHAwoArgH5BAoAhAHzAwoA
+2QHzAw4AdAGcBQ4AKQVgBQYATwJNBQ4ABgLlBQ4AHgKxAAYAhAY6BA4AFQWcBQ4AZwKxAAYASwE6
+BAYA8gHGBQ4AAQC3AwoAmQFGBBIAuAKOAwYAogI6BBIAWAGOAwYAagM6BAYAQQQ6BAYAYwM6BBIA
+4QOOAxYAPwYoARYA+wAoAQYAUAYMBg4AbgSxAAYABAE6BAYAMgU6BAAAAABPAAAAAAABAAEAAAAA
+AIkErgYlAAEAAQAAAAAAJwWuBikAAQACAAABEACLBq4GOQABAAMAAQAAAGMEGwNdAAUACAAFAQAA
+jgUAADkABQAKAAUBAAAQAAAAOQAFABEAAgEAAG8GAABlAAYAEwAxAMIE8wAxAJkE+wAxAK0EAwEx
+ANsECwEhAKQGsQAGBqAAEwFWgF8GFgFWgFABFgFQIAAAAAAGGDwFBgABAFggAAAAAAYYPAUGAAEA
+YCAAAAAAERhCBRoBAQCKIAAAAAATCBoFHgEBAJYgAAAAABMIeQQjAQEAoiAAAAAAEwgRBSgBAQCu
+IAAAAAATCH4FLQEBALogAAAAAAYYPAUGAAEAxCAAAAAABgBpBAYAAQA3IQAAAADGAkkGfQABAEUh
+AAAAAMYC7wCCAAIATSEAAAAAgwBIATIBAgBZIQAAAADGAmEDjgACAGQhAAAAABEAjQA3AQIAhCEA
+AAAAAQB5AD8BAwCNIQAAAAAGGDwFBgAEAJghAAAAAAMI1gBKAAQAzCEAAAAABhg8BQYABAAAAAEA
+lwQAAAEA5gAAAAEA5gAJADwFAQARADwFBgAZADwFCgApADwFEAAxADwFFQBBADwFGwBZADwFBgBh
+ADwFBgBpADwFBgCBADwFIQCRADwFKQChADwFEACpADwFBgCxADwFKQBJADwFBgBRADwFBgAMADwF
+BgAUADwFBgAcADwFBgAkADwFBgAMANYASgAUANYASgAcANYASgAkANYASgC5ADwFBgDRAH0GVAC5
+AGcGWgDZADsGXwDhADEEZADpAPgCagDxAAwDbgD5AEkFcwDpAAIDeADZAJUGAQBxAEkGfQBxAO8A
+ggCJABYBhgBxAGEDjgAJAccAmgBxADwFBgA0AKQGsQA8APgCSgA8AAIDyAA8ADwFBgAIABwA6QAI
+ACAA7gApAGMAYwIuAAsAYAEuABMAaQEuABsAiAEuACMAkQFAADsA7gBAADMA2QFDACsA4gFDADMA
+2QFJAGMAdAJjACsA4gFjADMA2QFpAGMAiAKAADsA7gCDAEMA7gCDAEsA7gCDACsA4gGJAGMAlQKg
+ADsA7gCjAGsA7gCjAHMA+wHAADsA7gDDADMA2QHDAFMAAQLgADsA7gDjADMA2QHjAFsA+wFAATMA
+2QFAATsA7gBgATMA2QFgATsA7gCAATMA2QGAATsA7gCgATMA2QGgATsA7gDAATsA7gDgATsA7gAA
+AjsA7gAAAjMA2QEgAjsA7gBAAjsA7gBAAjMA2QFPAJIApQAEAAEABwAFAAAAKQVHAQAAiwRMAQAA
+FQVRAQAAkAVWAQAA2gBbAQIABAADAAIABQAFAAIABgAHAAIABwAJAAIAEQALAC4ANQA8AEMAlwCq
+ALkAwAAEgAAAAAAAAAAAAAAAAAAAAAArAAAABAAAAAAAAAAAAAAAzgCoAAAAAAAEAAAAAAAAAAAA
+AADOADoEAAAAAAoAAAAAAAAAAAAAANcAsQAAAAAADAAAAAAAAAAAAAAA4ABvAwAAAAAMAAAAAAAA
+AAAAAADgAFgAAAAAAAYABAAHAAQACAAFAAAAEAAOAHcAAAAQAB0AdwAAAAAAHwB3AE8AoABPAMMA
+AAAAQ29udGV4dFZhbHVlYDEAVGhyZWFkU2FmZU9iamVjdFByb3ZpZGVyYDEAU1RfZTUzMDNiODk0
+YjYwNDgwZWE2NTZiNTE1Njc2YjJjNjgAPE1vZHVsZT4ATWljcm9zb2Z0LlNxbFNlcnZlci5NYW5h
+Z2VkRFRTAFQARGlzcG9zZV9fSW5zdGFuY2VfXwBDcmVhdGVfX0luc3RhbmNlX18AdmFsdWVfXwBt
+c2NvcmxpYgBNaWNyb3NvZnQuVmlzdWFsQmFzaWMAQ3JlYXRlSW5zdGFuY2UAZ2V0X0dldEluc3Rh
+bmNlAGluc3RhbmNlAEdldEhhc2hDb2RlAFZhcmlhYmxlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5
+cGVGcm9tSGFuZGxlAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAR2V0VHlwZQBGYWls
+dXJlAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVsQmFzZQBBcHBsaWNhdGlvbkJhc2UARWRpdG9yQnJv
+d3NhYmxlU3RhdGUASGVscEtleXdvcmRBdHRyaWJ1dGUAR2VuZXJhdGVkQ29kZUF0dHJpYnV0ZQBE
+ZWJ1Z2dhYmxlQXR0cmlidXRlAEVkaXRvckJyb3dzYWJsZUF0dHJpYnV0ZQBDb21WaXNpYmxlQXR0
+cmlidXRlAFN0YW5kYXJkTW9kdWxlQXR0cmlidXRlAEhpZGVNb2R1bGVOYW1lQXR0cmlidXRlAFRh
+cmdldEZyYW1ld29ya0F0dHJpYnV0ZQBEZWJ1Z2dlckhpZGRlbkF0dHJpYnV0ZQBNeUdyb3VwQ29s
+bGVjdGlvbkF0dHJpYnV0ZQBDb21waWxhdGlvblJlbGF4YXRpb25zQXR0cmlidXRlAENMU0NvbXBs
+aWFudEF0dHJpYnV0ZQBTU0lTU2NyaXB0VGFza0VudHJ5UG9pbnRBdHRyaWJ1dGUAUnVudGltZUNv
+bXBhdGliaWxpdHlBdHRyaWJ1dGUAZ2V0X1ZhbHVlAHNldF9WYWx1ZQBHZXRPYmplY3RWYWx1ZQBT
+Y3JpcHRUYXNrX2UzN2ZkZDZhYmJlYzQzOWNiMzg1NjY5ZTE0NmExYTZmAFN5c3RlbS5SdW50aW1l
+LlZlcnNpb25pbmcAVG9TdHJpbmcATWF0aABNaWNyb3NvZnQuU3FsU2VydmVyLlNjcmlwdFRhc2sA
+TWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuVGFza3MuU2NyaXB0VGFzawBNaWNyb3NvZnQuVmlzdWFs
+QmFzaWMuTXlTZXJ2aWNlcy5JbnRlcm5hbABTY3JpcHRPYmplY3RNb2RlbABTeXN0ZW0uQ29tcG9u
+ZW50TW9kZWwAU1RfZTUzMDNiODk0YjYwNDgwZWE2NTZiNTE1Njc2YjJjNjguZGxsAGdldF9JdGVt
+AFN5c3RlbQBFbnVtAFN5c3RlbS5Db21wb25lbnRNb2RlbC5EZXNpZ24AU2NyaXB0TWFpbgBDb252
+ZXJzaW9uAGdldF9BcHBsaWNhdGlvbgBNeUFwcGxpY2F0aW9uAG8AbV9BcHBPYmplY3RQcm92aWRl
+cgBtX1VzZXJPYmplY3RQcm92aWRlcgBtX0NvbXB1dGVyT2JqZWN0UHJvdmlkZXIAbV9NeVdlYlNl
+cnZpY2VzT2JqZWN0UHJvdmlkZXIAU3lzdGVtLkNvZGVEb20uQ29tcGlsZXIAZ2V0X1VzZXIAZ2V0
+X0NvbXB1dGVyAE15Q29tcHV0ZXIAQWN0aXZhdG9yAC5jdG9yAC5jY3RvcgBTdHIAU3lzdGVtLkRp
+YWdub3N0aWNzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5EZXZpY2VzAGdldF9XZWJTZXJ2aWNlcwBN
+eVdlYlNlcnZpY2VzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5BcHBsaWNhdGlvblNlcnZpY2VzAFN5
+c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcwBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuQ29tcGls
+ZXJTZXJ2aWNlcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAERlYnVnZ2luZ01vZGVz
+AGdldF9WYXJpYWJsZXMARXF1YWxzAFJ1bnRpbWVIZWxwZXJzAFN1Y2Nlc3MAZ2V0X0R0cwBTY3Jp
+cHRSZXN1bHRzAENvbmNhdABPYmplY3QATXlQcm9qZWN0AHNldF9UYXNrUmVzdWx0AG1fQ29udGV4
+dABTY3JpcHRUYXNrX2UzN2ZkZDZhYmJlYzQzOWNiMzg1NjY5ZTE0NmExYTZmLk15AAAAAACAxVMA
+ZQBsAGUAYwB0ACAATwBIAEMAUwBOAE8ALABPAEgAQwBPAE4ATwAsAE8ASABPAFIATgBPACwATwBI
+AE8AUgBUAFAALABPAEgARQBUAEQAVAAsAE8ASABEAFUARABUACwATwBIAEMAUwBQAE8ALABPAEgA
+SQBTAEEATQAsAE8ASABJAE4AQQBNACwATwBIAFQATgBBAE0ALABPAEgAQwBTAEMATAAsAE8ASABD
+AFMAUwBDACwATwBIAEMATABEAFQAIAAAS0YAUgBPAE0AIABBAFAATABVAFMAMgBGAEEAVwAuAE8A
+UgBIAEUARAAgAFcASABFAFIARQAgAE8ASABFAFQARABUACAAPgA9ACAAABVTAHQAYQByAHQAXwBE
+AGEAdABlAAARcwBxAGwASABTAEgARQBEAACurHNJF8RxSZBg6gEdhFKwAAQgAQEIAyAAAQUgAQER
+EQQgAQEOBSACAQ4OBSABAREdByAEAQ4ODg4EIAEBAgYVEhwBEgwGFRIcARIIBhUSHAESPQYVEhwB
+EhgEIAATAAQHAg4OBQACDg4OBCAAEm0EIAAScQUgARJ1HAMgABwEAAEcHAQAAQ4cBCABARwEIAEC
+HAMgAAgHAAESRRGAgQMgAA4EBwEeAAIeAAUQAQAeAAQKAR4ABAcBEwAGFRIcARMABwYVEk0BEwAG
+FRJNARMAAhMABAoBEwAFIAEBEwAIt3pcVhk04IkIsD9ffxHVCjoIiYRdzYCAzJEEAAAAAAQBAAAA
+BwYVEhwBEgwHBhUSHAESCAcGFRIcARI9BwYVEhwBEhgCBggDBhEgAwAAAQQAABIMBAAAEggEAAAS
+PQQAABIYBCAAEkUHEAEBHgAeAAcwAQEBEB4ABAgAEgwECAASCAQIABI9BAgAEhgEKAATAAgBAAgA
+AAAAAB4BAAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAAAABHAQAaLk5FVEZyYW1l
+d29yayxWZXJzaW9uPXY0LjABAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEC5ORVQgRnJhbWV3b3Jr
+IDQIAQABAAAAAAAYAQAKTXlUZW1wbGF0ZQgxMS4wLjAuMAAABQEAAAAAYQEANFN5c3RlbS5XZWIu
+U2VydmljZXMuUHJvdG9jb2xzLlNvYXBIdHRwQ2xpZW50UHJvdG9jb2wSQ3JlYXRlX19JbnN0YW5j
+ZV9fE0Rpc3Bvc2VfX0luc3RhbmNlX18AAAAQAQALTXkuQ29tcHV0ZXIAABMBAA5NeS5BcHBsaWNh
+dGlvbgAADAEAB015LlVzZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAAAAAAQDMAAAAAAAAAAAAAWjMA
+AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwzAAAAAAAAAAAAAAAAX0NvckRsbE1haW4AbXNjb3Jl
+ZS5kbGwAAAAAAP8lACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAAC0AgAAAAAAAAAAAAC0AjQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAEFAIAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAA8AEAAAEAMAAwADAA
+MAAwADQAYgAwAAAALAACAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAACAAAAAw
+AAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADAALgAwAC4AMAAuADAAAABwACgAAQBJAG4A
+dABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABfAGUANQAzADAAMwBiADgAOQA0AGIANgAwADQAOAAw
+AGUAYQA2ADUANgBiADUAMQA1ADYANwA2AGIAMgBjADYAOAAuAGQAbABsAAAAKAACAAEATABlAGcA
+YQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAIAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABl
+AG4AYQBtAGUAAABTAFQAXwBlADUAMwAwADMAYgA4ADkANABiADYAMAA0ADgAMABlAGEANgA1ADYA
+YgA1ADEANQA2ADcANgBiADIAYwA2ADgALgBkAGwAbAAAADQACAABAFAAcgBvAGQAdQBjAHQAVgBl
+AHIAcwBpAG8AbgAAADAALgAwAC4AMAAuADAAAAA4AAgAAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUA
+cgBzAGkAbwBuAAAAMAAuADAALgAwAC4AMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAAGwzAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8F5EDB88-0437-4F63-9730-6B5F004B5605}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ORHED]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCSNO]"
+                      cachedDataType="numeric"
+                      cachedName="OHCSNO"
+                      cachedPrecision="10"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Number]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCONO]"
+                      cachedDataType="numeric"
+                      cachedName="OHCONO"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCONO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHORNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="OHORNO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Order_Number]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHORTP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="OHORTP"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Order_Type]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORTP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHETDT]"
+                      cachedDataType="numeric"
+                      cachedName="OHETDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Entry_Date]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHETDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHDUDT]"
+                      cachedDataType="numeric"
+                      cachedName="OHDUDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Due_Date]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHDUDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCSPO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="22"
+                      cachedName="OHCSPO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_PO]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSPO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHISAM]"
+                      cachedDataType="decimal"
+                      cachedName="OHISAM"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Item_Sales_Amount]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHISAM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHINAM]"
+                      cachedDataType="decimal"
+                      cachedName="OHINAM"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Amount]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHINAM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHTNAM]"
+                      cachedDataType="decimal"
+                      cachedName="OHTNAM"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Tendered]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHTNAM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCSCL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="OHCSCL"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Class]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSCL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCSSC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="OHCSSC"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_SubClass]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSSC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OHCLDT]"
+                      cachedDataType="numeric"
+                      cachedName="OHCLDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cancel_Date]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCLDT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Number]"
+                      dataType="numeric"
+                      name="Customer_Number"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      dataType="numeric"
+                      name="Company_Number"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Order_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Order_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Order_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Order_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Entry_Date]"
+                      dataType="numeric"
+                      name="Entry_Date"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Due_Date]"
+                      dataType="numeric"
+                      name="Due_Date"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_PO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="22"
+                      name="Customer_PO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Item_Sales_Amount]"
+                      dataType="numeric"
+                      name="Item_Sales_Amount"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Amount]"
+                      dataType="numeric"
+                      name="Invoice_Amount"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Tendered]"
+                      dataType="numeric"
+                      name="Amount_Tendered"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Class]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Customer_Class" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_SubClass]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Customer_SubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cancel_Date]"
+                      dataType="numeric"
+                      name="Cancel_Date"
+                      precision="6" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ORDET]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.Reference.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODCSNO]"
+                      cachedDataType="numeric"
+                      cachedName="ODCSNO"
+                      cachedPrecision="10"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODCONO]"
+                      cachedDataType="numeric"
+                      cachedName="ODCONO"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCONO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODORNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="ODORNO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODORGN]"
+                      cachedDataType="numeric"
+                      cachedName="ODORGN"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Gen_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORGN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODORSQ]"
+                      cachedDataType="numeric"
+                      cachedName="ODORSQ"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Seq_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORSQ]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODLITP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ODLITP"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Line_Item_Type]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLITP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODORTP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ODORTP"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Type]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORTP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODITNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="ODITNO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Number]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODITD1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="31"
+                      cachedName="ODITD1"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Desc_1]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODITD2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="31"
+                      cachedName="ODITD2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Desc_2]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODQTOR]"
+                      cachedDataType="decimal"
+                      cachedName="ODQTOR"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Ordered]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTOR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODQTSH]"
+                      cachedDataType="decimal"
+                      cachedName="ODQTSH"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Shipped]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTSH]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODBOQT]"
+                      cachedDataType="decimal"
+                      cachedName="ODBOQT"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Backordered]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODBOQT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODITCL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ODITCL"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Class]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITCL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODITSC]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="ODITSC"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_SubClass]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITSC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODLSPR]"
+                      cachedDataType="decimal"
+                      cachedName="ODLSPR"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[List_Price]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLSPR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODASLP]"
+                      cachedDataType="decimal"
+                      cachedName="ODASLP"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Actual_Sell_Price]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODASLP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODLNAM]"
+                      cachedDataType="decimal"
+                      cachedName="ODLNAM"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Total_Line_Amount]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNAM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODSYAM]"
+                      cachedDataType="decimal"
+                      cachedName="ODSYAM"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[System_Total_Line_Amount]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODSYAM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODCAVC]"
+                      cachedDataType="decimal"
+                      cachedName="ODCAVC"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Current_Average_Cost]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCAVC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODLNVL]"
+                      cachedDataType="decimal"
+                      cachedName="ODLNVL"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Line_Value]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNVL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].Columns[ODCSTX]"
+                      cachedDataType="decimal"
+                      cachedName="ODCSTX"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Cost]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSTX]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Company_Number]"
+                      dataType="numeric"
+                      name="Company_Number"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Number]"
+                      dataType="numeric"
+                      name="Customer_Number"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Order_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Gen_Number]"
+                      dataType="numeric"
+                      name="Gen_Number"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Seq_Number]"
+                      dataType="numeric"
+                      name="Order_Seq_Number"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Line_Item_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Line_Item_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Order_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Order_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="Item_Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Desc_1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      name="Item_Desc_1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Desc_2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      name="Item_Desc_2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Ordered]"
+                      dataType="numeric"
+                      name="Qty_Ordered"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Shipped]"
+                      dataType="numeric"
+                      name="Qty_Shipped"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Qty_Backordered]"
+                      dataType="numeric"
+                      name="Qty_Backordered"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_Class]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Item_Class" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Item_SubClass]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Item_SubClass" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[List_Price]"
+                      dataType="numeric"
+                      name="List_Price"
+                      precision="29"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Actual_Sell_Price]"
+                      dataType="numeric"
+                      name="Actual_Sell_Price"
+                      precision="29"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Total_Line_Amount]"
+                      dataType="numeric"
+                      name="Total_Line_Amount"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[System_Total_Line_Amount]"
+                      dataType="numeric"
+                      name="System_Total_Line_Amount"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Current_Average_Cost]"
+                      dataType="numeric"
+                      name="Current_Average_Cost"
+                      precision="29"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Line_Value]"
+                      dataType="numeric"
+                      name="Line_Value"
+                      precision="29"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input].ExternalColumns[Invoice_Cost]"
+                      dataType="numeric"
+                      name="Invoice_Cost"
+                      precision="29"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\ORDET"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="ORDET"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sqlHSDET</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\ORDET.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSNO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCSNO]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSNO]"
+                      name="ODCSNO"
+                      precision="10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCONO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCONO]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCONO]"
+                      name="ODCONO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORNO]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORNO]"
+                      name="ODORNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORGN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORGN]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORGN]"
+                      name="ODORGN"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORSQ]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORSQ]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORSQ]"
+                      name="ODORSQ"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLITP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLITP]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLITP]"
+                      name="ODLITP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORTP]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODORTP]"
+                      name="ODORTP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITNO]"
+                      length="27"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITNO]"
+                      name="ODITNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITD1]"
+                      length="31"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD1]"
+                      name="ODITD1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITD2]"
+                      length="31"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITD2]"
+                      name="ODITD2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODQTOR]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTOR]"
+                      name="ODQTOR"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTSH]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODQTSH]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODQTSH]"
+                      name="ODQTSH"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODBOQT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODBOQT]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODBOQT]"
+                      name="ODBOQT"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITCL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITCL]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITCL]"
+                      name="ODITCL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITSC]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITSC]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODITSC]"
+                      name="ODITSC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLSPR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLSPR]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLSPR]"
+                      name="ODLSPR"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODASLP]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODASLP]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODASLP]"
+                      name="ODASLP"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNAM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLNAM]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNAM]"
+                      name="ODLNAM"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODSYAM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODSYAM]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODSYAM]"
+                      name="ODSYAM"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCAVC]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCAVC]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCAVC]"
+                      name="ODCAVC"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNVL]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLNVL]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODLNVL]"
+                      name="ODLNVL"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSTX]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCSTX]"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].Columns[ODCSTX]"
+                      name="ODCSTX"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCSNO]"
+                      dataType="numeric"
+                      name="ODCSNO"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCONO]"
+                      dataType="numeric"
+                      name="ODCONO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="ODORNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORGN]"
+                      dataType="numeric"
+                      name="ODORGN"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORSQ]"
+                      dataType="numeric"
+                      name="ODORSQ"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLITP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ODLITP" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ODORTP" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="ODITNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITD1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      name="ODITD1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITD2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      name="ODITD2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODQTOR]"
+                      dataType="decimal"
+                      name="ODQTOR"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODQTSH]"
+                      dataType="decimal"
+                      name="ODQTSH"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODBOQT]"
+                      dataType="decimal"
+                      name="ODBOQT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITCL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ODITCL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODITSC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ODITSC" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLSPR]"
+                      dataType="decimal"
+                      name="ODLSPR"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODASLP]"
+                      dataType="decimal"
+                      name="ODASLP"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLNAM]"
+                      dataType="decimal"
+                      name="ODLNAM"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODSYAM]"
+                      dataType="decimal"
+                      name="ODSYAM"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCAVC]"
+                      dataType="decimal"
+                      name="ODCAVC"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODLNVL]"
+                      dataType="decimal"
+                      name="ODLNVL"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output].ExternalColumns[ODCSTX]"
+                      dataType="decimal"
+                      name="ODCSTX"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCSNO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCSNO]"
+                      name="ODCSNO"
+                      precision="10" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCONO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCONO]"
+                      name="ODCONO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORNO]"
+                      name="ODORNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORGN]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORGN]"
+                      name="ODORGN"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORSQ]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORSQ]"
+                      name="ODORSQ"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLITP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLITP]"
+                      name="ODLITP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODORTP]"
+                      name="ODORTP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITNO]"
+                      name="ODITNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITD1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITD1]"
+                      name="ODITD1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITD2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="31"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITD2]"
+                      name="ODITD2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODQTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODQTOR]"
+                      name="ODQTOR"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODQTSH]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODQTSH]"
+                      name="ODQTSH"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODBOQT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODBOQT]"
+                      name="ODBOQT"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITCL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITCL]"
+                      name="ODITCL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITSC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODITSC]"
+                      name="ODITSC" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLSPR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLSPR]"
+                      name="ODLSPR"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODASLP]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODASLP]"
+                      name="ODASLP"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLNAM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLNAM]"
+                      name="ODLNAM"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODSYAM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODSYAM]"
+                      name="ODSYAM"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCAVC]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCAVC]"
+                      name="ODCAVC"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLNVL]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODLNVL]"
+                      name="ODLNVL"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCSTX]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ODCSTX]"
+                      name="ODCSTX"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\ORHED"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="ORHED"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::sqlHSHED</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\ORHED.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSNO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSNO]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSNO]"
+                      name="OHCSNO"
+                      precision="10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCONO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCONO]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCONO]"
+                      name="OHCONO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHORNO]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORNO]"
+                      name="OHORNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHORTP]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHORTP]"
+                      name="OHORTP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHETDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHETDT]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHETDT]"
+                      name="OHETDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHDUDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHDUDT]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHDUDT]"
+                      name="OHDUDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSPO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSPO]"
+                      length="22"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSPO]"
+                      name="OHCSPO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHISAM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHISAM]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHISAM]"
+                      name="OHISAM"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHINAM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHINAM]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHINAM]"
+                      name="OHINAM"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHTNAM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHTNAM]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHTNAM]"
+                      name="OHTNAM"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSCL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSCL]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSCL]"
+                      name="OHCSCL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSSC]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSSC]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCSSC]"
+                      name="OHCSSC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCLDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCLDT]"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].Columns[OHCLDT]"
+                      name="OHCLDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSNO]"
+                      dataType="numeric"
+                      name="OHCSNO"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCONO]"
+                      dataType="numeric"
+                      name="OHCONO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="OHORNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="OHORTP" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHETDT]"
+                      dataType="numeric"
+                      name="OHETDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHDUDT]"
+                      dataType="numeric"
+                      name="OHDUDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSPO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="22"
+                      name="OHCSPO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHISAM]"
+                      dataType="decimal"
+                      name="OHISAM"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHINAM]"
+                      dataType="decimal"
+                      name="OHINAM"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHTNAM]"
+                      dataType="decimal"
+                      name="OHTNAM"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSCL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="OHCSCL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCSSC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="OHCSSC" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output].ExternalColumns[OHCLDT]"
+                      dataType="numeric"
+                      name="OHCLDT"
+                      precision="6" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSNO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSNO]"
+                      name="OHCSNO"
+                      precision="10" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCONO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCONO]"
+                      name="OHCONO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHORNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHORNO]"
+                      name="OHORNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHORTP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHORTP]"
+                      name="OHORTP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHETDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHETDT]"
+                      name="OHETDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHDUDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHDUDT]"
+                      name="OHDUDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSPO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="22"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSPO]"
+                      name="OHCSPO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHISAM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHISAM]"
+                      name="OHISAM"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHINAM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHINAM]"
+                      name="OHINAM"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHTNAM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHTNAM]"
+                      name="OHTNAM"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSCL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSCL]"
+                      name="OHCSCL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSSC]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCSSC]"
+                      name="OHCSSC" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCLDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[OHCLDT]"
+                      name="OHCLDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\ORHED.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination 1.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\ORDET.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Begin Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5F92721A-790F-408E-B962-7A83DF92250B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Begin Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{75C72FCE-1541-4C0D-A1DA-7A0882ED1D5D}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_DateToInt(dateadd(dd,-14,getdate())) as StartDate"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StartDate"
+            SQLTask:DtsVariableName="User::Start_Date" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Table ORDET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6FE8363D-459A-4101-8B41-D1489669210C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Table ORDET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{75C72FCE-1541-4C0D-A1DA-7A0882ED1D5D}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="truncate table reference.dbo.ORDET&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate table ORHED"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C59B0FF1-23D5-472C-9F26-39335C7500BE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate table ORHED"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{75C72FCE-1541-4C0D-A1DA-7A0882ED1D5D}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="truncate table reference.dbo.ORHED" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7AD06D22-BC0A-4D51-AAFD-0D2C170AB96B}"
+      DTS:From="Package\Get Begin Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Construct ORDET SQL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{37556953-5111-4F41-94AF-250970B8A703}"
+      DTS:From="Package\Construct ORDET SQL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Construct ORHED SQL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{CEABF088-A6CB-440A-BA61-183C7C44A3F7}"
+      DTS:From="Package\Construct ORHED SQL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{8C197A00-BAC2-4D1B-A78A-F8C665613782}"
+      DTS:From="Package\Truncate Table ORDET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Get Begin Date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{742C37E0-C0F4-46F2-905C-E74E66995161}"
+      DTS:From="Package\Truncate table ORHED"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Truncate Table ORDET" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Construct ORDET SQL"
+          TopLeft="43.8188679245283,138.415094339623" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Construct ORHED SQL"
+          TopLeft="26.4,71.2" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="41.4867924528302,3.90000000000001" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Begin Date"
+          TopLeft="40.4679245283019,207.379245283019" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate Table ORDET"
+          TopLeft="217.864150943397,207.38679245283" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate table ORHED"
+          TopLeft="409.6,205.38679245283" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="110.143396226415,207.379245283019">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-24.9641509433964"
+              Start="0,0"
+              End="0,-17.4641509433964">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-17.4641509433964" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="111.709433962264,138.415094339623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-25.6150943396226"
+              Start="0,0"
+              End="0,-18.1150943396226">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-18.1150943396226" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="110.543396226415,71.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-23.3"
+              Start="0,0"
+              End="0,-15.8">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-15.8" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="217.864150943397,229.383018867924">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-41.3962264150947,0"
+              Start="0,0"
+              End="-33.8962264150947,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-33.8962264150947,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="409.6,227.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-55.9622641509434,2"
+              Start="0,0"
+              End="-48.4622641509434,2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-28,0" />
+                  <mssgle:LineSegment
+                    End="-28,2" />
+                  <mssgle:LineSegment
+                    End="-48.4622641509434,2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="113.6,41.6"
+          Id="Package\Data Flow Task\ORHED"
+          TopLeft="20.4,9.40000000000001" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\OLE DB Destination 1"
+          TopLeft="177.359838158156,113.836071109404" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="5.5,108.556603773585" />
+        <NodeLayout
+          Size="112.8,41.6"
+          Id="Package\Data Flow Task\ORDET"
+          TopLeft="196.2,16.2" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+          TopLeft="75.35,51">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.556603773585"
+              Start="0,0"
+              End="0,50.056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="248.979919079078,57.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.036071109404"
+              Start="0,0"
+              End="0,48.536071109404">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.536071109404" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\ORHED">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination 1">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\ORDET">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

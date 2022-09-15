@@ -1,0 +1,1006 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/23/2007 10:43:34 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG1"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{88F2A422-C4A8-4110-9CE1-BFA848AEAF8A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Smartclix_Daily_Export"
+  DTS:PackageType="5"
+  DTS:VersionBuild="247"
+  DTS:VersionGUID="{CEE7359F-B0EC-4D09-9440-E432317EEA05}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bambig03.ReportData.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{3BB0C3E5-8B10-4000-9B70-CA271CBF9E33}"
+      DTS:ObjectName="bambig03.ReportData.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03ReportDataInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=ReportData;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMGC2.svc4_prod.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1D334E36-5921-457A-9827-FE1C1EE27784}"
+      DTS:ObjectName="BAMGC2.svc4_prod.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BAMGC2Svc4_prodInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMGC2;User ID=infausr;Initial Catalog=svc4_prod;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA0UtG9sFKTc0oDOqPJSG7SAAAAAASAAACgAAAAEAAAAJmxxGb9eAI+cYwI4jYfN2IYAAAAcDIpNOQxA5CWgskNLpGTN7iGoLc0fuBKFAAAAB0DY6JV9/exG6V1TQ+Mpmc7PfAE</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SVC_Daily_Detail_csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{7CA6BFAD-162A-4865-AD43-B77B02D602DE}"
+      DTS:ObjectName="SVC_Daily_Detail_csv">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::SVC_Daily_Detail_csv_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="E:\Public\FileData\SVC_Data\SVC_Daily_Detail_.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="20"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Acct"
+              DTS:DTSID="{204EFE43-2824-41B6-A4E8-E3D20C5AA271}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TranType"
+              DTS:DTSID="{81E64F28-70E4-46CC-B304-E7554FA06CA6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CardType"
+              DTS:DTSID="{A05D1976-00FB-4D69-96B6-310F535E293A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Store"
+              DTS:DTSID="{8D2F9645-C223-4E4A-837A-1EA9A74C2B7B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ChainID"
+              DTS:DTSID="{5FA21BCD-C0EE-4515-A5F8-F98D55F33CAD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Terminal"
+              DTS:DTSID="{F852C34C-608C-400E-8612-0D1BF4FF406C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Invoice"
+              DTS:DTSID="{1C7EC600-4C3D-465B-A5FA-1BC7105284C5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AuthCode"
+              DTS:DTSID="{828B8178-5AEE-4040-BF24-371FC4FA5F58}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="135"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TranDate"
+              DTS:DTSID="{19B9E36D-C22A-4E47-809B-79FA0E989347}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TranTime"
+              DTS:DTSID="{7546FD67-E56F-40D8-B3A0-7D0138F8DC02}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="10"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount"
+              DTS:DTSID="{65BEB4F1-D21A-4776-96AF-61CC4927A5B5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="20"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GcUsed_on"
+              DTS:DTSID="{17A81C18-A53D-4115-8546-B1DDFD632821}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SVC_Daily_Summary_csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{C5A00BCB-CC72-4FF0-ADF1-C7102E921214}"
+      DTS:ObjectName="SVC_Daily_Summary_csv">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::SVC_Daily_Summary_csv_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="E:\public\FileData\SVC_Data\SVC_Daily_Summary_.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Store"
+              DTS:DTSID="{89A7A2FC-3F80-47B3-BE58-C7AD802B3DB6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="38"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ActivationsReloads"
+              DTS:DTSID="{0EF404BB-9251-4C8B-B21A-29E9474152C8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="38"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Redeems"
+              DTS:DTSID="{9F3F3943-B440-42EC-82B2-AFCCD1061A07}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="135"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Day_Date"
+              DTS:DTSID="{8602FDD3-9FB2-4E4A-84C2-F3C9E3E4D187}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AB09CE1A-6C42-4DDB-BDE4-06550C6393B7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DetailSql">
+      <DTS:VariableValue
+        DTS:DataType="8">exec usp_Extract_Daily_Detail</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A92709D9-2588-442B-A85E-58EED4E54231}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartDate">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5F73AB35-8424-49AB-B3C6-F7E308226188}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SummarySql">
+      <DTS:VariableValue
+        DTS:DataType="8">exec usp_Extract_Daily_Summary</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{CCBAC0FC-ECD8-49E5-AFEE-57471BB6003E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Extract Detail"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Extract Detail"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[tmp_SVC_Daily_Detail]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select 
+'00000' as Acct
+,TranType
+,CardType
+,Store
+,ChainID
+,Terminal
+,TranDate
+,TranTime
+,Amount
+,Gcused_On
+from GcTran_Dbfile
+where Transtatus &lt;&gt; 'D'
+and Trantype &lt;&gt;'BALANCEINQUIRY'
+AND CARDTYPE = 'RwrdCard01' 
+and trandate &gt;='2014-11-16 00:00:00.000'</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Extract Detail.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMGC2.svc4_prod.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMGC2.svc4_prod.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Acct]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Acct]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Acct]"
+                      name="Acct"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranType]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranType]"
+                      name="TranType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[CardType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[CardType]"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[CardType]"
+                      name="CardType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Store]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Store]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Store]"
+                      name="Store"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[ChainID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[ChainID]"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[ChainID]"
+                      name="ChainID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Terminal]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Terminal]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Terminal]"
+                      name="Terminal"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranDate]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranDate]"
+                      name="TranDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranTime]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranTime]"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranTime]"
+                      name="TranTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Gcused_On]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Gcused_On]"
+                      length="20"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Gcused_On]"
+                      name="Gcused_On"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Acct]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Acct" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TranType" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[CardType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="CardType" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Store]"
+                      dataType="i4"
+                      name="Store" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[ChainID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ChainID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Terminal]"
+                      dataType="i4"
+                      name="Terminal" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranDate]"
+                      dataType="dbTimeStamp"
+                      name="TranDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[TranTime]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="TranTime" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].ExternalColumns[Gcused_On]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Gcused_On" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Acct]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Acct]"
+                      name="Acct" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranType]"
+                      name="TranType" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[CardType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[CardType]"
+                      name="CardType" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Store]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Store]"
+                      name="Store" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ChainID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ChainID]"
+                      name="ChainID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Terminal]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Terminal]"
+                      name="Terminal" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranDate]"
+                      name="TranDate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranTime]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[TranTime]"
+                      name="TranTime" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Gcused_On]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[Gcused_On]"
+                      name="Gcused_On" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Rewards_Cards]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bambig03.ReportData.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bambig03.ReportData.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Acct]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Acct"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acct]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Acct]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TranType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="TranType"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TranType]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranType]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CardType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="CardType"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CardType]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[CardType]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Store]"
+                      cachedDataType="i4"
+                      cachedName="Store"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Store]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ChainID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="ChainID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ChainID]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[ChainID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Terminal]"
+                      cachedDataType="i4"
+                      cachedName="Terminal"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Terminal]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Terminal]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TranDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="TranDate"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TranDate]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranDate]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TranTime]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="TranTime"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Trantime]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[TranTime]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gcused_On]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Gcused_On"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GcUsed_On]"
+                      lineageId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output].Columns[Gcused_On]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acct]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Acct" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TranType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TranType" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CardType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="CardType" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                      dataType="i4"
+                      name="Store" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ChainID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="ChainID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Terminal]"
+                      dataType="i4"
+                      name="Terminal" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TranDate]"
+                      dataType="dbTimeStamp"
+                      name="TranDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Trantime]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="Trantime" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GcUsed_On]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="GcUsed_On" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\Extract Detail.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Delete All Records from Rewards_Cards"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{77547C59-0EC0-4523-8E0B-9949D20D1C77}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete All Records from Rewards_Cards"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3BB0C3E5-8B10-4000-9B70-CA271CBF9E33}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="delete from reportdata..Rewards_Cards&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{38C78356-C45E-4FD6-A046-A38FBF549DD1}"
+      DTS:From="Package\Delete All Records from Rewards_Cards"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="6.95660377358492,147.084905660377" />
+        <NodeLayout
+          Size="185.6,44"
+          Id="Package\Delete All Records from Rewards_Cards"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="98.3,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-23.3433962264151,97.584905660377"
+              Start="0,0"
+              End="-23.3433962264151,90.084905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.7924528301885" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,44.7924528301885"
+                    Point2="0,48.7924528301885"
+                    Point3="-4,48.7924528301885" />
+                  <mssgle:LineSegment
+                    End="-19.3433962264151,48.7924528301885" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.3433962264151,48.7924528301885"
+                    Point2="-23.3433962264151,48.7924528301885"
+                    Point3="-23.3433962264151,52.7924528301885" />
+                  <mssgle:LineSegment
+                    End="-23.3433962264151,90.084905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="29.5377358490566,138.896226415094" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\Extract Detail"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="73.5,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41.6377358490566,89.3962264150944"
+              Start="0,0"
+              End="41.6377358490566,81.8962264150944">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.6981132075472" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.6981132075472"
+                    Point2="0,44.6981132075472"
+                    Point3="4,44.6981132075472" />
+                  <mssgle:LineSegment
+                    End="37.6377358490566,44.6981132075472" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37.6377358490566,44.6981132075472"
+                    Point2="41.6377358490566,44.6981132075472"
+                    Point3="41.6377358490566,48.6981132075472" />
+                  <mssgle:LineSegment
+                    End="41.6377358490566,81.8962264150944" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Extract Detail">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

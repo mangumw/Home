@@ -1,0 +1,656 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/20/2015 10:38:20 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\dhernandez"
+  DTS:DTSID="{6A9DE816-C673-4531-94B3-86734B2A5CA4}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="CSHDEP Replication"
+  DTS:PackageType="5"
+  DTS:VersionBuild="42"
+  DTS:VersionGUID="{90C1A274-DBB8-4933-8CC7-3AF92AC3DE62}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.lawson_reports]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D1C0BC88-E2E3-4A31-AFE0-B51CFF49BFD5}"
+      DTS:ObjectName="BAMBIG03.lawson_reports">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03Lawson_reportsInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=lawson_reports;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bkl400.BKL400.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{477AAA89-FFF5-4973-9788-6D91CDB219C3}"
+      DTS:ObjectName="bkl400.BKL400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::bkl400_BKL400_infausr]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bkl400;User ID=infausr;Initial Catalog=BKL400;Provider=IBMDA400.DataSource.1;Persist Security Info=True;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADQQzqti1HO95y7M9YNLEUlAAAAAASAAACgAAAAEAAAAFnGj/AGtiSN4Zqxg9PWyE4YAAAAZbuJlXaGPospZ+daEkiNjrBYV3ncc0Y6FAAAALMX/PkNE54srJi4VYEXDA5xYPhi</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{82F9F58D-90D7-4F8E-9659-94D494657F82}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartDate">
+      <DTS:VariableValue
+        DTS:DataType="5">30201.</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D328EC66-A65A-4980-9629-0409CE383A7C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Variable"
+      DTS:ReadOnly="True">
+      <DTS:VariableValue
+        DTS:DataType="5">-1.</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete From CSHDEP"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FE0C73BF-57D1-4B0A-9FDF-3FCC8D7D46A1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete From CSHDEP"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D1C0BC88-E2E3-4A31-AFE0-B51CFF49BFD5}"
+          SQLTask:SqlStatementSource="delete from cshdep where dpdate &gt;= ?&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StartDate"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="5"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load CSHDEP data for last 44 days"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0308FD7F-ABD4-491D-9D89-52538C8D2BC0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CSHDEP data for last 44 days"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CSHDEP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.lawson_reports]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.lawson_reports]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DPSTOR]"
+                      cachedDataType="numeric"
+                      cachedName="DPSTOR"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPSTOR]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPSTOR]" />
+                    <inputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DPCEN]"
+                      cachedDataType="numeric"
+                      cachedName="DPCEN"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPCEN]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPCEN]" />
+                    <inputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DPDATE]"
+                      cachedDataType="numeric"
+                      cachedName="DPDATE"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPDATE]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPDATE]" />
+                    <inputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DPLIN]"
+                      cachedDataType="numeric"
+                      cachedName="DPLIN"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPLIN]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPLIN]" />
+                    <inputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DPAMT]"
+                      cachedDataType="numeric"
+                      cachedName="DPAMT"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPAMT]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPAMT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPSTOR]"
+                      dataType="numeric"
+                      name="DPSTOR"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPCEN]"
+                      dataType="numeric"
+                      name="DPCEN"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPDATE]"
+                      dataType="numeric"
+                      name="DPDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPLIN]"
+                      dataType="numeric"
+                      name="DPLIN"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DPAMT]"
+                      dataType="numeric"
+                      name="DPAMT"
+                      precision="11"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CSHDEP data for last 44 days\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">Select dpstor, dpcen, dpdate, dplin, dpamt from mm4r4lib.cshdep
+ where dpreg &lt; 1 and dptil &lt; 1 and dpdate &gt;= ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001"":Input",{82F9F58D-90D7-4F8E-9659-94D494657F82};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[bkl400.BKL400.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[bkl400.BKL400.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPSTOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPSTOR]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPSTOR]"
+                      name="DPSTOR"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPCEN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPCEN]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPCEN]"
+                      name="DPCEN"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPDATE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPDATE]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPDATE]"
+                      name="DPDATE"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPLIN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPLIN]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPLIN]"
+                      name="DPLIN"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPAMT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPAMT]"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].Columns[DPAMT]"
+                      name="DPAMT"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPSTOR]"
+                      dataType="decimal"
+                      name="DPSTOR" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPCEN]"
+                      dataType="decimal"
+                      name="DPCEN" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPDATE]"
+                      dataType="numeric"
+                      name="DPDATE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPLIN]"
+                      dataType="numeric"
+                      name="DPLIN"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DPAMT]"
+                      dataType="decimal"
+                      name="DPAMT"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPSTOR]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPSTOR]"
+                      name="DPSTOR" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPCEN]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPCEN]"
+                      name="DPCEN" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPDATE]"
+                      dataType="numeric"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPDATE]"
+                      name="DPDATE"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPLIN]"
+                      dataType="numeric"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPLIN]"
+                      name="DPLIN"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPAMT]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DPAMT]"
+                      name="DPAMT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CSHDEP data for last 44 days.Paths[OLE DB Source Output]"
+              endId="Package\Load CSHDEP data for last 44 days\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load CSHDEP data for last 44 days\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set StartDate"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{63B44D14-C7B6-4A77-A30B-FEC414D111D3}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set StartDate"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_cb7631611b9d447f8311c85c3122469d"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B8C88DC0-2D53-4DFB-9969-15140C2BEEDD}"
+      DTS:From="Package\Set StartDate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Delete From CSHDEP" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4CCC226A-0C2E-4C78-9D44-54E630B9E018}"
+      DTS:From="Package\Delete From CSHDEP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load CSHDEP data for last 44 days" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\Delete From CSHDEP"
+          TopLeft="38,108.5" />
+        <NodeLayout
+          Size="243.2,41.6"
+          Id="Package\Load CSHDEP data for last 44 days"
+          TopLeft="7.30000000000004,211.5" />
+        <NodeLayout
+          Size="142.4,41.6"
+          Id="Package\Set StartDate"
+          TopLeft="56.5,4.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="127.5,46.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,62"
+              Start="0,0"
+              End="0,54.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="128.25,150.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.4"
+              Start="0,0"
+              End="0,53.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load CSHDEP data for last 44 days">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Load CSHDEP data for last 44 days\OLE DB Destination"
+          TopLeft="205,149" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Load CSHDEP data for last 44 days\OLE DB Source"
+          TopLeft="277.714290443732,53.2235301582046" />
+        <EdgeLayout
+          Id="Package\Load CSHDEP data for last 44 days.Paths[OLE DB Source Output]"
+          TopLeft="352.914290443732,94.8235301582046">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-62.3142904437319,54.1764698417954"
+              Start="0,0"
+              End="-62.3142904437319,46.6764698417954">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.0882349208977" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.0882349208977"
+                    Point2="0,27.0882349208977"
+                    Point3="-4,27.0882349208977" />
+                  <mssgle:LineSegment
+                    End="-58.3142904437319,27.0882349208977" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-58.3142904437319,27.0882349208977"
+                    Point2="-62.3142904437319,27.0882349208977"
+                    Point3="-62.3142904437319,31.0882349208977" />
+                  <mssgle:LineSegment
+                    End="-62.3142904437319,46.6764698417954" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CSHDEP data for last 44 days\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CSHDEP data for last 44 days\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

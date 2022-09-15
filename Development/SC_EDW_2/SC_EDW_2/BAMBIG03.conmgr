@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="BAMBIG03"
+  DTS:DTSID="{6A2D4799-336C-4076-9F29-E440C2E3370D}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="Password">@[$Project::Pass]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="UserName">@[$Project::User]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=BAMBIG03;User ID=Infausr;Initial Catalog=Reference;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAC++j6FXnAU+F3+4FxfOOuAAAAAACAAAAAAADZgAAwAAAABAAAAAnkvqaj1CGU1Edsz4pEsK0AAAAAASAAACgAAAAEAAAACrqRYYuVS4by2ZGX5hD1np4AAAABegIE/93YmQhMQntge7ywXYuFbE94rh41xcj04Vjs8OqpJh+nZRAtnnX/wtMHVi+TspTJhv0l5X+87r8oKIkXfKQ9GPiFNzN1lEwQvDmKhevVHr71cLxlMZpxHmBu2MS4YuLBRAdvmm/N47veH18skDbTgUj+CGuFAAAAA7ffAYhV3+TotV/WezMKd2xbCn6</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

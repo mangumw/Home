@@ -1,0 +1,1708 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/19/2022 3:08:55 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{E2C852DD-1CBD-49A7-92A9-61C56D45062B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_PRCPLN"
+  DTS:PackageType="5"
+  DTS:VersionBuild="28"
+  DTS:VersionGUID="{BF4475F2-CA48-408B-A350-B0E33C86D8EA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{80A2CE70-4230-4811-AB61-7DDE27A1E99B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.PRCPLN;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{1FD9F34D-E3D8-4873-83D1-C64C31CA5887}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 PRCPLN"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 PRCPLN"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT PLNITM AS ItemNumber,
+       PLNLVL AS ChangeCodeLevel,
+       PLNSTR AS StoreNumber,
+       PLNVND AS VendorNumber,
+       PLNSTY AS StyleNumber,
+       PLNCCN AS StartDateCentCode,
+       CASE PLNCCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(PLNCDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(PLNCDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS TheEffectiveDatePriceChange,
+       PLNTYP AS ThePriceEventType,
+       PLNFLG AS ISCurrentStatus,
+       PLNEVT AS PriceEventNo,
+       PLNAMT AS NewPrice,
+       PLNMLT AS PriceMultiple,
+       PLNMXM AS MixMatchGroup,
+       PLNQTY AS BuyQuantity,
+       PLNQTV AS BuyValue,
+       PLNQTT AS BuyValueType,
+       PLNQND AS QtyEndValue,
+       PLNEQM AS QuantityBreak,
+       PLNACN AS EndDateCentCode,
+       CASE PLNACN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(PLNADT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(PLNADT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS EndingDatePricingRecord,
+       PLNREC AS RecordType,
+       PLNPYN AS IsProcessed,
+       PLNHST AS IsHistory,
+       PLNNCN AS NotifyStartCentCode,
+       CASE PLNNCN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(PLNNDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(PLNNDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS NotifyStartDate,
+       PLNECN AS NotifyEndEndCent,
+       CASE PLNECN
+           WHEN 0 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(PLNEDT + 19000000), 'YYYYMMDD'), 'YYYYMMDD')
+           WHEN 1 THEN varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(PLNEDT, 6, 0)), 'YYMMDD'), 'YYMMDD')
+       END AS NotifyEndDate,
+       PLNCOV AS ApplyCSDOverAD,
+       PLNLOV AS ApplyLocOverrideAD
+    FROM MM4R4LIB.PRCPLN
+    WHERE PLNNDT = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYYYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)
+    GROUP BY PLNITM, 
+       PLNLVL,
+       PLNSTR,
+       PLNVND,
+       PLNSTY,
+       PLNCCN,
+       PLNCCN,
+       PLNCDT,
+       PLNTYP,
+       PLNFLG,
+       PLNEVT,
+       PLNAMT,
+       PLNMLT,
+       PLNMXM,
+       PLNQTY,
+       PLNQTV,
+       PLNQTT,
+       PLNQND,
+       PLNEQM,
+       PLNACN,
+       PLNACN,
+       PLNREC,
+       PLNPYN,
+       PLNHST,
+       PLNNCN,
+       PLNECN,
+       PLNCOV,
+       PLNLOV,
+       PLNADT,
+       PLNNDT,
+       PLNEDT</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 PRCPLN.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ITEMNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ITEMNUMBER]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ITEMNUMBER]"
+                      name="ITEMNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[CHANGECODELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[CHANGECODELEVEL]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[CHANGECODELEVEL]"
+                      name="CHANGECODELEVEL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[VENDORNUMBER]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]"
+                      name="VENDORNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STARTDATECENTCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STARTDATECENTCODE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STARTDATECENTCODE]"
+                      name="STARTDATECENTCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[THEEFFECTIVEDATEPRICECHANGE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      name="THEEFFECTIVEDATEPRICECHANGE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEPRICEEVENTTYPE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[THEPRICEEVENTTYPE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEPRICEEVENTTYPE]"
+                      name="THEPRICEEVENTTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISCURRENTSTATUS]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISCURRENTSTATUS]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISCURRENTSTATUS]"
+                      name="ISCURRENTSTATUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEEVENTNO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[PRICEEVENTNO]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEEVENTNO]"
+                      name="PRICEEVENTNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NEWPRICE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NEWPRICE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NEWPRICE]"
+                      name="NEWPRICE"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEMULTIPLE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[PRICEMULTIPLE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEMULTIPLE]"
+                      name="PRICEMULTIPLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[MIXMATCHGROUP]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[MIXMATCHGROUP]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[MIXMATCHGROUP]"
+                      name="MIXMATCHGROUP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYQUANTITY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYQUANTITY]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYQUANTITY]"
+                      name="BUYQUANTITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYVALUE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUE]"
+                      name="BUYVALUE"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUETYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYVALUETYPE]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUETYPE]"
+                      name="BUYVALUETYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QTYENDVALUE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[QTYENDVALUE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QTYENDVALUE]"
+                      name="QTYENDVALUE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QUANTITYBREAK]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[QUANTITYBREAK]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QUANTITYBREAK]"
+                      name="QUANTITYBREAK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDDATECENTCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ENDDATECENTCODE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDDATECENTCODE]"
+                      name="ENDDATECENTCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDINGDATEPRICINGRECORD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ENDINGDATEPRICINGRECORD]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDINGDATEPRICINGRECORD]"
+                      name="ENDINGDATEPRICINGRECORD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[RECORDTYPE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[RECORDTYPE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[RECORDTYPE]"
+                      name="RECORDTYPE"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISPROCESSED]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISPROCESSED]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISPROCESSED]"
+                      name="ISPROCESSED"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISHISTORY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISHISTORY]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISHISTORY]"
+                      name="ISHISTORY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTCENTCODE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYSTARTCENTCODE]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTCENTCODE]"
+                      name="NOTIFYSTARTCENTCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYSTARTDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTDATE]"
+                      name="NOTIFYSTARTDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDENDCENT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYENDENDCENT]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDENDCENT]"
+                      name="NOTIFYENDENDCENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYENDDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDDATE]"
+                      name="NOTIFYENDDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYCSDOVERAD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[APPLYCSDOVERAD]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYCSDOVERAD]"
+                      name="APPLYCSDOVERAD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYLOCOVERRIDEAD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[APPLYLOCOVERRIDEAD]"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYLOCOVERRIDEAD]"
+                      name="APPLYLOCOVERRIDEAD"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ITEMNUMBER]"
+                      dataType="decimal"
+                      name="ITEMNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[CHANGECODELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CHANGECODELEVEL" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="decimal"
+                      name="STORENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[VENDORNUMBER]"
+                      dataType="decimal"
+                      name="VENDORNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="STYLENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[STARTDATECENTCODE]"
+                      dataType="decimal"
+                      name="STARTDATECENTCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[THEEFFECTIVEDATEPRICECHANGE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="THEEFFECTIVEDATEPRICECHANGE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[THEPRICEEVENTTYPE]"
+                      dataType="decimal"
+                      name="THEPRICEEVENTTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISCURRENTSTATUS]"
+                      dataType="decimal"
+                      name="ISCURRENTSTATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[PRICEEVENTNO]"
+                      dataType="decimal"
+                      name="PRICEEVENTNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NEWPRICE]"
+                      dataType="decimal"
+                      name="NEWPRICE"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[PRICEMULTIPLE]"
+                      dataType="decimal"
+                      name="PRICEMULTIPLE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[MIXMATCHGROUP]"
+                      dataType="decimal"
+                      name="MIXMATCHGROUP" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYQUANTITY]"
+                      dataType="decimal"
+                      name="BUYQUANTITY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYVALUE]"
+                      dataType="decimal"
+                      name="BUYVALUE"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[BUYVALUETYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="BUYVALUETYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[QTYENDVALUE]"
+                      dataType="decimal"
+                      name="QTYENDVALUE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[QUANTITYBREAK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="QUANTITYBREAK" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ENDDATECENTCODE]"
+                      dataType="decimal"
+                      name="ENDDATECENTCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ENDINGDATEPRICINGRECORD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="ENDINGDATEPRICINGRECORD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[RECORDTYPE]"
+                      dataType="numeric"
+                      name="RECORDTYPE"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISPROCESSED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ISPROCESSED" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[ISHISTORY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ISHISTORY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYSTARTCENTCODE]"
+                      dataType="decimal"
+                      name="NOTIFYSTARTCENTCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYSTARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="NOTIFYSTARTDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYENDENDCENT]"
+                      dataType="decimal"
+                      name="NOTIFYENDENDCENT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[NOTIFYENDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="NOTIFYENDDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[APPLYCSDOVERAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="APPLYCSDOVERAD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].ExternalColumns[APPLYLOCOVERRIDEAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="APPLYLOCOVERRIDEAD" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ITEMNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ITEMNUMBER]"
+                      name="ITEMNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[CHANGECODELEVEL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[CHANGECODELEVEL]"
+                      name="CHANGECODELEVEL" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[VENDORNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[VENDORNUMBER]"
+                      name="VENDORNUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STYLENUMBER]"
+                      name="STYLENUMBER" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STARTDATECENTCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[STARTDATECENTCODE]"
+                      name="STARTDATECENTCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      name="THEEFFECTIVEDATEPRICECHANGE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[THEPRICEEVENTTYPE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[THEPRICEEVENTTYPE]"
+                      name="THEPRICEEVENTTYPE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISCURRENTSTATUS]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISCURRENTSTATUS]"
+                      name="ISCURRENTSTATUS" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[PRICEEVENTNO]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[PRICEEVENTNO]"
+                      name="PRICEEVENTNO" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NEWPRICE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NEWPRICE]"
+                      name="NEWPRICE"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[PRICEMULTIPLE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[PRICEMULTIPLE]"
+                      name="PRICEMULTIPLE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[MIXMATCHGROUP]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[MIXMATCHGROUP]"
+                      name="MIXMATCHGROUP" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYQUANTITY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYQUANTITY]"
+                      name="BUYQUANTITY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYVALUE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYVALUE]"
+                      name="BUYVALUE"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYVALUETYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[BUYVALUETYPE]"
+                      name="BUYVALUETYPE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[QTYENDVALUE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[QTYENDVALUE]"
+                      name="QTYENDVALUE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[QUANTITYBREAK]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[QUANTITYBREAK]"
+                      name="QUANTITYBREAK" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ENDDATECENTCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ENDDATECENTCODE]"
+                      name="ENDDATECENTCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ENDINGDATEPRICINGRECORD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ENDINGDATEPRICINGRECORD]"
+                      name="ENDINGDATEPRICINGRECORD" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[RECORDTYPE]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[RECORDTYPE]"
+                      name="RECORDTYPE"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISPROCESSED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISPROCESSED]"
+                      name="ISPROCESSED" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISHISTORY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ISHISTORY]"
+                      name="ISHISTORY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYSTARTCENTCODE]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYSTARTCENTCODE]"
+                      name="NOTIFYSTARTCENTCODE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYSTARTDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYSTARTDATE]"
+                      name="NOTIFYSTARTDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYENDENDCENT]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYENDENDCENT]"
+                      name="NOTIFYENDENDCENT" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYENDDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[NOTIFYENDDATE]"
+                      name="NOTIFYENDDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[APPLYCSDOVERAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[APPLYCSDOVERAD]"
+                      name="APPLYCSDOVERAD" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[APPLYLOCOVERRIDEAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[APPLYLOCOVERRIDEAD]"
+                      name="APPLYLOCOVERRIDEAD" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified and REPLACENULLs"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified and REPLACENULLs"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="THEEFFECTIVEDATEPRICECHANGE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEEFFECTIVEDATEPRICECHANGE]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(THEEFFECTIVEDATEPRICECHANGE,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input].Columns[ENDINGDATEPRICINGRECORD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ENDINGDATEPRICINGRECORD"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDINGDATEPRICINGRECORD]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDINGDATEPRICINGRECORD]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(ENDINGDATEPRICINGRECORD,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input].Columns[NOTIFYSTARTDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="NOTIFYSTARTDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTDATE]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(NOTIFYSTARTDATE,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input].Columns[NOTIFYENDDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="NOTIFYENDDATE"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDDATE]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDDATE]},"1900-01-01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(NOTIFYENDDATE,"1900-01-01")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server PRCPLN"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server PRCPLN"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[PRCPLN]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server PRCPLN.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ITEMNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="ITEMNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ITEMNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[CHANGECODELEVEL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="CHANGECODELEVEL"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ChangeCodeLevel]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[CHANGECODELEVEL]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="STORENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[VENDORNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="VENDORNUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[VendorNumber]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[VENDORNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[STYLENUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="STYLENUMBER"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STYLENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[STARTDATECENTCODE]"
+                      cachedDataType="decimal"
+                      cachedName="STARTDATECENTCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StartDateCentCode]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[STARTDATECENTCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[THEPRICEEVENTTYPE]"
+                      cachedDataType="decimal"
+                      cachedName="THEPRICEEVENTTYPE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ThePriceEventType]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEPRICEEVENTTYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ISCURRENTSTATUS]"
+                      cachedDataType="decimal"
+                      cachedName="ISCURRENTSTATUS"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ISCurrentStatus]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISCURRENTSTATUS]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[PRICEEVENTNO]"
+                      cachedDataType="decimal"
+                      cachedName="PRICEEVENTNO"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PriceEventNo]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEEVENTNO]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[NEWPRICE]"
+                      cachedDataType="decimal"
+                      cachedName="NEWPRICE"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NewPrice]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NEWPRICE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[PRICEMULTIPLE]"
+                      cachedDataType="decimal"
+                      cachedName="PRICEMULTIPLE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PriceMultiple]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[PRICEMULTIPLE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[MIXMATCHGROUP]"
+                      cachedDataType="decimal"
+                      cachedName="MIXMATCHGROUP"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[MixMatchGroup]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[MIXMATCHGROUP]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[BUYQUANTITY]"
+                      cachedDataType="decimal"
+                      cachedName="BUYQUANTITY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyQuantity]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYQUANTITY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[BUYVALUE]"
+                      cachedDataType="decimal"
+                      cachedName="BUYVALUE"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyValue]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[BUYVALUETYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="BUYVALUETYPE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyValueType]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[BUYVALUETYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[QTYENDVALUE]"
+                      cachedDataType="decimal"
+                      cachedName="QTYENDVALUE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[QtyEndValue]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QTYENDVALUE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[QUANTITYBREAK]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="QUANTITYBREAK"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[QuantityBreak]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[QUANTITYBREAK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ENDDATECENTCODE]"
+                      cachedDataType="decimal"
+                      cachedName="ENDDATECENTCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[EndDateCentCode]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDDATECENTCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ENDINGDATEPRICINGRECORD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="ENDINGDATEPRICINGRECORD"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[EndingDatePricingRecord]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ENDINGDATEPRICINGRECORD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[RECORDTYPE]"
+                      cachedDataType="numeric"
+                      cachedName="RECORDTYPE"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[RecordType]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[RECORDTYPE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ISPROCESSED]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ISPROCESSED"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[IsProcessed]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISPROCESSED]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[ISHISTORY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ISHISTORY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[IsHistory]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[ISHISTORY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[NOTIFYSTARTCENTCODE]"
+                      cachedDataType="decimal"
+                      cachedName="NOTIFYSTARTCENTCODE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyStartCentCode]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTCENTCODE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[NOTIFYSTARTDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="NOTIFYSTARTDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyStartDate]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYSTARTDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[NOTIFYENDENDCENT]"
+                      cachedDataType="decimal"
+                      cachedName="NOTIFYENDENDCENT"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyEndEndCent]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDENDCENT]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[NOTIFYENDDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="NOTIFYENDDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyEndDate]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[NOTIFYENDDATE]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[APPLYCSDOVERAD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="APPLYCSDOVERAD"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ApplyCSDOverAD]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYCSDOVERAD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[APPLYLOCOVERRIDEAD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="APPLYLOCOVERRIDEAD"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ApplyLocOverrideAD]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[APPLYLOCOVERRIDEAD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].Columns[THEEFFECTIVEDATEPRICECHANGE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="THEEFFECTIVEDATEPRICECHANGE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[TheEffectiveDatePriceChange]"
+                      lineageId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output].Columns[THEEFFECTIVEDATEPRICECHANGE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                      dataType="i4"
+                      name="ItemNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ChangeCodeLevel]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ChangeCodeLevel" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StoreNumber]"
+                      dataType="i4"
+                      name="StoreNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[VendorNumber]"
+                      dataType="i4"
+                      name="VendorNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StyleNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="StyleNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[StartDateCentCode]"
+                      dataType="i4"
+                      name="StartDateCentCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[TheEffectiveDatePriceChange]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="TheEffectiveDatePriceChange" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ThePriceEventType]"
+                      dataType="i4"
+                      name="ThePriceEventType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ISCurrentStatus]"
+                      dataType="i4"
+                      name="ISCurrentStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PriceEventNo]"
+                      dataType="i4"
+                      name="PriceEventNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NewPrice]"
+                      dataType="numeric"
+                      name="NewPrice"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[PriceMultiple]"
+                      dataType="i4"
+                      name="PriceMultiple" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[MixMatchGroup]"
+                      dataType="i4"
+                      name="MixMatchGroup" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyQuantity]"
+                      dataType="i4"
+                      name="BuyQuantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyValue]"
+                      dataType="numeric"
+                      name="BuyValue"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[BuyValueType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="BuyValueType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[QtyEndValue]"
+                      dataType="i4"
+                      name="QtyEndValue" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[QuantityBreak]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="QuantityBreak" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[EndDateCentCode]"
+                      dataType="i4"
+                      name="EndDateCentCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[EndingDatePricingRecord]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="EndingDatePricingRecord" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[RecordType]"
+                      dataType="i4"
+                      name="RecordType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[IsProcessed]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IsProcessed" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[IsHistory]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IsHistory" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyStartCentCode]"
+                      dataType="i4"
+                      name="NotifyStartCentCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyStartDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="NotifyStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyEndEndCent]"
+                      dataType="i4"
+                      name="NotifyEndEndCent" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[NotifyEndDate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="NotifyEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ApplyCSDOverAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ApplyCSDOverAD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[ApplyLocOverrideAD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ApplyLocOverrideAD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server PRCPLN.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server PRCPLN.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server PRCPLN.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified and REPLACENULLs.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified and REPLACENULLs.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 PRCPLN.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge PRCPLN"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B51EBF3F-6026-4D6B-BDA4-128B74AECDE2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge PRCPLN"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC EDW.dbo.MERGE_PRCPLN;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate PRCPLN"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{48D9F2D2-F2B1-438D-A5C1-3E04E4247B18}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate PRCPLN"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.PRCPLN;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1E7473A5-515B-4AF2-9F15-221A586866B0}"
+      DTS:From="Package\Truncate PRCPLN"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B88DCB50-D078-4B2F-849D-28C499ABF422}"
+      DTS:From="Package\Load Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge PRCPLN" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{AE4F128B-21AA-4F43-B4CF-F418F128E687}"
+      DTS:From="Package\Merge PRCPLN"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cleanup Staging" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Cleanup Staging"
+          TopLeft="212,289" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="224,127" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Merge PRCPLN"
+          TopLeft="212,210" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Truncate PRCPLN"
+          TopLeft="212,41" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="290,83">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="287,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="288,252">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="237,42"
+          Id="Package\Load Data\Last Modified and REPLACENULLs"
+          TopLeft="125,124" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Load Data\AS400 PRCPLN"
+          TopLeft="166,47" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Load Data\SQL Server PRCPLN"
+          TopLeft="160,212" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="244.75,166">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="242,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 PRCPLN">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server PRCPLN">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

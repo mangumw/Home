@@ -1,0 +1,2698 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/9/2008 11:07:31 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG01"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{00490B9E-1C32-43FD-A99F-90CAB8BAC397}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_IAHST"
+  DTS:PackageType="5"
+  DTS:VersionBuild="32"
+  DTS:VersionGUID="{CBAEB31D-339E-49E9-913A-F633BE2DFA64}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AS400.infausr]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{A95F9BBA-63D1-4840-8540-8B9CB4DA7334}"
+      DTS:ObjectName="AS400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::AS400INFAUSR_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=infausr;Dsn=AS400;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADvaWu5LKMxwQreGeZDwWrKAAAAAASAAACgAAAAEAAAAPu0ZVpw6aw4thby731IeEEYAAAAiz6/MstUk0rJ/oywYnRwfpF/To4kTtb3FAAAAFSgt3cbKFyJUQ1dpOY5wEghb+JJ</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4A601F88-2038-42D5-B57E-23EDB6FD873C}"
+      DTS:ObjectName="BAMBIG03.Staging">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bkl400.BKL400.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2ACA03B1-2644-4EB1-9088-82C5DD541E27}"
+      DTS:ObjectName="bkl400.BKL400.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::bkl400_BKL400_infausr]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bkl400;User ID=infausr;Initial Catalog=BKL400;Provider=IBMDA400.DataSource.1;Persist Security Info=True;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAt2tcriztiB0Gn8q/S50oTAAAAAASAAACgAAAAEAAAANsW/MAxMCCyj+ureOooMSIYAAAAJyhBldS5s84xIv6YzDT6VjE0rPIj99/3FAAAAHnNcdKirN9qjgSZSNfkD+7/mDJL</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E0142F4F-0FE4-4FCC-ACF2-197E06D14784}"
+      DTS:ObjectName="BKL400.BKL400QSYS2.infausr">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::BKL400QSYS2_DB2AS400_Infausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BKL400;User ID=infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BEA0B4ED-C3C3-4557-B1C2-9DBBC28F934C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Start_Date">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{45AECB18-9F9A-40C2-B8E0-3963E009C4CB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strsql">
+      <DTS:VariableValue
+        DTS:DataType="8">select * from aplus2faw.iahst where iatrdt &gt;= 80101</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Build Rows"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{149B8035-DCD5-45BD-8AB7-1AADB20147E9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Rows"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4A601F88-2038-42D5-B57E-23EDB6FD873C}"
+          SQLTask:SqlStatementSource="delete from reference.dbo.IAHST&#xA;where Transaction_Date &gt;= (select staging.dbo.fn_IntToDate(min(IATRDT)) from staging.dbo.tmp_IAHST)&#xA;insert into reference.dbo.IAHST&#xA;SELECT [IAITNO]&#xA;      ,[IAWHID]&#xA;      ,[IAUNMS]&#xA;      ,[IATRCC]&#xA;      ,staging.dbo.fn_combine_date_time(IATRDT,IATIME)&#xA;      ,staging.dbo.fn_IntToDate(IATRDT)&#xA;      ,[IATIME]&#xA;      ,[IASQ04]&#xA;      ,[IATRCD]&#xA;      ,[IATRQT]&#xA;      ,[IACSEX]&#xA;      ,[IACECD]&#xA;      ,[IAQOLT]&#xA;      ,[IAACLT]&#xA;      ,[IAITGL]&#xA;      ,[IACONO]&#xA;      ,[IAPOCC]&#xA;      ,[IAPODT]&#xA;      ,[IAIAC1]&#xA;      ,[IAIAC2]&#xA;      ,[IAIAC3]&#xA;      ,[IAIAC4]&#xA;      ,[IAIAC5]&#xA;      ,[IAIAC6]&#xA;      ,[IAIAC7]&#xA;      ,[IAIAC8]&#xA;      ,[IAIAC9]&#xA;      ,[IADRC1]&#xA;      ,[IADRC2]&#xA;      ,[IADRC3]&#xA;      ,[IADRC4]&#xA;      ,[IADRC5]&#xA;      ,[IADRC6]&#xA;      ,[IADRC7]&#xA;      ,[IADRC8]&#xA;      ,[IADRC9]&#xA;      ,[IAGLA1]&#xA;      ,[IAGLA2]&#xA;      ,[IAGLA3]&#xA;      ,[IAGLA4]&#xA;      ,[IAGLA5]&#xA;      ,[IAGLA6]&#xA;      ,[IAGLA7]&#xA;      ,[IAGLA8]&#xA;      ,[IAGLA9]&#xA;      ,[IAJRNL]&#xA;      ,[IARRNO]&#xA;      ,[IAREC#]&#xA;      ,[IAORUS]&#xA;      ,[IAIAB2]&#xA;      ,[IAUPIN]&#xA;  FROM [Staging].[dbo].[tmp_IAHST]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Build SQL"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{2995200d-f2aa-4df0-8c59-0c0478f8fe0c}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build SQL"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_1c293938dc774e2db877d6ff76b3cd3a"
+          VSTAMajorVersion="3"
+          VSTAMinorVersion="0"
+          Language="VisualBasic"
+          ReadOnlyVariables="Start_Date"
+          ReadWriteVariables="strsql">
+          <ProjectItem
+            Name="ScriptMain.vb"
+            Encoding="UTF8"><![CDATA[' Microsoft SQL Server Integration Services Script Task
+' Write scripts using Microsoft Visual Basic
+' The ScriptMain class is the entry point of the Script Task.
+
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+
+<Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute> _
+<System.CLSCompliantAttribute(False)> _
+Partial Public Class ScriptMain
+	Inherits Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+
+	Enum ScriptResults
+		Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success
+		Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+	End Enum
+
+	' The execution engine calls this method when the task executes.
+	' To access the object model, use the Dts object. Connections, variables, events,
+	' and logging features are available as static members of the Dts class.
+	' Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+	' 
+	' To open Code and Text Editor Help, press F1.
+	' To open Object Browser, press Ctrl+Alt+J.
+
+	Public Sub Main()
+		'
+		' Add your code here
+		'
+        Dim Sql As String
+        Dim StartDate As String
+
+        Sql = "SELECT * from aplus2faw.iahst where iatrdt >= "
+
+        StartDate = CStr(Dts.Variables("Start_Date").Value)
+        Sql = Sql & StartDate
+
+        Dts.Variables("strsql").Value = Sql
+        Dts.TaskResult = ScriptResults.Success
+
+        Dts.TaskResult = ScriptResults.Success
+	End Sub
+
+End Class]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>ST_1c293938dc774e2db877d6ff76b3cd3a</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>ST_1c293938dc774e2db877d6ff76b3cd3a</msb:DisplayName>
+		<msb:ProjectId>{520716DD-6253-4E09-85BA-B95B49F8BEDA}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_1c293938dc774e2db877d6ff76b3cd3a.vbproj"/>
+		<msb:File Include="ScriptMain.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <ProjectItem
+            Name="ST_1c293938dc774e2db877d6ff76b3cd3a.vbproj"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="utf-16"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1219b33c-f72a-4a95-9c71-77aa3d383350}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>My Project</AppDesignerFolder>
+    <RootNamespace>ScriptTask_3a2b7a2bad9a42118237ee501b1b9fb1</RootNamespace>
+    <AssemblyName>ST_1c293938dc774e2db877d6ff76b3cd3a</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=12.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <!-- Include the build rules for a VB project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST120</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="ScriptMain.vb" />
+  </ItemGroup>
+</Project>]]></ProjectItem>
+          <BinaryItem
+            Name="ST_1c293938dc774e2db877d6ff76b3cd3a.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACgKTVoAAAAAAAAAAOAAIiALAVAAABQAAAAGAAAAAAAApjIA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAFQyAABPAAAAAEAAABADAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAArBIAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAABADAAAAQAAAAAQAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACI
+MgAAAAAAAEgAAAACAAUA2CEAAHwQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA8AAAoqHgIoEAAACiqmcxEAAAqAAQAABHMSAAAKgAIA
+AARzEwAACoADAAAEcxQAAAqABAAABCoufgEAAARvFQAACioufgIAAARvFgAACioufgMAAARvFwAA
+CioufgQAAARvGAAACioeAigZAAAKKgAAEzACAGIAAAABAAARcgEAAHAKAigaAAAKbxsAAApyXwAA
+cG8cAAAKbx0AAAooHgAACgsGBygfAAAKCgIoGgAACm8bAAAKcnUAAHBvHAAACgZvIAAACgIoGgAA
+ChZvIQAACgIoGgAAChZvIQAACio2AgMoIgAACigjAAAKKh4CKCQAAAoqLtAGAAACKCUAAAoqHgIo
+JgAACioTMAEAFAAAAAIAABECjAUAABstCCgBAAArCisCAgoGKiID/hUFAAAbKh4CKCgAAAoqAAAA
+EzACACgAAAADAAARAnspAAAKbyoAAAoKBowIAAAbLRIoAgAAKwoCeykAAAoGbysAAAoGKkoCKCgA
+AAoCcywAAAp9KQAACioAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkAAAAABQBsAAAA9AUAACN+
+AABgBgAA3AYAACNTdHJpbmdzAAAAADwNAACEAAAAI1VTAMANAAAQAAAAI0dVSUQAAADQDQAArAIA
+ACNCbG9iAAAAAAAAAAIAAAFXHaIJCQ4AAAD6ATMAFgAAAQAAACEAAAAIAAAACAAAABIAAAADAAAA
+LAAAAAIAAAAqAAAAAwAAAAIAAAAFAAAABQAAAAgAAAABAAAABQAAAAMAAAADAAAAAgAAAAAACQQB
+AAAAAAAGAK4C/QUGAAYD/QUGAPEBPgUPAB0GAAAGAGICRwMKANoB7gQKALAB8wMKAAUC8wMOAKAB
+jQUOAB4FUQUGAHsCPgUOADIC1gUOAEoC3QAGAIEGOgQOAAoFjQUOAJMC3QAGAHcBOgQGAB4CtwUO
+AAEAtwMKAMUBRgQSAOQCjgMGAM4COgQSAIQBjgMGAGoDOgQGAEEEOgQSAOEDjgMWADAGVAEWACcB
+VAEOAEEG1gUGAGMDOgQGAE0G/QUGADABOgQGACcFOgQAAAAAVwAAAAAAAQABAAAAAAB+BKsGJQAB
+AAEAAAAAABwFqwYpAAEAAgAAARAAiAarBjkAAQADAAEAAABjBCsAXQAFAAgABQEAAH8FAAA5AAUA
+CgAFAQAAEAAAADkABQARAAIBAABsBgAAZQAGABMAMQC3BPMAMQCOBPsAMQCiBAMBMQDQBAsBIQCh
+BrEABgaoABMBVoBcBhYBVoB8ARYBUCAAAAAABhgxBQYAAQBYIAAAAAAGGDEFBgABAGAgAAAAABEY
+NwUaAQEAiiAAAAAAEwgPBR4BAQCWIAAAAAATCG4EIwEBAKIgAAAAABMIBgUoAQEAriAAAAAAEwhv
+BS0BAQC6IAAAAAAGGDEFBgABAMQgAAAAAAYAaQQGAAEAMiEAAAAAxgI6Bn0AAQBAIQAAAADGAhsB
+ggACAEghAAAAAIMAdAEyAQIAVCEAAAAAxgJhA44AAgBcIQAAAAARAJUANwECAHwhAAAAAAEAgQA/
+AQMAhSEAAAAABhgxBQYABACQIQAAAAADCAIBSgAEAMQhAAAAAAYYMQUGAAQAAAABAIwEAAABABIB
+AAABABIBCQAxBQEAEQAxBQYAGQAxBQoAKQAxBRAAMQAxBRUAQQAxBRsAWQAxBQYAYQAxBQYAaQAx
+BQYAgQAxBSEAkQAxBSkAoQAxBRAAqQAxBQYAsQAxBSkASQAxBQYAUQAxBQYADAAxBQYAFAAxBQYA
+HAAxBQYAJAAxBQYADAACAUoAFAACAUoAHAACAUoAJAACAUoAuQAxBQYAuQBkBlQA0QAsBlkA2QAx
+BF4A4QAkA2QA6QBhA2gA8QB6Bm0A4QAuA3MA0QCSBgEA+QA4A3gAcQA6Bn0AcQAbAYIAiQBCAYYA
+cQBhA44ACQHzAJoAcQAxBQYANAChBrEAPAAkA0oAPAAuA8gAPAAxBQYACAAcAOkACAAgAO4AKQBj
+AGMCLgALAGABLgATAGkBLgAbAIgBLgAjAJEBQAA7AO4AQAAzANkBQwArAOIBQwAzANkBSQBjAHQC
+YwArAOIBYwAzANkBaQBjAIgCgAA7AO4AgwBDAO4AgwBLAO4AgwArAOIBiQBjAJUCoAA7AO4AowBr
+AO4AowBzAPsBwAA7AO4AwwAzANkBwwBTAAEC4AA7AO4A4wAzANkB4wBbAPsBQAEzANkBQAE7AO4A
+YAEzANkBYAE7AO4AgAEzANkBgAE7AO4AoAEzANkBoAE7AO4AwAE7AO4A4AE7AO4AAAI7AO4AAAIz
+ANkBIAI7AO4AQAI7AO4AQAIzANkBTwCSAKUABAABAAcABQAAAB4FRwEAAIAETAEAAAoFUQEAAIEF
+VgEAAAYBWwECAAQAAwACAAUABQACAAYABwACAAcACQACABEACwAuADUAPABDAJcAqgC5AMAABIAA
+AAAAAAAAAAAAAAAAAAAAsAAAAAQAAAAAAAAAAAAAAM4A1AAAAAAABAAAAAAAAAAAAAAAzgA6BAAA
+AAAKAAAAAAAAAAAAAADXAN0AAAAAAAwAAAAAAAAAAAAAAOAAbwMAAAAADAAAAAAAAAAAAAAA4ABg
+AAAAAAAGAAQABwAEAAgABQAAABAADgB/AAAAEAAdAH8AAAAAAB8AfwBPAKAATwDDAAAAAENvbnRl
+eHRWYWx1ZWAxAFRocmVhZFNhZmVPYmplY3RQcm92aWRlcmAxAFNjcmlwdFRhc2tfM2EyYjdhMmJh
+ZDlhNDIxMTgyMzdlZTUwMWIxYjlmYjEAPE1vZHVsZT4ATWljcm9zb2Z0LlNxbFNlcnZlci5NYW5h
+Z2VkRFRTAFQARGlzcG9zZV9fSW5zdGFuY2VfXwBDcmVhdGVfX0luc3RhbmNlX18AdmFsdWVfXwBT
+VF8xYzI5MzkzOGRjNzc0ZTJkYjg3N2Q2ZmY3NmIzY2QzYQBtc2NvcmxpYgBNaWNyb3NvZnQuVmlz
+dWFsQmFzaWMAQ3JlYXRlSW5zdGFuY2UAZ2V0X0dldEluc3RhbmNlAGluc3RhbmNlAEdldEhhc2hD
+b2RlAFZhcmlhYmxlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFuZGxlAE1pY3Jvc29m
+dC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAR2V0VHlwZQBGYWlsdXJlAFZTVEFSVFNjcmlwdE9iamVj
+dE1vZGVsQmFzZQBBcHBsaWNhdGlvbkJhc2UARWRpdG9yQnJvd3NhYmxlU3RhdGUASGVscEtleXdv
+cmRBdHRyaWJ1dGUAR2VuZXJhdGVkQ29kZUF0dHJpYnV0ZQBEZWJ1Z2dhYmxlQXR0cmlidXRlAEVk
+aXRvckJyb3dzYWJsZUF0dHJpYnV0ZQBDb21WaXNpYmxlQXR0cmlidXRlAFN0YW5kYXJkTW9kdWxl
+QXR0cmlidXRlAEhpZGVNb2R1bGVOYW1lQXR0cmlidXRlAFRhcmdldEZyYW1ld29ya0F0dHJpYnV0
+ZQBEZWJ1Z2dlckhpZGRlbkF0dHJpYnV0ZQBNeUdyb3VwQ29sbGVjdGlvbkF0dHJpYnV0ZQBDb21w
+aWxhdGlvblJlbGF4YXRpb25zQXR0cmlidXRlAENMU0NvbXBsaWFudEF0dHJpYnV0ZQBTU0lTU2Ny
+aXB0VGFza0VudHJ5UG9pbnRBdHRyaWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUA
+Z2V0X1ZhbHVlAHNldF9WYWx1ZQBHZXRPYmplY3RWYWx1ZQBTeXN0ZW0uUnVudGltZS5WZXJzaW9u
+aW5nAFRvU3RyaW5nAE1hdGgATWljcm9zb2Z0LlNxbFNlcnZlci5TY3JpcHRUYXNrAE1pY3Jvc29m
+dC5TcWxTZXJ2ZXIuRHRzLlRhc2tzLlNjcmlwdFRhc2sATWljcm9zb2Z0LlZpc3VhbEJhc2ljLk15
+U2VydmljZXMuSW50ZXJuYWwAU2NyaXB0T2JqZWN0TW9kZWwAU3lzdGVtLkNvbXBvbmVudE1vZGVs
+AFNUXzFjMjkzOTM4ZGM3NzRlMmRiODc3ZDZmZjc2YjNjZDNhLmRsbABnZXRfSXRlbQBTeXN0ZW0A
+RW51bQBTeXN0ZW0uQ29tcG9uZW50TW9kZWwuRGVzaWduAFNjcmlwdE1haW4AZ2V0X0FwcGxpY2F0
+aW9uAE15QXBwbGljYXRpb24AbwBtX0FwcE9iamVjdFByb3ZpZGVyAG1fVXNlck9iamVjdFByb3Zp
+ZGVyAG1fQ29tcHV0ZXJPYmplY3RQcm92aWRlcgBtX015V2ViU2VydmljZXNPYmplY3RQcm92aWRl
+cgBTeXN0ZW0uQ29kZURvbS5Db21waWxlcgBnZXRfVXNlcgBnZXRfQ29tcHV0ZXIATXlDb21wdXRl
+cgBBY3RpdmF0b3IALmN0b3IALmNjdG9yAFN5c3RlbS5EaWFnbm9zdGljcwBNaWNyb3NvZnQuVmlz
+dWFsQmFzaWMuRGV2aWNlcwBnZXRfV2ViU2VydmljZXMATXlXZWJTZXJ2aWNlcwBNaWNyb3NvZnQu
+VmlzdWFsQmFzaWMuQXBwbGljYXRpb25TZXJ2aWNlcwBTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2Vy
+dmljZXMATWljcm9zb2Z0LlZpc3VhbEJhc2ljLkNvbXBpbGVyU2VydmljZXMAU3lzdGVtLlJ1bnRp
+bWUuQ29tcGlsZXJTZXJ2aWNlcwBEZWJ1Z2dpbmdNb2RlcwBnZXRfVmFyaWFibGVzAEVxdWFscwBD
+b252ZXJzaW9ucwBSdW50aW1lSGVscGVycwBTdWNjZXNzAGdldF9EdHMAU2NyaXB0UmVzdWx0cwBD
+b25jYXQAT2JqZWN0AE15UHJvamVjdABzZXRfVGFza1Jlc3VsdABtX0NvbnRleHQAU2NyaXB0VGFz
+a18zYTJiN2EyYmFkOWE0MjExODIzN2VlNTAxYjFiOWZiMS5NeQAAAABdUwBFAEwARQBDAFQAIAAq
+ACAAZgByAG8AbQAgAGEAcABsAHUAcwAyAGYAYQB3AC4AaQBhAGgAcwB0ACAAdwBoAGUAcgBlACAA
+aQBhAHQAcgBkAHQAIAA+AD0AIAAAFVMAdABhAHIAdABfAEQAYQB0AGUAAA1zAHQAcgBzAHEAbAAA
+APSLE31t6GVIkBi+UIBorwQABCABAQgDIAABBSABARERBCABAQ4FIAIBDg4FIAEBER0HIAQBDg4O
+DgQgAQECBhUSHAESDAYVEhwBEggGFRIcARI9BhUSHAESGAQgABMABAcCDg4EIAASaQQgABJtBSAB
+EnEcAyAAHAQAAQ4cBQACDg4OBCABARwEAAEcHAQgAQIcAyAACAcAARJFEYCBAyAADgQHAR4AAh4A
+BRABAB4ABAoBHgAEBwETAAYVEhwBEwAHBhUSTQETAAYVEk0BEwACEwAECgETAAUgAQETAAi3elxW
+GTTgiQiwP19/EdUKOgiJhF3NgIDMkQQAAAAABAEAAAAHBhUSHAESDAcGFRIcARIIBwYVEhwBEj0H
+BhUSHAESGAIGCAMGESADAAABBAAAEgwEAAASCAQAABI9BAAAEhgEIAASRQcQAQEeAB4ABzABAQEQ
+HgAECAASDAQIABIIBAgAEj0ECAASGAQoABMACAEACAAAAAAAHgEAAQBUAhZXcmFwTm9uRXhjZXB0
+aW9uVGhyb3dzAQgBAAIAAAAAAEcBABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuMAEAVA4URnJh
+bWV3b3JrRGlzcGxheU5hbWUQLk5FVCBGcmFtZXdvcmsgNAgBAAEAAAAAABgBAApNeVRlbXBsYXRl
+CDExLjAuMC4wAAAFAQAAAABhAQA0U3lzdGVtLldlYi5TZXJ2aWNlcy5Qcm90b2NvbHMuU29hcEh0
+dHBDbGllbnRQcm90b2NvbBJDcmVhdGVfX0luc3RhbmNlX18TRGlzcG9zZV9fSW5zdGFuY2VfXwAA
+ABABAAtNeS5Db21wdXRlcgAAEwEADk15LkFwcGxpY2F0aW9uAAAMAQAHTXkuVXNlcgAAEwEADk15
+LldlYlNlcnZpY2VzAAAAAAB8MgAAAAAAAAAAAACWMgAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+iDIAAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAAC0AgAAAAAAAAAAAAC0AjQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAEFAIAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAA8AEAAAEAMAAwADAA
+MAAwADQAYgAwAAAALAACAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAACAAAAAw
+AAgAAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADAALgAwAC4AMAAuADAAAABwACgAAQBJAG4A
+dABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABfADEAYwAyADkAMwA5ADMAOABkAGMANwA3ADQAZQAy
+AGQAYgA4ADcANwBkADYAZgBmADcANgBiADMAYwBkADMAYQAuAGQAbABsAAAAKAACAAEATABlAGcA
+YQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAIAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABl
+AG4AYQBtAGUAAABTAFQAXwAxAGMAMgA5ADMAOQAzADgAZABjADcANwA0AGUAMgBkAGIAOAA3ADcA
+ZAA2AGYAZgA3ADYAYgAzAGMAZAAzAGEALgBkAGwAbAAAADQACAABAFAAcgBvAGQAdQBjAHQAVgBl
+AHIAcwBpAG8AbgAAADAALgAwAC4AMAAuADAAAAA4AAgAAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUA
+cgBzAGkAbwBuAAAAMAAuADAALgAwAC4AMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAAKgyAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{A7AB6D7D-1A80-4742-982B-901858F0F90F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\IAHST"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IAHST"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::strsql</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\IAHST.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  connectionManagerRefId="Package.ConnectionManagers[BKL400.BKL400QSYS2.infausr]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAITNO]"
+                      length="27"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITNO]"
+                      name="IAITNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAWHID]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAWHID]"
+                      name="IAWHID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUNMS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAUNMS]"
+                      length="3"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUNMS]"
+                      name="IAUNMS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRCC]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCC]"
+                      name="IATRCC"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRDT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRDT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRDT]"
+                      name="IATRDT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATIME]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATIME]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATIME]"
+                      name="IATIME"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IASQ04]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IASQ04]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IASQ04]"
+                      name="IASQ04"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRCD]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCD]"
+                      name="IATRCD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRQT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRQT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRQT]"
+                      name="IATRQT"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACSEX]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACSEX]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACSEX]"
+                      name="IACSEX"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACECD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACECD]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACECD]"
+                      name="IACECD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAQOLT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAQOLT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAQOLT]"
+                      name="IAQOLT"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAACLT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAACLT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAACLT]"
+                      name="IAACLT"
+                      scale="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITGL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAITGL]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITGL]"
+                      name="IAITGL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACONO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACONO]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACONO]"
+                      name="IACONO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPOCC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAPOCC]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPOCC]"
+                      name="IAPOCC"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPODT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAPODT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPODT]"
+                      name="IAPODT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC1]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC1]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC1]"
+                      name="IAIAC1"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC2]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC2]"
+                      name="IAIAC2"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC3]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC3]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC3]"
+                      name="IAIAC3"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC4]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC4]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC4]"
+                      name="IAIAC4"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC5]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC5]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC5]"
+                      name="IAIAC5"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC6]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC6]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC6]"
+                      name="IAIAC6"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC7]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC7]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC7]"
+                      name="IAIAC7"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC8]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC8]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC8]"
+                      name="IAIAC8"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC9]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC9]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC9]"
+                      name="IAIAC9"
+                      precision="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC1]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC1]"
+                      name="IADRC1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC2]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC2]"
+                      name="IADRC2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC3]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC3]"
+                      name="IADRC3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC4]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC4]"
+                      name="IADRC4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC5]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC5]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC5]"
+                      name="IADRC5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC6]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC6]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC6]"
+                      name="IADRC6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC7]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC7]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC7]"
+                      name="IADRC7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC8]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC8]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC8]"
+                      name="IADRC8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC9]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC9]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC9]"
+                      name="IADRC9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA1]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA1]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA1]"
+                      name="IAGLA1"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA2]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA2]"
+                      name="IAGLA2"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA3]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA3]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA3]"
+                      name="IAGLA3"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA4]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA4]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA4]"
+                      name="IAGLA4"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA5]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA5]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA5]"
+                      name="IAGLA5"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA6]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA6]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA6]"
+                      name="IAGLA6"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA7]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA7]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA7]"
+                      name="IAGLA7"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA8]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA8]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA8]"
+                      name="IAGLA8"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA9]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA9]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA9]"
+                      name="IAGLA9"
+                      precision="9"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAJRNL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAJRNL]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAJRNL]"
+                      name="IAJRNL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IARRNO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IARRNO]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IARRNO]"
+                      name="IARRNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAREC#]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAREC#]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAREC#]"
+                      name="IAREC#"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAORUS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAORUS]"
+                      length="10"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAORUS]"
+                      name="IAORUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAB2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAB2]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAB2]"
+                      name="IAIAB2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAUPIN]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUPIN]"
+                      name="IAUPIN"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="IAITNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAWHID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAUNMS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="IAUNMS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRCC]"
+                      dataType="numeric"
+                      name="IATRCC"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRDT]"
+                      dataType="numeric"
+                      name="IATRDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATIME]"
+                      dataType="numeric"
+                      name="IATIME"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IASQ04]"
+                      dataType="numeric"
+                      name="IASQ04"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IATRCD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IATRQT]"
+                      dataType="decimal"
+                      name="IATRQT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACSEX]"
+                      dataType="decimal"
+                      name="IACSEX"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACECD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IACECD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAQOLT]"
+                      dataType="decimal"
+                      name="IAQOLT"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAACLT]"
+                      dataType="decimal"
+                      name="IAACLT"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAITGL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAITGL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IACONO]"
+                      dataType="numeric"
+                      name="IACONO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAPOCC]"
+                      dataType="numeric"
+                      name="IAPOCC"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAPODT]"
+                      dataType="numeric"
+                      name="IAPODT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC1]"
+                      dataType="numeric"
+                      name="IAIAC1"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC2]"
+                      dataType="numeric"
+                      name="IAIAC2"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC3]"
+                      dataType="numeric"
+                      name="IAIAC3"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC4]"
+                      dataType="numeric"
+                      name="IAIAC4"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC5]"
+                      dataType="numeric"
+                      name="IAIAC5"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC6]"
+                      dataType="numeric"
+                      name="IAIAC6"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC7]"
+                      dataType="numeric"
+                      name="IAIAC7"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC8]"
+                      dataType="numeric"
+                      name="IAIAC8"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAC9]"
+                      dataType="numeric"
+                      name="IAIAC9"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC6]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC7]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC8]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IADRC9]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC9" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA1]"
+                      dataType="numeric"
+                      name="IAGLA1"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA2]"
+                      dataType="numeric"
+                      name="IAGLA2"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA3]"
+                      dataType="numeric"
+                      name="IAGLA3"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA4]"
+                      dataType="numeric"
+                      name="IAGLA4"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA5]"
+                      dataType="numeric"
+                      name="IAGLA5"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA6]"
+                      dataType="numeric"
+                      name="IAGLA6"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA7]"
+                      dataType="numeric"
+                      name="IAGLA7"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA8]"
+                      dataType="numeric"
+                      name="IAGLA8"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAGLA9]"
+                      dataType="numeric"
+                      name="IAGLA9"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAJRNL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="IAJRNL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IARRNO]"
+                      dataType="decimal"
+                      name="IARRNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAREC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="IAREC#" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAORUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="IAORUS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAIAB2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAIAB2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].ExternalColumns[IAUPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IAUPIN" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAITNO]"
+                      name="IAITNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAWHID]"
+                      name="IAWHID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAUNMS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAUNMS]"
+                      name="IAUNMS" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRCC]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRCC]"
+                      name="IATRCC"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRDT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRDT]"
+                      name="IATRDT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATIME]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATIME]"
+                      name="IATIME"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IASQ04]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IASQ04]"
+                      name="IASQ04"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRCD]"
+                      name="IATRCD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRQT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IATRQT]"
+                      name="IATRQT"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACSEX]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACSEX]"
+                      name="IACSEX"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACECD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACECD]"
+                      name="IACECD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAQOLT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAQOLT]"
+                      name="IAQOLT"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAACLT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAACLT]"
+                      name="IAACLT"
+                      scale="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAITGL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAITGL]"
+                      name="IAITGL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACONO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IACONO]"
+                      name="IACONO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAPOCC]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAPOCC]"
+                      name="IAPOCC"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAPODT]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAPODT]"
+                      name="IAPODT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC1]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC1]"
+                      name="IAIAC1"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC2]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC2]"
+                      name="IAIAC2"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC3]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC3]"
+                      name="IAIAC3"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC4]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC4]"
+                      name="IAIAC4"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC5]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC5]"
+                      name="IAIAC5"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC6]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC6]"
+                      name="IAIAC6"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC7]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC7]"
+                      name="IAIAC7"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC8]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC8]"
+                      name="IAIAC8"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC9]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAC9]"
+                      name="IAIAC9"
+                      precision="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC1]"
+                      name="IADRC1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC2]"
+                      name="IADRC2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC3]"
+                      name="IADRC3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC4]"
+                      name="IADRC4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC5]"
+                      name="IADRC5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC6]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC6]"
+                      name="IADRC6" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC7]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC7]"
+                      name="IADRC7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC8]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC8]"
+                      name="IADRC8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC9]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IADRC9]"
+                      name="IADRC9" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA1]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA1]"
+                      name="IAGLA1"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA2]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA2]"
+                      name="IAGLA2"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA3]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA3]"
+                      name="IAGLA3"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA4]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA4]"
+                      name="IAGLA4"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA5]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA5]"
+                      name="IAGLA5"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA6]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA6]"
+                      name="IAGLA6"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA7]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA7]"
+                      name="IAGLA7"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA8]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA8]"
+                      name="IAGLA8"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA9]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAGLA9]"
+                      name="IAGLA9"
+                      precision="9"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAJRNL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAJRNL]"
+                      name="IAJRNL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IARRNO]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IARRNO]"
+                      name="IARRNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAREC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAREC#]"
+                      name="IAREC#" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAORUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAORUS]"
+                      name="IAORUS" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAB2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAIAB2]"
+                      name="IAIAB2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAUPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[IAUPIN]"
+                      name="IAUPIN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\tmp_IAHST"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="tmp_IAHST"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tmp_IAHST]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">10000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\tmp_IAHST.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAITNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="27"
+                      cachedName="IAITNO"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAITNO]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAWHID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="IAWHID"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAWHID]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAWHID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAUNMS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="IAUNMS"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAUNMS]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUNMS]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IATRCC]"
+                      cachedDataType="numeric"
+                      cachedName="IATRCC"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRCC]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IATRDT]"
+                      cachedDataType="numeric"
+                      cachedName="IATRDT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRDT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRDT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IATIME]"
+                      cachedDataType="numeric"
+                      cachedName="IATIME"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATIME]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATIME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IASQ04]"
+                      cachedDataType="numeric"
+                      cachedName="IASQ04"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IASQ04]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IASQ04]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IATRCD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IATRCD"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRCD]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRCD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IATRQT]"
+                      cachedDataType="decimal"
+                      cachedName="IATRQT"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRQT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IATRQT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IACSEX]"
+                      cachedDataType="decimal"
+                      cachedName="IACSEX"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACSEX]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACSEX]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IACECD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IACECD"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACECD]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACECD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAQOLT]"
+                      cachedDataType="decimal"
+                      cachedName="IAQOLT"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAQOLT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAQOLT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAACLT]"
+                      cachedDataType="decimal"
+                      cachedName="IAACLT"
+                      cachedScale="5"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAACLT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAACLT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAITGL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="IAITGL"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAITGL]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAITGL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IACONO]"
+                      cachedDataType="numeric"
+                      cachedName="IACONO"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACONO]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IACONO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAPOCC]"
+                      cachedDataType="numeric"
+                      cachedName="IAPOCC"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAPOCC]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPOCC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAPODT]"
+                      cachedDataType="numeric"
+                      cachedName="IAPODT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAPODT]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAPODT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC1]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC1"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC1]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC2]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC2"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC3]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC3"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC3]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC4]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC4"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC4]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC5]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC5"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC5]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC5]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC6]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC6"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC6]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC6]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC7]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC7"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC7]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC7]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC8]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC8"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC8]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAC9]"
+                      cachedDataType="numeric"
+                      cachedName="IAIAC9"
+                      cachedPrecision="7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC9]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAC9]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC1"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC1]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC3"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC3]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC4"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC4]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC5]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC5"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC5]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC5]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC6]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC6"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC6]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC6]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC7]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC7"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC7]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC7]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC8]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC8"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC8]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IADRC9]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IADRC9"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC9]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IADRC9]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA1]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA1"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA1]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA2]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA2"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA3]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA3"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA3]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA4]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA4"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA4]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA5]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA5"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA5]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA5]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA6]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA6"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA6]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA6]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA7]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA7"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA7]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA7]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA8]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA8"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA8]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAGLA9]"
+                      cachedDataType="numeric"
+                      cachedName="IAGLA9"
+                      cachedPrecision="9"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA9]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAGLA9]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAJRNL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="IAJRNL"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAJRNL]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAJRNL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IARRNO]"
+                      cachedDataType="decimal"
+                      cachedName="IARRNO"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IARRNO]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IARRNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAREC#]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="IAREC#"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAREC#]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAREC#]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAORUS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="IAORUS"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAORUS]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAORUS]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAIAB2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="IAIAB2"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAB2]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAIAB2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].Columns[IAUPIN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="IAUPIN"
+                      externalMetadataColumnId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAUPIN]"
+                      lineageId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output].Columns[IAUPIN]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAITNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="27"
+                      name="IAITNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAWHID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAWHID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAUNMS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="IAUNMS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRCC]"
+                      dataType="numeric"
+                      name="IATRCC"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRDT]"
+                      dataType="numeric"
+                      name="IATRDT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATIME]"
+                      dataType="numeric"
+                      name="IATIME"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IASQ04]"
+                      dataType="numeric"
+                      name="IASQ04"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRCD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IATRCD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IATRQT]"
+                      dataType="numeric"
+                      name="IATRQT"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACSEX]"
+                      dataType="numeric"
+                      name="IACSEX"
+                      precision="29"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACECD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IACECD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAQOLT]"
+                      dataType="numeric"
+                      name="IAQOLT"
+                      precision="29"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAACLT]"
+                      dataType="numeric"
+                      name="IAACLT"
+                      precision="29"
+                      scale="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAITGL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAITGL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IACONO]"
+                      dataType="numeric"
+                      name="IACONO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAPOCC]"
+                      dataType="numeric"
+                      name="IAPOCC"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAPODT]"
+                      dataType="numeric"
+                      name="IAPODT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC1]"
+                      dataType="numeric"
+                      name="IAIAC1"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC2]"
+                      dataType="numeric"
+                      name="IAIAC2"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC3]"
+                      dataType="numeric"
+                      name="IAIAC3"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC4]"
+                      dataType="numeric"
+                      name="IAIAC4"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC5]"
+                      dataType="numeric"
+                      name="IAIAC5"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC6]"
+                      dataType="numeric"
+                      name="IAIAC6"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC7]"
+                      dataType="numeric"
+                      name="IAIAC7"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC8]"
+                      dataType="numeric"
+                      name="IAIAC8"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAC9]"
+                      dataType="numeric"
+                      name="IAIAC9"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC6]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC7]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC8]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IADRC9]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IADRC9" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA1]"
+                      dataType="numeric"
+                      name="IAGLA1"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA2]"
+                      dataType="numeric"
+                      name="IAGLA2"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA3]"
+                      dataType="numeric"
+                      name="IAGLA3"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA4]"
+                      dataType="numeric"
+                      name="IAGLA4"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA5]"
+                      dataType="numeric"
+                      name="IAGLA5"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA6]"
+                      dataType="numeric"
+                      name="IAGLA6"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA7]"
+                      dataType="numeric"
+                      name="IAGLA7"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA8]"
+                      dataType="numeric"
+                      name="IAGLA8"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAGLA9]"
+                      dataType="numeric"
+                      name="IAGLA9"
+                      precision="9"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAJRNL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="IAJRNL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IARRNO]"
+                      dataType="numeric"
+                      name="IARRNO"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAREC#]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="IAREC#" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAORUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="IAORUS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAIAB2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="IAIAB2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input].ExternalColumns[IAUPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="IAUPIN" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\tmp_IAHST.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\tmp_IAHST.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\tmp_IAHST.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\tmp_IAHST.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\tmp_IAHST.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\IAHST.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Start"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C45A6B7E-D0CF-4F19-B75F-50A80951E31A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Start"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4A601F88-2038-42D5-B57E-23EDB6FD873C}"
+          SQLTask:SqlStatementSource="select staging.dbo.fn_DateToInt(Dateadd(dd,-7,getdate())) as Start_Date"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Start_Date"
+            SQLTask:DtsVariableName="User::Start_Date" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Temp Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B2B83903-A559-4AE0-8203-135A64F7C0D3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Temp Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4A601F88-2038-42D5-B57E-23EDB6FD873C}"
+          SQLTask:SqlStatementSource="truncate table tmp_IAHST" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9B815311-E7BA-4335-8667-D09FC71506E3}"
+      DTS:From="Package\Get Start"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Build SQL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{64B9CE84-C663-44AD-B20F-4F2A3E735F65}"
+      DTS:From="Package\Build SQL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{6F9F5ACF-E94E-4B48-9A11-DAAB4F6A1031}"
+      DTS:From="Package\Truncate Temp Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Get Start" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D7AB9B38-212D-465E-BD84-D2C288923A1A}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Build Rows" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Build Rows"
+          TopLeft="230.518867924528,156.481132075472" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Build SQL"
+          TopLeft="8.80000000000001,83.2" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,156.330188679245" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Get Start"
+          TopLeft="6.67735849056604,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Truncate Temp Table"
+          TopLeft="222.518867924528,5.72641509433962" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="71.338679245283,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.7"
+              Start="0,0"
+              End="0,26.2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="70.75,124.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.530188679245"
+              Start="0,0"
+              End="0,24.030188679245">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.030188679245" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="222.518867924528,27.6132075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-79.8415094339619,0"
+              Start="0,0"
+              End="-72.3415094339619,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-72.3415094339619,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="141.27358490566,178.292452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="89.2452830188679,0.150943396226438"
+              Start="0,0"
+              End="81.7452830188679,0.150943396226438">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="44.6037735849057,0" />
+                  <mssgle:LineSegment
+                    End="44.6037735849057,0.150943396226438" />
+                  <mssgle:LineSegment
+                    End="81.7452830188679,0.150943396226438" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Data Flow Task\tmp_IAHST"
+          TopLeft="5.5,101.930188679245" />
+        <NodeLayout
+          Size="108.8,41.6"
+          Id="Package\Data Flow Task\IAHST"
+          TopLeft="399,155" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="399,175.8">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-257.5,-51.869811320755"
+              Start="0,0"
+              End="-250,-51.869811320755">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-124.75,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-124.75,0"
+                    Point2="-128.75,0"
+                    Point3="-128.75,-4" />
+                  <mssgle:LineSegment
+                    End="-128.75,-47.869811320755" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-128.75,-47.869811320755"
+                    Point2="-128.75,-51.869811320755"
+                    Point3="-132.75,-51.869811320755" />
+                  <mssgle:LineSegment
+                    End="-250,-51.869811320755" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\IAHST">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\tmp_IAHST">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

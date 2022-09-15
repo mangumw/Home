@@ -1,0 +1,1046 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/26/2022 3:32:54 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MANGUMW"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{0D07572E-24C9-4EAC-B223-595DD1913791}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_CSHEGC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="115"
+  DTS:VersionGUID="{E72B2A18-729E-417D-9FA8-1151BE988AB8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load CSHEGC"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{808A6B4B-EA07-4575-A04D-AD36CA1ED03A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CSHEGC"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CSHEGC\AS400 CSHEGC"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 CSHEGC"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT EGSTOR AS StoreNumber,
+       TO_DATE(CHAR(EGDATE), 'YYYYMMDD') AS TransactionDate,
+       EGDATE AS TD_RAW,       
+       EGREG# AS RegisterNumber,
+       EGROLL AS RollOverNumber,
+       EGTRN# AS TransactionNumber,
+       EGSEQ# AS SequenceNumber,
+       EGDTYP AS TransactionType,
+       EGEXTA AS ExtendedAmount,
+       EGGCNM AS GiftCardNumber,
+       EGGCAC AS GCAuthCode,
+       TO_DATE(CHAR(EGCDTE), 'YYYYMMDD') AS DateCreated,
+       EGCDTE AS DC_RAW,       
+       EGPRGM AS ProgramName
+    FROM MM4R4LIB.CSHEGC
+    WHERE EGCDTE = (SELECT VARCHAR_FORMAT(CURRENT TIMESTAMP, 'YYYYMMDD') - 1 FROM SYSIBM.SYSDUMMY1)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CSHEGC\AS400 CSHEGC.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[STORENUMBER]"
+                      name="STORENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONDATE]"
+                      length="26"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONDATE]"
+                      name="TRANSACTIONDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[REGISTERNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[REGISTERNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[REGISTERNUMBER]"
+                      name="REGISTERNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[ROLLOVERNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[ROLLOVERNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[ROLLOVERNUMBER]"
+                      name="ROLLOVERNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONNUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONNUMBER]"
+                      name="TRANSACTIONNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[SEQUENCENUMBER]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[SEQUENCENUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[SEQUENCENUMBER]"
+                      name="SEQUENCENUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONTYPE]"
+                      length="2"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONTYPE]"
+                      name="TRANSACTIONTYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[EXTENDEDAMOUNT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[EXTENDEDAMOUNT]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[EXTENDEDAMOUNT]"
+                      name="EXTENDEDAMOUNT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GIFTCARDNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[GIFTCARDNUMBER]"
+                      length="20"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GIFTCARDNUMBER]"
+                      name="GIFTCARDNUMBER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GCAUTHCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[GCAUTHCODE]"
+                      length="10"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GCAUTHCODE]"
+                      name="GCAUTHCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[DATECREATED]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[DATECREATED]"
+                      length="26"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[DATECREATED]"
+                      name="DATECREATED"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[PROGRAMNAME]"
+                      length="10"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]"
+                      name="PROGRAMNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TD_RAW]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TD_RAW]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TD_RAW]"
+                      name="TD_RAW"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[DC_RAW]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[DC_RAW]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[DC_RAW]"
+                      name="DC_RAW"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[STORENUMBER]"
+                      dataType="decimal"
+                      name="STORENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONDATE]"
+                      dataType="dbTimeStamp2"
+                      name="TRANSACTIONDATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[REGISTERNUMBER]"
+                      dataType="decimal"
+                      name="REGISTERNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[ROLLOVERNUMBER]"
+                      dataType="decimal"
+                      name="ROLLOVERNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONNUMBER]"
+                      dataType="decimal"
+                      name="TRANSACTIONNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[SEQUENCENUMBER]"
+                      dataType="decimal"
+                      name="SEQUENCENUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TRANSACTIONTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="TRANSACTIONTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[EXTENDEDAMOUNT]"
+                      dataType="decimal"
+                      name="EXTENDEDAMOUNT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[GIFTCARDNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="GIFTCARDNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[GCAUTHCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="GCAUTHCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[DATECREATED]"
+                      dataType="dbTimeStamp2"
+                      name="DATECREATED"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="PROGRAMNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[TD_RAW]"
+                      dataType="numeric"
+                      name="TD_RAW"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].ExternalColumns[DC_RAW]"
+                      dataType="numeric"
+                      name="DC_RAW"
+                      precision="8" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[STORENUMBER]"
+                      name="STORENUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONDATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONDATE]"
+                      name="TRANSACTIONDATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TD_RAW]"
+                      dataType="numeric"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TD_RAW]"
+                      name="TD_RAW"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[REGISTERNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[REGISTERNUMBER]"
+                      name="REGISTERNUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ROLLOVERNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ROLLOVERNUMBER]"
+                      name="ROLLOVERNUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONNUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONNUMBER]"
+                      name="TRANSACTIONNUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[SEQUENCENUMBER]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[SEQUENCENUMBER]"
+                      name="SEQUENCENUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[TRANSACTIONTYPE]"
+                      name="TRANSACTIONTYPE" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[EXTENDEDAMOUNT]"
+                      dataType="decimal"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[EXTENDEDAMOUNT]"
+                      name="EXTENDEDAMOUNT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[GIFTCARDNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[GIFTCARDNUMBER]"
+                      name="GIFTCARDNUMBER" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[GCAUTHCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[GCAUTHCODE]"
+                      name="GCAUTHCODE" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[DATECREATED]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[DATECREATED]"
+                      name="DATECREATED"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[DC_RAW]"
+                      dataType="numeric"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[DC_RAW]"
+                      name="DC_RAW"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[PROGRAMNAME]"
+                      name="PROGRAMNAME" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CSHEGC\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load CSHEGC\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load CSHEGC\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load CSHEGC\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CSHEGC\SQL Server CSHEGC"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server CSHEGC"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stg].[CSHEGC]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CSHEGC\SQL Server CSHEGC.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[STORENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="STORENUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[STORENUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[STORENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[REGISTERNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="REGISTERNUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[REGISTERNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[REGISTERNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[ROLLOVERNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="ROLLOVERNUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[ROLLOVERNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[ROLLOVERNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[TRANSACTIONNUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="TRANSACTIONNUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[SEQUENCENUMBER]"
+                      cachedDataType="decimal"
+                      cachedName="SEQUENCENUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[SEQUENCENUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[SEQUENCENUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[TRANSACTIONTYPE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="TRANSACTIONTYPE"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONTYPE]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONTYPE]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[EXTENDEDAMOUNT]"
+                      cachedDataType="decimal"
+                      cachedName="EXTENDEDAMOUNT"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[EXTENDEDAMOUNT]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[EXTENDEDAMOUNT]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[GIFTCARDNUMBER]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="GIFTCARDNUMBER"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[GIFTCARDNUMBER]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GIFTCARDNUMBER]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[GCAUTHCODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="GCAUTHCODE"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[GCAUTHCODE]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[GCAUTHCODE]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[PROGRAMNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="PROGRAMNAME"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAMNAME]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[PROGRAMNAME]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[TRANSACTIONDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="26"
+                      cachedName="TRANSACTIONDATE"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONDATE]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[TRANSACTIONDATE]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[DATECREATED]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="26"
+                      cachedName="DATECREATED"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[DATECREATED]"
+                      lineageId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output].Columns[DATECREATED]" />
+                    <inputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[STORENUMBER]"
+                      dataType="numeric"
+                      name="STORENUMBER"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="TRANSACTIONDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[REGISTERNUMBER]"
+                      dataType="numeric"
+                      name="REGISTERNUMBER"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[ROLLOVERNUMBER]"
+                      dataType="numeric"
+                      name="ROLLOVERNUMBER"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONNUMBER]"
+                      dataType="numeric"
+                      name="TRANSACTIONNUMBER"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[SEQUENCENUMBER]"
+                      dataType="numeric"
+                      name="SEQUENCENUMBER"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[TRANSACTIONTYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="TRANSACTIONTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[EXTENDEDAMOUNT]"
+                      dataType="numeric"
+                      name="EXTENDEDAMOUNT"
+                      precision="28"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[GIFTCARDNUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="GIFTCARDNUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[GCAUTHCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="GCAUTHCODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[DATECREATED]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="DATECREATED" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAMNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="PROGRAMNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp2"
+                      name="Last_Modified"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CSHEGC\SQL Server CSHEGC.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\SQL Server CSHEGC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CSHEGC\SQL Server CSHEGC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CSHEGC\SQL Server CSHEGC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CSHEGC.Paths[Derived Column Output]"
+              endId="Package\Load CSHEGC\SQL Server CSHEGC.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load CSHEGC\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load CSHEGC.Paths[OLE DB Source Output]"
+              endId="Package\Load CSHEGC\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load CSHEGC\AS400 CSHEGC.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge CSHEGC"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CC1D4692-848B-4D22-A59C-7D32BB200B01}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge CSHEGC"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="EXEC dbo.MERGE_CSHEGC" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate CleanUp"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{185BE643-76D3-4C54-92B5-9FE7E6FB520B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate CleanUp"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.stg.CSHEGC" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate CSHEGC"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BB3C5A84-5042-428F-9226-0BBEA14148C1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate CSHEGC"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="Truncate Table EDW.stg.CSHEGC" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{439A3776-4525-4A41-8928-0EF9F251C1E7}"
+      DTS:From="Package\Truncate CSHEGC"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load CSHEGC" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7D175DD1-CF11-4B8B-8ADB-BBA029816741}"
+      DTS:From="Package\Load CSHEGC"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge CSHEGC" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A3E16298-9DF4-4100-80C8-3F44A3C6087F}"
+      DTS:From="Package\Merge CSHEGC"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Truncate CleanUp" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Load CSHEGC"
+          TopLeft="198,131" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Merge CSHEGC"
+          TopLeft="187,217" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Truncate CleanUp"
+          TopLeft="187,297" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Truncate CSHEGC"
+          TopLeft="183,52" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="271.75,94">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="270.75,173">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="269,259">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load CSHEGC">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load CSHEGC\SQL Server CSHEGC"
+          TopLeft="162,178" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load CSHEGC\Last Modified"
+          TopLeft="178,105" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Load CSHEGC\AS400 CSHEGC"
+          TopLeft="172,30" />
+        <EdgeLayout
+          Id="Package\Load CSHEGC.Paths[Derived Column Output]"
+          TopLeft="252.5,147">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CSHEGC.Paths[OLE DB Source Output]"
+          TopLeft="248.75,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CSHEGC\SQL Server CSHEGC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CSHEGC\AS400 CSHEGC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

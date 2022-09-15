@@ -1,0 +1,2263 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/9/2016 3:45:07 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIG03"
+  DTS:CreatorName="BAM\infausr"
+  DTS:DTSID="{B6685236-AE48-4995-A51A-A56AE4B421EC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.5223.6"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Replicate_GCLU2NC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{F1347E4D-F0B7-4FBE-A64F-96221A3D9C37}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BAMBIG03.Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5907BB85-D5FD-452C-82AD-CB230313AC64}"
+      DTS:ObjectName="BAMBIG03.Staging">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::Bambig03StagingInfausr_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BAMBIG03;Initial Catalog=Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[buybackdbslave1.biguser]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{A81800E2-D9A3-43A8-897D-07045A876738}"
+      DTS:ObjectName="buybackdbslave1.biguser">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::buybackdbslave1biguser_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=biguser;Dsn=buybackdbslave1;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANVODowqmAEajK3x4FG7MXgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACeyKUYNcmbmcV3DdMeqPHMAAAAAASAAACgAAAAEAAAAPb9eFsaHnXR5DpO+WnFcYYYAAAA6nPtjbQsUWOq3xPAjbMiSWpy7S+Yr5q2FAAAAKD6wqoHP1RmxanL2OfG039jVl7f</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\load GCLU2NC"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B5F0B736-96DD-4096-B9F1-B213E35D0A94}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="load GCLU2NC"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\load GCLU2NC\2NC"
+              componentClassID="Attunity.SSISODBCSrc"
+              contactInfo="ODBC Source;Connector for Open Database Connectivity (ODBC) by Attunity; Attunity Ltd.; All Rights Reserved; http://www.attunity.com;6"
+              description="ODBC Source"
+              name="2NC"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand">select * from gclucrm.buyback_customer</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod"
+                  typeConverter="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs"
+                  typeConverter="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs"
+                  typeConverter="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\load GCLU2NC\2NC.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[buybackdbslave1.biguser]"
+                  connectionManagerRefId="Package.ConnectionManagers[buybackdbslave1.biguser]"
+                  description="The ODBC runtime connection"
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MCustNum]"
+                      dataType="ui8"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MCustNum]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MCustNum]"
+                      name="MCustNum" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MFName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MFName]"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MFName]"
+                      name="MFName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MMName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MMName]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MMName]"
+                      name="MMName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MLName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MLName]"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MLName]"
+                      name="MLName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MTitle]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MTitle]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MTitle]"
+                      name="MTitle" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MSpecial]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MSpecial]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MSpecial]"
+                      name="MSpecial" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MDLNum]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MDLNum]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MDLNum]"
+                      name="MDLNum" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PassignStore]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PassignStore]"
+                      length="5"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PassignStore]"
+                      name="PassignStore" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BAMStoreCode]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMStoreCode]"
+                      length="5"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BAMStoreCode]"
+                      name="BAMStoreCode" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PclientType]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PclientType]"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PclientType]"
+                      name="PclientType" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Wcompany]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Wcompany]"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Wcompany]"
+                      name="Wcompany" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Email]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Email]"
+                      length="128"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Email]"
+                      name="Email" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress1]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress1]"
+                      length="80"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress1]"
+                      name="Aaddress1" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress2]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress2]"
+                      length="35"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress2]"
+                      name="Aaddress2" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acity]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acity]"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acity]"
+                      name="Acity" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Astate]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Astate]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Astate]"
+                      name="Astate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Azip]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Azip]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Azip]"
+                      name="Azip" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acountry]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acountry]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acountry]"
+                      name="Acountry" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aphone]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aphone]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aphone]"
+                      name="Aphone" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[AphoneExt]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[AphoneExt]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[AphoneExt]"
+                      name="AphoneExt" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[SXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[SXCardNumber]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[SXCardNumber]"
+                      name="SXCardNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BAMSXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMSXCardNumber]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BAMSXCardNumber]"
+                      name="BAMSXCardNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CellPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CellPhone]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CellPhone]"
+                      name="CellPhone" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdType]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdType]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdType]"
+                      name="IdType" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdState]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdState]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdState]"
+                      name="IdState" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[OtherIdReferenceNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[OtherIdReferenceNumber]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[OtherIdReferenceNumber]"
+                      name="OtherIdReferenceNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdExpiryDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdExpiryDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdExpiryDate]"
+                      name="IdExpiryDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[FlaggedCustomer]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[FlaggedCustomer]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[FlaggedCustomer]"
+                      name="FlaggedCustomer" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MissingData]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MissingData]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MissingData]"
+                      name="MissingData" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedUserId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedUserId]"
+                      name="CreatedUserId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedDate]"
+                      name="CreatedDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedUserId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedUserId]"
+                      name="ModifiedUserId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedDate]"
+                      name="ModifiedDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[stamp]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[stamp]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[stamp]"
+                      name="stamp" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BasilCustomerId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BasilCustomerId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BasilCustomerId]"
+                      name="BasilCustomerId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[gclu_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[gclu_customer]"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[gclu_customer]"
+                      name="gclu_customer" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MCustNum]"
+                      dataType="ui8"
+                      name="MCustNum" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MFName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="64"
+                      name="MFName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MMName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="MMName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MLName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="64"
+                      name="MLName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MTitle]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="MTitle" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MSpecial]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="MSpecial" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MDLNum]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="MDLNum" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PassignStore]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="PassignStore" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMStoreCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="BAMStoreCode" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PclientType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="PclientType" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Wcompany]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Wcompany" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Email]"
+                      codePage="1252"
+                      dataType="str"
+                      length="128"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="80"
+                      name="Aaddress1" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="35"
+                      name="Aaddress2" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Acity" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Astate]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Astate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Azip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="Azip" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Acountry" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aphone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="Aphone" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[AphoneExt]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="AphoneExt" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[SXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="SXCardNumber" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMSXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="BAMSXCardNumber" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CellPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="CellPhone" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdType]"
+                      dataType="ui1"
+                      name="IdType" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="IdState" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[OtherIdReferenceNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="OtherIdReferenceNumber" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdExpiryDate]"
+                      dataType="dbTimeStamp"
+                      name="IdExpiryDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[FlaggedCustomer]"
+                      dataType="ui1"
+                      name="FlaggedCustomer" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MissingData]"
+                      dataType="ui1"
+                      name="MissingData" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedUserId]"
+                      dataType="ui4"
+                      name="CreatedUserId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedUserId]"
+                      dataType="ui4"
+                      name="ModifiedUserId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      name="ModifiedDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[stamp]"
+                      dataType="dbTimeStamp"
+                      name="stamp" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BasilCustomerId]"
+                      dataType="ui4"
+                      name="BasilCustomerId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[gclu_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="gclu_customer" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MCustNum]"
+                      dataType="ui8"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MCustNum]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MCustNum]"
+                      name="MCustNum" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MFName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MFName]"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MFName]"
+                      name="MFName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MMName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MMName]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MMName]"
+                      name="MMName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MLName]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MLName]"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MLName]"
+                      name="MLName" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MTitle]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MTitle]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MTitle]"
+                      name="MTitle" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MSpecial]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MSpecial]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MSpecial]"
+                      name="MSpecial" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MDLNum]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MDLNum]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MDLNum]"
+                      name="MDLNum" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[PassignStore]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PassignStore]"
+                      length="5"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[PassignStore]"
+                      name="PassignStore" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BAMStoreCode]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMStoreCode]"
+                      length="5"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BAMStoreCode]"
+                      name="BAMStoreCode" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[PclientType]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[PclientType]"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[PclientType]"
+                      name="PclientType" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Wcompany]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Wcompany]"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Wcompany]"
+                      name="Wcompany" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Email]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Email]"
+                      length="128"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Email]"
+                      name="Email" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aaddress1]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress1]"
+                      length="80"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aaddress1]"
+                      name="Aaddress1" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aaddress2]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aaddress2]"
+                      length="35"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aaddress2]"
+                      name="Aaddress2" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Acity]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acity]"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Acity]"
+                      name="Acity" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Astate]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Astate]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Astate]"
+                      name="Astate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Azip]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Azip]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Azip]"
+                      name="Azip" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Acountry]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Acountry]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Acountry]"
+                      name="Acountry" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aphone]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[Aphone]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[Aphone]"
+                      name="Aphone" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[AphoneExt]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[AphoneExt]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[AphoneExt]"
+                      name="AphoneExt" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[SXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[SXCardNumber]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[SXCardNumber]"
+                      name="SXCardNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BAMSXCardNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BAMSXCardNumber]"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BAMSXCardNumber]"
+                      name="BAMSXCardNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CellPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CellPhone]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CellPhone]"
+                      name="CellPhone" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdType]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdType]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdType]"
+                      name="IdType" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdState]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdState]"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdState]"
+                      name="IdState" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[OtherIdReferenceNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[OtherIdReferenceNumber]"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[OtherIdReferenceNumber]"
+                      name="OtherIdReferenceNumber" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdExpiryDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[IdExpiryDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[IdExpiryDate]"
+                      name="IdExpiryDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[FlaggedCustomer]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[FlaggedCustomer]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[FlaggedCustomer]"
+                      name="FlaggedCustomer" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MissingData]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[MissingData]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[MissingData]"
+                      name="MissingData" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CreatedUserId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CreatedUserId]"
+                      name="CreatedUserId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[CreatedDate]"
+                      name="CreatedDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ModifiedUserId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ModifiedUserId]"
+                      name="ModifiedUserId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ModifiedDate]"
+                      name="ModifiedDate" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[stamp]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[stamp]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[stamp]"
+                      name="stamp" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BasilCustomerId]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[BasilCustomerId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[BasilCustomerId]"
+                      name="BasilCustomerId" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[gclu_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].ExternalColumns[gclu_customer]"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[gclu_customer]"
+                      name="gclu_customer" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\load GCLU2NC\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MFName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="64"
+                      cachedName="MFName"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MFName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MMName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="MMName"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MMName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MLName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="64"
+                      cachedName="MLName"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MLName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MTitle]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="MTitle"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MTitle]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MSpecial]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="MSpecial"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MSpecial]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[MDLNum]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="MDLNum"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MDLNum]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[PassignStore]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="PassignStore"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PassignStore]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[PclientType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="PclientType"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PclientType]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Wcompany]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Wcompany"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Wcompany]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Email]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="128"
+                      cachedName="Email"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Email]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Aaddress1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="80"
+                      cachedName="Aaddress1"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress1]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Aaddress2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="35"
+                      cachedName="Aaddress2"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress2]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Acity]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Acity"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acity]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Astate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Astate"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Astate]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Azip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="Azip"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Azip]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Acountry]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Acountry"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acountry]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[Aphone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="Aphone"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aphone]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[AphoneExt]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="AphoneExt"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[AphoneExt]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[SXCardNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="SXCardNumber"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[SXCardNumber]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[CellPhone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="CellPhone"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CellPhone]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[IdState]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="IdState"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdState]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[OtherIdReferenceNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="OtherIdReferenceNumber"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[OtherIdReferenceNumber]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input].Columns[gclu_customer]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="gclu_customer"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[gclu_customer]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MFName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MFName]"
+                      name="dc_MFName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MFName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MMName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MMName]"
+                      name="dc_MMName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MMName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MLName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="64"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MLName]"
+                      name="dc_MLName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MLName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MTitle]"
+                      name="dc_MTitle"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MTitle]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MSpecial]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MSpecial]"
+                      name="dc_MSpecial"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MSpecial]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MDLNum]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MDLNum]"
+                      name="dc_MDLNum"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MDLNum]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PassignStore]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PassignStore]"
+                      name="dc_PassignStore"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PassignStore]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PclientType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PclientType]"
+                      name="dc_PclientType"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[PclientType]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Wcompany]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Wcompany]"
+                      name="dc_Wcompany"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Wcompany]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Email]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="128"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Email]"
+                      name="dc_Email"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Email]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="80"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress1]"
+                      name="dc_Aaddress1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="35"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress2]"
+                      name="dc_Aaddress2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aaddress2]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acity]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acity]"
+                      name="dc_Acity"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acity]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Astate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Astate]"
+                      name="dc_Astate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Astate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Azip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Azip]"
+                      name="dc_Azip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Azip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acountry]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acountry]"
+                      name="dc_Acountry"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Acountry]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aphone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aphone]"
+                      name="dc_Aphone"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[Aphone]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_AphoneExt]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_AphoneExt]"
+                      name="dc_AphoneExt"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[AphoneExt]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_SXCardNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_SXCardNumber]"
+                      name="dc_SXCardNumber"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[SXCardNumber]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_CellPhone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_CellPhone]"
+                      name="dc_CellPhone"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CellPhone]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_IdState]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_IdState]"
+                      name="dc_IdState"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdState]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_OtherIdReferenceNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_OtherIdReferenceNumber]"
+                      name="dc_OtherIdReferenceNumber"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[OtherIdReferenceNumber]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_gclu_customer]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_gclu_customer]"
+                      name="dc_gclu_customer"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[gclu_customer]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\load GCLU2NC\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[GCLU2NC]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\load GCLU2NC\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[BAMBIG03.Staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="IgnoreFailure"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MCustNum]"
+                      cachedDataType="ui8"
+                      cachedName="MCustNum"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MCustNum]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MCustNum]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IdType]"
+                      cachedDataType="ui1"
+                      cachedName="IdType"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdType]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdType]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IdExpiryDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IdExpiryDate"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdExpiryDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[IdExpiryDate]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FlaggedCustomer]"
+                      cachedDataType="ui1"
+                      cachedName="FlaggedCustomer"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FlaggedCustomer]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[FlaggedCustomer]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MissingData]"
+                      cachedDataType="ui1"
+                      cachedName="MissingData"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MissingData]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[MissingData]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CreatedUserId]"
+                      cachedDataType="ui4"
+                      cachedName="CreatedUserId"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedUserId]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ModifiedUserId]"
+                      cachedDataType="ui4"
+                      cachedName="ModifiedUserId"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ModifiedUserId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedUserId]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ModifiedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ModifiedDate"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[ModifiedDate]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[stamp]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="stamp"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[stamp]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[stamp]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BasilCustomerId]"
+                      cachedDataType="ui4"
+                      cachedName="BasilCustomerId"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BasilCustomerId]"
+                      lineageId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output].Columns[BasilCustomerId]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MFName]"
+                      cachedDataType="wstr"
+                      cachedLength="64"
+                      cachedName="dc_MFName"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MFName]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MFName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MMName]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="dc_MMName"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MMName]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MMName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MLName]"
+                      cachedDataType="wstr"
+                      cachedLength="64"
+                      cachedName="dc_MLName"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MLName]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MLName]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="dc_MTitle"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MTitle]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MTitle]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MSpecial]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="dc_MSpecial"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MSpecial]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MSpecial]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_MDLNum]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="dc_MDLNum"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MDLNum]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_MDLNum]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_PassignStore]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="dc_PassignStore"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PassignStore]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PassignStore]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_PclientType]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="dc_PclientType"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PclientType]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_PclientType]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Wcompany]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="dc_Wcompany"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Wcompany]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Wcompany]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Email]"
+                      cachedDataType="wstr"
+                      cachedLength="128"
+                      cachedName="dc_Email"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Email]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Aaddress1]"
+                      cachedDataType="wstr"
+                      cachedLength="80"
+                      cachedName="dc_Aaddress1"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aaddress1]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress1]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Aaddress2]"
+                      cachedDataType="wstr"
+                      cachedLength="35"
+                      cachedName="dc_Aaddress2"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aaddress2]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aaddress2]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Acity]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="dc_Acity"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acity]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acity]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Astate]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="dc_Astate"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Astate]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Astate]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Azip]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="dc_Azip"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Azip]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Azip]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Acountry]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="dc_Acountry"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acountry]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Acountry]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_Aphone]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="dc_Aphone"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aphone]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_Aphone]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_AphoneExt]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="dc_AphoneExt"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AphoneExt]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_AphoneExt]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_SXCardNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="dc_SXCardNumber"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SXCardNumber]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_SXCardNumber]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_CellPhone]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="dc_CellPhone"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_CellPhone]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_IdState]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="dc_IdState"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdState]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_IdState]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_OtherIdReferenceNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="dc_OtherIdReferenceNumber"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OtherIdReferenceNumber]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_OtherIdReferenceNumber]" />
+                    <inputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dc_gclu_customer]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="dc_gclu_customer"
+                      externalMetadataColumnId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gclu_customer]"
+                      lineageId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output].Columns[dc_gclu_customer]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MCustNum]"
+                      dataType="numeric"
+                      name="MCustNum"
+                      precision="20" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MFName]"
+                      dataType="wstr"
+                      length="64"
+                      name="MFName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MMName]"
+                      dataType="wstr"
+                      length="20"
+                      name="MMName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MLName]"
+                      dataType="wstr"
+                      length="64"
+                      name="MLName" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MTitle]"
+                      dataType="wstr"
+                      length="20"
+                      name="MTitle" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MSpecial]"
+                      dataType="wstr"
+                      length="20"
+                      name="MSpecial" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MDLNum]"
+                      dataType="wstr"
+                      length="20"
+                      name="MDLNum" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PassignStore]"
+                      dataType="wstr"
+                      length="5"
+                      name="PassignStore" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PclientType]"
+                      dataType="wstr"
+                      length="10"
+                      name="PclientType" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Wcompany]"
+                      dataType="wstr"
+                      length="30"
+                      name="Wcompany" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="128"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aaddress1]"
+                      dataType="wstr"
+                      length="80"
+                      name="Aaddress1" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aaddress2]"
+                      dataType="wstr"
+                      length="35"
+                      name="Aaddress2" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acity]"
+                      dataType="wstr"
+                      length="30"
+                      name="Acity" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Astate]"
+                      dataType="wstr"
+                      length="4"
+                      name="Astate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Azip]"
+                      dataType="wstr"
+                      length="15"
+                      name="Azip" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acountry]"
+                      dataType="wstr"
+                      length="4"
+                      name="Acountry" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Aphone]"
+                      dataType="wstr"
+                      length="15"
+                      name="Aphone" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AphoneExt]"
+                      dataType="wstr"
+                      length="15"
+                      name="AphoneExt" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SXCardNumber]"
+                      dataType="wstr"
+                      length="20"
+                      name="SXCardNumber" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
+                      dataType="wstr"
+                      length="15"
+                      name="CellPhone" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdType]"
+                      dataType="ui1"
+                      name="IdType" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdState]"
+                      dataType="wstr"
+                      length="4"
+                      name="IdState" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OtherIdReferenceNumber]"
+                      dataType="wstr"
+                      length="15"
+                      name="OtherIdReferenceNumber" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdExpiryDate]"
+                      dataType="dbTimeStamp"
+                      name="IdExpiryDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FlaggedCustomer]"
+                      dataType="ui1"
+                      name="FlaggedCustomer" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MissingData]"
+                      dataType="ui1"
+                      name="MissingData" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedUserId]"
+                      dataType="i8"
+                      name="CreatedUserId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ModifiedUserId]"
+                      dataType="i8"
+                      name="ModifiedUserId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      name="ModifiedDate" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[stamp]"
+                      dataType="dbTimeStamp"
+                      name="stamp" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BasilCustomerId]"
+                      dataType="i8"
+                      name="BasilCustomerId" />
+                    <externalMetadataColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gclu_customer]"
+                      dataType="wstr"
+                      length="10"
+                      name="gclu_customer" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\load GCLU2NC\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load GCLU2NC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load GCLU2NC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\load GCLU2NC.Paths[Data Conversion Output]"
+              endId="Package\load GCLU2NC\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\load GCLU2NC\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\load GCLU2NC.Paths[ODBC Source Output]"
+              endId="Package\load GCLU2NC\Data Conversion.Inputs[Data Conversion Input]"
+              name="ODBC Source Output"
+              startId="Package\load GCLU2NC\2NC.Outputs[ODBC Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\truncate GCLU2NC"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D86D19E0-0970-405F-B67C-240690C794AC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="truncate GCLU2NC"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5907BB85-D5FD-452C-82AD-CB230313AC64}"
+          SQLTask:SqlStatementSource="truncate table GCLU2NC" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D1C348E5-5815-48E1-8FFF-61FD04A79777}"
+      DTS:From="Package\truncate GCLU2NC"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\load GCLU2NC" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\load GCLU2NC"
+          TopLeft="188.8,109.6" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\truncate GCLU2NC"
+          TopLeft="184.8,12" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="260.2,53.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\load GCLU2NC">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="171,42"
+          Id="Package\load GCLU2NC\OLE DB Destination"
+          TopLeft="180.8,222.4" />
+        <NodeLayout
+          Size="96,42"
+          Id="Package\load GCLU2NC\2NC"
+          TopLeft="216.8,54.4" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\load GCLU2NC\Data Conversion"
+          TopLeft="185.6,141.6" />
+        <EdgeLayout
+          Id="Package\load GCLU2NC.Paths[ODBC Source Output]"
+          TopLeft="261.2,96">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.6"
+              Start="0,0"
+              End="0,38.1">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.1" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load GCLU2NC.Paths[Data Conversion Output]"
+          TopLeft="257.6,183.2">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.79999999999995,39.2"
+              Start="0,0"
+              End="8.79999999999995,31.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.6" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.6"
+                    Point2="0,19.6"
+                    Point3="4,19.6" />
+                  <mssgle:LineSegment
+                    End="4.79999999999995,19.6" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.79999999999995,19.6"
+                    Point2="8.79999999999995,19.6"
+                    Point3="8.79999999999995,23.6" />
+                  <mssgle:LineSegment
+                    End="8.79999999999995,31.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\load GCLU2NC\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

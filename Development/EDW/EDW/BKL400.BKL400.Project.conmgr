@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="BKL400 BKL400 Project"
+  DTS:DTSID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="Password">@[$Project::Pass]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="UserName">@[$Project::User]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:Retain="True"
+      DTS:ConnectionString="Data Source=BKL400;User ID=Infausr;Initial Catalog=BKL400;Provider=DB2OLEDB.1;Persist Security Info=True;Package Collection=QSYS2;Default Schema=QSYS2;DBMS Platform=DB2/AS400;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAC++j6FXnAU+F3+4FxfOOuAAAAAACAAAAAAADZgAAwAAAABAAAACc/j8TdyKhFvzoofl/B7B9AAAAAASAAACgAAAAEAAAACCie2MASIrHZEvdiw7+gKN4AAAANsEFmTUUtvH2cBNHqD3zW1pkmVgssTtzVA8zzptNOrAsPBYZ/samjBrUcJrJpEwW/t0U3vXVK/g2A8Sn3OE5ZgfUV8ZCo+B3SXcVm2m0RsHYJ+50xCeamgXFi5RGVOVINX+qzLx85lOYxvhu4CEDc+37bB6TnW6AFAAAAHuUchRMxflc9V21aAicqe0MpOjQ</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

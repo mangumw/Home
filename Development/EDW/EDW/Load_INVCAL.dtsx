@@ -1,0 +1,844 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/19/2022 8:56:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BAMBIGDEV03"
+  DTS:CreatorName="BAM\mangumw"
+  DTS:DTSID="{14DD79D8-743D-49FC-AF02-63F6B6044A99}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.6433.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_INVCAL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{55D74EE8-F76B-4720-92B8-E1C344B5103D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{275D37DE-8278-4821-A255-B2857596E690}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data\AS400 INVCAL"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AS400 INVCAL"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DATCEN AS CalendarCentury,
+       varchar_format(TIMESTAMP_FORMAT(CHAR(LPAD(DATBAK, 6, 0)), 'YYMMDD'), 'YYMMDD') AS Calendardate,
+       DATPER AS MerchandisingPeriod,
+       DATWKP AS WeeksintheMerchPd,
+       DATWKY AS WeeksintheMerchYr,
+       DATCYR AS MerchandisingYear,
+       DATCDY AS DayofMerchandisingYear,
+       DATDAY AS DayofMerchandisingWeek,
+       DATLIT AS LiteralDateDescription,
+       DATCCN AS MerchandisingCentury
+    FROM MM4R4LIB.INVCAL</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\AS400 INVCAL.Connections[OleDbConnection]"
+                  connectionManagerID="{A535F443-24AC-4667-B7A7-6AC9B4A20C55}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BKL400 BKL400 Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[CALENDARCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARCENTURY]"
+                      name="CALENDARCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[CALENDARDATE]"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]"
+                      name="CALENDARDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGPERIOD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGPERIOD]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGPERIOD]"
+                      name="MERCHANDISINGPERIOD"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHPD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[WEEKSINTHEMERCHPD]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHPD]"
+                      name="WEEKSINTHEMERCHPD"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHYR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[WEEKSINTHEMERCHYR]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHYR]"
+                      name="WEEKSINTHEMERCHYR"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGYEAR]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGYEAR]"
+                      name="MERCHANDISINGYEAR"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[DAYOFMERCHANDISINGYEAR]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGYEAR]"
+                      name="DAYOFMERCHANDISINGYEAR"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGWEEK]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[DAYOFMERCHANDISINGWEEK]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGWEEK]"
+                      name="DAYOFMERCHANDISINGWEEK"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[LITERALDATEDESCRIPTION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[LITERALDATEDESCRIPTION]"
+                      length="35"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[LITERALDATEDESCRIPTION]"
+                      name="LITERALDATEDESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGCENTURY]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGCENTURY]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGCENTURY]"
+                      name="MERCHANDISINGCENTURY"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[CALENDARCENTURY]"
+                      dataType="decimal"
+                      name="CALENDARCENTURY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[CALENDARDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="CALENDARDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGPERIOD]"
+                      dataType="numeric"
+                      name="MERCHANDISINGPERIOD"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[WEEKSINTHEMERCHPD]"
+                      dataType="numeric"
+                      name="WEEKSINTHEMERCHPD"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[WEEKSINTHEMERCHYR]"
+                      dataType="numeric"
+                      name="WEEKSINTHEMERCHYR"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      name="MERCHANDISINGYEAR"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[DAYOFMERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      name="DAYOFMERCHANDISINGYEAR"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[DAYOFMERCHANDISINGWEEK]"
+                      dataType="numeric"
+                      name="DAYOFMERCHANDISINGWEEK"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[LITERALDATEDESCRIPTION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="35"
+                      name="LITERALDATEDESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].ExternalColumns[MERCHANDISINGCENTURY]"
+                      dataType="decimal"
+                      name="MERCHANDISINGCENTURY" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[CALENDARCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[CALENDARCENTURY]"
+                      name="CALENDARCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[CALENDARDATE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[CALENDARDATE]"
+                      name="CALENDARDATE" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGPERIOD]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGPERIOD]"
+                      name="MERCHANDISINGPERIOD"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[WEEKSINTHEMERCHPD]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[WEEKSINTHEMERCHPD]"
+                      name="WEEKSINTHEMERCHPD"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[WEEKSINTHEMERCHYR]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[WEEKSINTHEMERCHYR]"
+                      name="WEEKSINTHEMERCHYR"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGYEAR]"
+                      name="MERCHANDISINGYEAR"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[DAYOFMERCHANDISINGYEAR]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[DAYOFMERCHANDISINGYEAR]"
+                      name="DAYOFMERCHANDISINGYEAR"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[DAYOFMERCHANDISINGWEEK]"
+                      dataType="numeric"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[DAYOFMERCHANDISINGWEEK]"
+                      name="DAYOFMERCHANDISINGWEEK"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[LITERALDATEDESCRIPTION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="35"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[LITERALDATEDESCRIPTION]"
+                      name="LITERALDATEDESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGCENTURY]"
+                      dataType="decimal"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[MERCHANDISINGCENTURY]"
+                      name="MERCHANDISINGCENTURY" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\Last Modified"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Last Modified"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\Last Modified.Inputs[Derived Column Input].Columns[CALENDARDATE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="CALENDARDATE"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]"
+                      name="Last_Modified"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_CALENDARDATE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_CALENDARDATE]"
+                      name="NEW_ALTERED_CALENDARDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]} == "0") || (#{Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]} == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)([SUBSTRING](#{Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]},1,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]},3,2) + "-" + [SUBSTRING](#{Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARDATE]},5,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(CALENDARDATE == "0") || (CALENDARDATE == "101") ? NULL(DT_DBTIMESTAMP) : (DT_DBTIMESTAMP)(SUBSTRING(CALENDARDATE,1,2) + "-" + SUBSTRING(CALENDARDATE,3,2) + "-" + SUBSTRING(CALENDARDATE,5,2))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Data\Last Modified.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data\SQL Server INVCAL"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server INVCAL"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[INVCAL]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data\SQL Server INVCAL.Connections[OleDbConnection]"
+                  connectionManagerID="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BAMBIGDEV03.EDW Project]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[CALENDARCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="CALENDARCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[CalendarCentury]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[CALENDARCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[MERCHANDISINGPERIOD]"
+                      cachedDataType="numeric"
+                      cachedName="MERCHANDISINGPERIOD"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingPeriod]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGPERIOD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[WEEKSINTHEMERCHPD]"
+                      cachedDataType="numeric"
+                      cachedName="WEEKSINTHEMERCHPD"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[WeeksintheMerchPd]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHPD]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[WEEKSINTHEMERCHYR]"
+                      cachedDataType="numeric"
+                      cachedName="WEEKSINTHEMERCHYR"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[WeeksintheMerchYr]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[WEEKSINTHEMERCHYR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[MERCHANDISINGYEAR]"
+                      cachedDataType="numeric"
+                      cachedName="MERCHANDISINGYEAR"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingYear]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[DAYOFMERCHANDISINGYEAR]"
+                      cachedDataType="numeric"
+                      cachedName="DAYOFMERCHANDISINGYEAR"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[DayofMerchandisingYear]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGYEAR]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[DAYOFMERCHANDISINGWEEK]"
+                      cachedDataType="numeric"
+                      cachedName="DAYOFMERCHANDISINGWEEK"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[DayofMerchandisingWeek]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[DAYOFMERCHANDISINGWEEK]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[LITERALDATEDESCRIPTION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="35"
+                      cachedName="LITERALDATEDESCRIPTION"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[LiteralDateDescription]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[LITERALDATEDESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[MERCHANDISINGCENTURY]"
+                      cachedDataType="decimal"
+                      cachedName="MERCHANDISINGCENTURY"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingCentury]"
+                      lineageId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output].Columns[MERCHANDISINGCENTURY]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[Last_Modified]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Last_Modified"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[Last_Modified]" />
+                    <inputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].Columns[NEW_ALTERED_CALENDARDATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="NEW_ALTERED_CALENDARDATE"
+                      externalMetadataColumnId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[Calendardate]"
+                      lineageId="Package\Load Data\Last Modified.Outputs[Derived Column Output].Columns[NEW_ALTERED_CALENDARDATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[CalendarCentury]"
+                      dataType="i4"
+                      name="CalendarCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[Calendardate]"
+                      dataType="dbTimeStamp"
+                      name="Calendardate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingPeriod]"
+                      dataType="i4"
+                      name="MerchandisingPeriod" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[WeeksintheMerchPd]"
+                      dataType="i4"
+                      name="WeeksintheMerchPd" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[WeeksintheMerchYr]"
+                      dataType="i4"
+                      name="WeeksintheMerchYr" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingYear]"
+                      dataType="i4"
+                      name="MerchandisingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[DayofMerchandisingYear]"
+                      dataType="i4"
+                      name="DayofMerchandisingYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[DayofMerchandisingWeek]"
+                      dataType="i4"
+                      name="DayofMerchandisingWeek" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[LiteralDateDescription]"
+                      codePage="1252"
+                      dataType="str"
+                      length="35"
+                      name="LiteralDateDescription" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[MerchandisingCentury]"
+                      dataType="i4"
+                      name="MerchandisingCentury" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input].ExternalColumns[Last_Modified]"
+                      dataType="dbTimeStamp"
+                      name="Last_Modified" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data\SQL Server INVCAL.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVCAL.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data\SQL Server INVCAL.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data\SQL Server INVCAL.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data.Paths[Derived Column Output]"
+              endId="Package\Load Data\SQL Server INVCAL.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Data\Last Modified.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Data.Paths[OLE DB Source Output]"
+              endId="Package\Load Data\Last Modified.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data\AS400 INVCAL.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate INVCAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{56393500-5A28-4EE4-A31E-AB5ACC219890}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate INVCAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 CTP2.1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F4CCC7EF-62F9-4C6C-98F1-44BF48351D59}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE EDW.dbo.INVCAL;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{0700839C-BAC2-4CF7-AF5F-5346A32ECD61}"
+      DTS:From="Package\Truncate INVCAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Data" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Data"
+          TopLeft="242,113" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Truncate INVCAL"
+          TopLeft="225,30" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="305.25,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Data\Last Modified"
+          TopLeft="164,120" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Data\SQL Server INVCAL"
+          TopLeft="153,206" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Load Data\AS400 INVCAL"
+          TopLeft="156,38" />
+        <EdgeLayout
+          Id="Package\Load Data.Paths[OLE DB Source Output]"
+          TopLeft="232.25,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data.Paths[Derived Column Output]"
+          TopLeft="236.25,162">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\SQL Server INVCAL">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data\AS400 INVCAL">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
