@@ -1,0 +1,1 @@
+exec usp_Send_MEssage 'big@booksamillion.com;ColpackC@booksamillion.com;mangumw@booksamillion.com;clarkep@booksamillion.com','Build Weekly Data Processing Complete' ,'Build Weekly Data Processing Complete'
