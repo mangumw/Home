@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For Infor requests, the userId and password fields will always be empty/blank; the account will have a numeric identifier used by Edge to associate Baycare & Infor together -->
+<BackgroundReports account="$EdgeSuppliedValue$" userId="" password="">
+	<ProviderReferenceId>
+		<IdValue>$EdgeSuppliedValue$</IdValue>
+	</ProviderReferenceId>
+	<!-- Update Type can be one of the following values: (Manual|Initial|Scheduled) -->
+	<BackgroundReportPackage type="status" updateType="$UpdateType$">
+		<!-- Infor unique identifier for this particular screening (received in original order data) -->
+		<ClientReferenceId>
+			<IdValue>$Value$</IdValue>
+		</ClientReferenceId>
+		<ScreeningStatus>
+			<OrderStatus>Completed</OrderStatus>
+			<ResultStatus>Pass</ResultStatus>
+			<DateOrderReceived>01/01/1900</DateOrderReceived>
+		</ScreeningStatus>
+		<!-- Send back link to our system for full details -->
+		<SupportingDocumentation>
+			<Documentation>
+				<InternetWebAddress>$EdgeSystemURL$/?id=$UniqueReportID$</InternetWebAddress>
+			</Documentation>
+		</SupportingDocumentation>
+		<Screenings>
+			<!-- The type value is an Edge assigned value based on the search type -->
+			<Screening type="x:OFAC">
+				<ProviderReferenceId>
+					<IdValue>$EdgeSuppliedValue$|$EdgeSuppliedValue$</IdValue>
+				</ProviderReferenceId>
+				<!-- Infor unique identifier for this particular screening (received in original order data) -->
+				<ClientReferenceId>
+					<IdValue>$Value$</IdValue>
+				</ClientReferenceId>
+				<ScreeningStatus>
+					<OrderStatus>Completed</OrderStatus>
+					<ResultStatus>Pass</ResultStatus>
+					<DateOrderReceived>02/11/2018</DateOrderReceived>
+				</ScreeningStatus>
+				<SupportingDocumentation>
+					<Documentation>
+						<Text><![CDATA[None]]></Text>
+					</Documentation>
+				</SupportingDocumentation>
+			</Screening> 
+			<Screening type="criminal">
+				<ProviderReferenceId>
+					<IdValue>$EdgeSuppliedValue$|$EdgeSuppliedValue$</IdValue>
+				</ProviderReferenceId>
+				<!-- Infor unique identifier for this particular screening (received in original order data) -->
+				<ClientReferenceId>
+					<IdValue>$Value$</IdValue>
+				</ClientReferenceId>
+				<ScreeningStatus>
+					<OrderStatus>Completed</OrderStatus>
+					<ResultStatus>Pass</ResultStatus>
+					<DateOrderReceived>01/01/1900</DateOrderReceived>
+				</ScreeningStatus>
+				<SupportingDocumentation>
+					<Documentation>
+						<Text><![CDATA[None]]></Text>
+					</Documentation>
+				</SupportingDocumentation>
+			</Screening>
+		</Screenings>
+	</BackgroundReportPackage>
+</BackgroundReports>

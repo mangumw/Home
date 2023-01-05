@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+  <Properties>
+    <!--Change the 'logfolder' value to change the location of agent logs-->
+    <Property name="logfolder">${sys:com.birst.agent.home}/logs</Property>
+  </Properties>
+
+  <Appenders>
+
+    <!-- This is custom file appender defined in jcommon-log4j2 -->
+    <DailyFileAppender name="logfile" fileName="${logfolder}/agent.${date:yyyy-MM-dd}.log" filePattern="${logfolder}/agent.%d{yyyy-MM-dd}.log">
+      <PatternLayout>
+        <Pattern>%n%d{yyyy-MM-dd HH:mm:ss,SSSZ} [toe=%X{toe}] [%t] [%X{username},%X{spaceName},%X{connectionName},%X{messageId},%X{agentId}] %-5p - %m</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </DailyFileAppender>
+    
+    <Console name="console" target="SYSTEM_OUT">
+        <PatternLayout pattern="%n%d{yyyy-MM-dd HH:mm:ss,SSSZ} [toe=%X{toe}] [%t] [%X{username},%X{spaceName},%X{connectionName},%X{messageId},%X{agentId}] %-5p - %m" />
+    </Console>
+    
+  </Appenders>
+  <Loggers>
+    
+    <!-- define the default logger -->
+    <Root level="error">
+      <AppenderRef ref="logfile" />
+      <AppenderRef ref="console" />            
+    </Root>
+    
+    <!--  log at the debug level for birst packages -->
+    <Logger name="com.birst" level="debug" />
+    
+    <!-- this logger is ought to be used by our custom log4j appenders -->
+    <Logger name="log4appender" level="debug" additivity="false">
+      <AppenderRef ref="logfile" />
+    </Logger>
+
+  </Loggers>
+</Configuration>

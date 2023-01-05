@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<BackgroundCheck version="2.0" userId="$EdgeNumericAccountID$" password="$EdgeAccountPassword$" account="ED-$EdgeNumericAccountID$">
+	<BackgroundSearchPackage action="ApplicantNewSubmission">
+		<!-- This node holds identifiers from Infor that will be used/echoed back when updates are sent with results/statuses --->
+		<ReferenceId idOwner="Infor">
+			<IdValue name="OrderId">1:17</IdValue>
+			<IdValue name="CandidateId">1:31638</IdValue>
+			<IdValue name="RequistionId">1:31638:2145</IdValue>
+		</ReferenceId>
+		<!-- This node holds details about the user initiating the order from within Infor. Ultimately the most important element to
+			recieve would be the requesterId which should be the unique userID for the user within the Infor environment. We will
+			then map this to a user in our system and this is how we will establish an 'SSO'-like session for the user so that upon 
+			initial order receipt in our system, we can properly establish a session and log the user in to have the redirect URL we 
+			provide back work properly. If you are able to provide the email and name, that would be great. -->
+		<ClientContact>
+			<AdditionalItems qualifier="requesterId">
+				<Text>$InforUserID$</Text>
+			</AdditionalItems>
+			<AdditionalItems qualifier="requesterEmail">
+				<Text>FirstName.LastName@booksamillion.com</Text>
+			</AdditionalItems>
+			<AdditionalItems qualifier="requesterName">
+				<Text>LastName, FirstName</Text>
+			</AdditionalItems>
+		</ClientContact>
+		<PersonalData>
+			<PersonName type="Subject">
+				<GivenName>John</GivenName>
+				<MiddleName>M</MiddleName>
+				<FamilyName>Doe</FamilyName>
+			</PersonName>
+			<PersonName type="Alias">
+				<GivenName>Johnathan</GivenName>
+				<MiddleName>A</MiddleName>
+				<FamilyName>Doer</FamilyName>
+			</PersonName>
+			<PersonName type="x:PR_Maiden">
+				<FamilyName>Sepien</FamilyName>
+			</PersonName>
+			<PostalAddress type="streetAddress" qualifier="Current">
+				<CountryCode>US</CountryCode>
+				<PostalCode>77051</PostalCode>
+				<Region>TX</Region>
+				<Municipality>Houston</Municipality>
+				<DeliveryAddress>
+					<AddressLine>2910 Reed rd, 323</AddressLine>
+				</DeliveryAddress>
+			</PostalAddress>
+			<PostalAddress type="streetAddress" qualifier="Previous">
+				<CountryCode>US</CountryCode>
+				<PostalCode>32808</PostalCode>
+				<Region>FL</Region>
+				<Municipality>Orlando</Municipality>
+				<DeliveryAddress>
+					<AddressLine>1050 Matthews St, 323</AddressLine>
+				</DeliveryAddress>
+			</PostalAddress>
+			<ContactMethod>
+				<Use>personal</Use>
+				<Telephone qualifier="Primary" type="Home|Cell|Other">
+					<FormattedNumber>1112223333</FormattedNumber>
+				</Telephone>
+				<Telephone qualifier="Alternate" type="Home|Cell|Other">
+					<FormattedNumber>1112223333</FormattedNumber>
+				</Telephone>
+				<InternetEmailAddress>test@tester.com</InternetEmailAddress>
+			</ContactMethod>
+			<DemographicDetail>
+				<GovernmentId countryCode="US" issuingAuthority="SSN"/>
+				<DateOfBirth/>
+				<Race>U</Race>
+				<GenderCode>0</GenderCode>
+			</DemographicDetail>
+		</PersonalData>
+		<Screenings>
+			<PackageId idOwner="Edge">
+				<IdValue name="PackageID">$EdgeSuppliedNumericValue$</IdValue>
+			</PackageId>
+			<!-- Global grouping/billing/lookup options for use in Webscreen; These elements are used so 
+				that proper billing and grouping of records to the customer can be accomplished. 
+				NOTE: These are not used in all integrations, Edge will designate if and when these are to be 
+				required or not -->
+			<!-- Division -->
+			<AdditionalItems qualifier="Group1">
+				<Text/>
+			</AdditionalItems>
+			<!-- Region -->
+			<AdditionalItems qualifier="Group2">
+				<Text/>
+			</AdditionalItems>
+			<!-- District -->
+			<AdditionalItems qualifier="Group3">
+				<Text/>
+			</AdditionalItems>
+			<!-- Store -->
+			<AdditionalItems qualifier="Group4">
+				<Text/>
+			</AdditionalItems>
+			<!-- Position/Department -->
+			<AdditionalItems qualifier="Group5">
+				<Text/>
+			</AdditionalItems>
+			<!--	NOTE: The userID shown here is the Taleo UserID, but we would likely expect this to be changed to their Infor userID -->
+			<AdditionalItems qualifier="Group6">
+				<Text>$InforUserID$|FirstName.LastName@booksamillion.com</Text>
+			</AdditionalItems>
+			<AdditionalItems qualifier="SalaryVerification">
+				<Text>0</Text>
+			</AdditionalItems>
+			<AdditionalItems qualifier="CopyToApplicant">
+				<Text>False</Text>
+			</AdditionalItems>
+			<Screening type="license" qualifier="mvPersonal">
+				<SearchLicense>
+					<License>
+						<LicenseNumber>2123645843</LicenseNumber>
+						<LicensingAgency>NV</LicensingAgency>
+					</License>
+					<AdditionalItems qualifier="FirstName">
+						<Text>MIA</Text>
+					</AdditionalItems>
+					<AdditionalItems qualifier="MiddleName">
+						<Text>K</Text>
+					</AdditionalItems>
+					<AdditionalItems qualifier="LastName">
+						<Text>JULIANNE</Text>
+					</AdditionalItems>
+				</SearchLicense>
+			</Screening>
+			<Screening type="employment">
+				<SearchEmployment>
+					<EmploymentHistory>
+						<EmployerOrg>
+							<EmployerOrgName>TEST</EmployerOrgName>
+							<EmployerContactInfo>
+								<ContactMethod>
+									<Telephone>
+										<FormattedNumber>800-883-3671</FormattedNumber>
+									</Telephone>
+									<InternetEmailAddress>test@email.com</InternetEmailAddress>
+								</ContactMethod>
+								<LocationSummary>
+									<Municipality>Tallahassee</Municipality>
+									<Region>FL</Region>
+								</LocationSummary>
+							</EmployerContactInfo>
+							<PositionHistory currentEmployer="true">
+								<Title>President</Title>
+								<Description>President</Description>
+								<StartDate>
+									<AnyDate>1993-01-01</AnyDate>
+								</StartDate>
+								<EndDate>
+									<AnyDate>2007-08-01</AnyDate>
+								</EndDate>
+								<Compensation>
+									<EndingCompensation intervalType="Annual">120000</EndingCompensation>
+								</Compensation>
+								<Verification>
+									<ContactInfo>
+										<PersonName>
+											<FormattedName>John Q</FormattedName>
+										</PersonName>
+										<AdditionalItems qualifier="Relationship">
+											<Text>Manager</Text>
+										</AdditionalItems>
+										<ContactMethod>
+											<Telephone type="Cell|Office|Other">
+												<FormattedNumber>800-883-3671</FormattedNumber>
+											</Telephone>
+											<InternetEmailAddress>test@email.com</InternetEmailAddress>
+										</ContactMethod>
+									</ContactInfo>
+									<ReasonForLeaving>TEST</ReasonForLeaving>
+									<PermissionToContact>False</PermissionToContact>
+								</Verification>
+							</PositionHistory>
+						</EmployerOrg>
+					</EmploymentHistory>
+				</SearchEmployment>
+			</Screening>
+			<Screening type="education">
+				<SearchEducation>
+					<EducationHistory>
+						<SchoolOrInstitution schoolType="secondary">
+							<School>
+								<SchoolName>UNIVERSITY OF TEXAS</SchoolName>
+							</School>
+							<LocationSummary>
+								<Municipality>Austin</Municipality>
+								<Region>TX</Region>
+								<PostalCode>73301</PostalCode>
+								<CountryCode>US</CountryCode>
+							</LocationSummary>
+							<ContactMethod>
+								<Telephone>
+									<FormattedNumber>800-232-3921</FormattedNumber>
+								</Telephone>
+							</ContactMethod>
+							<Degree>
+								<DegreeName>MASTER</DegreeName>
+								<DegreeMajor>
+									<Name>BUSINESS ADMINISTRATION</Name>
+								</DegreeMajor>
+								<DegreeDate>
+									<AnyDate>1990-01-01</AnyDate>
+								</DegreeDate>
+							</Degree>
+							<DatesOfAttendance>
+								<StartDate>
+									<AnyDate>notKnown</AnyDate>
+								</StartDate>
+								<EndDate>
+									<AnyDate>1990-01-01</AnyDate>
+								</EndDate>
+							</DatesOfAttendance>
+							<Comments>This is test description of education</Comments>
+							<LocalInstitutionClassification>
+								<Description>Undergraduate</Description>
+							</LocalInstitutionClassification>
+							<AdditionalItems qualifier="HasGraduated">
+								<Text>True</Text>
+							</AdditionalItems>
+							<AdditionalItems qualifier="AttendanceName">
+								<Text>John Smithson</Text>
+							</AdditionalItems>
+						</SchoolOrInstitution>
+					</EducationHistory>
+				</SearchEducation>
+			</Screening>
+		</Screenings>
+	</BackgroundSearchPackage>
+</BackgroundCheck>

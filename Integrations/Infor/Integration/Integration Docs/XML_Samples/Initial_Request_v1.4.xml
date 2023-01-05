@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<BackgroundCheck version="2.0" userId="$EdgeSuppliedValue$" password="$EdgeSuppliedValue$" account="$EdgeSuppliedValue$">
+	<BackgroundSearchPackage action="CreateApplicantAccount">
+		<ReferenceId idOwner="$Value$">
+			<IdValue name="$Value$">$Value$</IdValue>
+		</ReferenceId>
+		<PersonalData>
+			<PersonName type="Subject">
+				<GivenName>John</GivenName>
+				<MiddleName>M</MiddleName>
+				<FamilyName primary="undefined">Doe</FamilyName>
+			</PersonName>
+			<PersonName type="Alias">
+				<GivenName>Johnathan</GivenName>
+				<MiddleName>A</MiddleName>
+				<FamilyName primary="undefined">Doer</FamilyName>
+			</PersonName>
+			<PersonName type="x:PR_Maiden">
+				<FamilyName>Sepien</FamilyName>
+			</PersonName>
+			<PostalAddress type="streetAddress" qualifier="Current">
+				<CountryCode>US</CountryCode>
+				<PostalCode>77051</PostalCode>
+				<Region>TX</Region>
+				<Municipality>Houston</Municipality>
+				<DeliveryAddress>
+					<AddressLine>2910 Reed rd, 323</AddressLine>
+				</DeliveryAddress>
+			</PostalAddress>
+			<PostalAddress type="streetAddress" qualifier="Previous">
+				<CountryCode>US</CountryCode>
+				<PostalCode>32808</PostalCode>
+				<Region>FL</Region>
+				<Municipality>Orlando</Municipality>
+				<DeliveryAddress>
+					<AddressLine>1050 Matthews St, 323</AddressLine>
+				</DeliveryAddress>
+			</PostalAddress>
+			<ContactMethod>
+				<Use>personal</Use>
+				<Telephone qualifier="Primary" type="Home|Cell|Other">
+					<FormattedNumber>1112223333</FormattedNumber>
+				</Telephone>
+				<Telephone qualifier="Alternate" type="Home|Cell|Other">
+					<FormattedNumber>1112223333</FormattedNumber>
+				</Telephone>
+				<InternetEmailAddress>test@tester.com</InternetEmailAddress>
+			</ContactMethod>
+			<DemographicDetail>
+				<GovernmentId countryCode="US" issuingAuthority="SSN">111222333</GovernmentId>
+				<DateOfBirth>1950-01-01</DateOfBirth>
+				<Race>U</Race>
+				<GenderCode>0</GenderCode>
+			</DemographicDetail>
+		</PersonalData>
+		<SupportingDocumentation>
+			<Documentation>
+				<Image type="release" mediaType="pdf" filename="$Value$">$Base64EncodedContent$</Image>
+			</Documentation>
+		</SupportingDocumentation>
+		<Screenings>
+			<PackageId idOwner="Edge">
+				<IdValue name="PackageID">$EdgeSuppliedValue$</IdValue>
+			</PackageId>
+			<AdditionalItems qualifier="Group1">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="Group2">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="Group3">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="Group4">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="Group5">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="Group6">
+				<Text/>
+			</AdditionalItems>
+			<AdditionalItems qualifier="SalaryVerification">
+				<Text>0</Text>
+			</AdditionalItems>
+			<AdditionalItems qualifier="CopyToApplicant">
+				<Text>False</Text>
+			</AdditionalItems>
+			<!-- As Baycare users will be expecting to continue the same process of landing on our site to 
+				complete the order process without having to login, we will need to get their userID from Infor
+				so that we can associate it to their UserID in our platform -->
+			<AdditionalItems type=”VendorInfo” qualifier=”InforUserID”>
+				<Text>$InforUserIDofRequestinguser$</Text>
+			</AdditionalItems>
+			<AdditionalItems type=”VendorInfo” qualifier=”$VendorProvidedValue$”>
+				<Text/>
+			</AdditionalItems>
+			<Screening type="criminal" qualifier="statewide">
+				<SearchCriminal>
+					<Municipality>Melbourne</Municipality>
+					<PostalCode>32935</PostalCode>
+					<Region>FL</Region>
+					<AdmittedCharges>
+						<CriminalCase>
+							<Charges>
+								<ChargeOrComplaint>Robbery</ChargeOrComplaint>
+								<DispositionDate>
+									<AnyDate>2008-01-01</AnyDate>
+								</DispositionDate>
+							</Charges>
+						</CriminalCase>
+					</AdmittedCharges>
+					<AdmittedChargesSummary>DUI Case from 1980 in Santa Clara, CA.; Speeding ticket from 1985 in Los Angeles, CA. </AdmittedChargesSummary>
+					<SupportingDocumentation>
+						<Documentation>
+							<Image type="release" mediaType="$SeePriorForList$" filename="FCRA_Release">$Base64EncodedContent$</Image>
+						</Documentation>
+					</SupportingDocumentation>
+				</SearchCriminal>
+			</Screening>
+			<Screening type="criminal" qualifier=”x:PreviousOffenses”>
+				<SearchCriminal>
+					<Municipality>Melbourne</Municipality>
+					<PostalCode>32935</Postalcode>					
+					<Region>FL</Region>					
+					<AdmittedCharges>
+ 						<CriminalCase>
+							<Charges>
+								<ChargeOrComplaint>DUI</ChargeOrComplaint>
+								<!-- Year that the charge occurred is required -->
+ 								<DispositionDate>
+									<AnyDate>2008-01-01</AnyDate>
+								</DispositionDate>
+							</Charges>
+ 						 </CriminalCase>
+						<AdditionalItems qualifier="ArrestingAgency">
+							<Text>Not Guilty</Text>
+						</AdditionalItems>
+						<AdditionalItems qualifier="Disposition">
+							<Text>Not Guilty</Text>
+						</AdditionalItems>
+						<AdditionalItems qualifier="AdditionalDetails">
+							<Text>DUI Case from 1980 in Santa Clara, CA.; Speeding ticket from 1985 in Los Angeles, CA.</Text>
+						</AdditionalItems>
+					</AdmittedCharges>
+				</SearchCriminal>
+			</Screening>
+			<Screening type="license" qualifier="mvPersonal">
+				<SearchLicense>
+					<License>
+						<LicenseNumber>2123645843</LicenseNumber>
+						<LicensingAgency>NV</LicensingAgency>
+					</License>
+					<AdditionalItems qualifier="FirstName">
+						<Text>MIA</Text>
+					</AdditionalItems>
+					<AdditionalItems qualifier="MiddleName">
+						<Text>K</Text>
+					</AdditionalItems>
+					<AdditionalItems qualifier="LastName">
+						<Text>JULIANNE</Text>
+					</AdditionalItems>
+					<SupportingDocumentation>
+						<Documentation>
+							<Image type="release" mediaType="$SeePriorForList$" filename="FCRA_Release">$Base64EncodedContent$</Image>
+						</Documentation>
+					</SupportingDocumentation>
+				</SearchLicense>
+			</Screening>
+			<Screening type="employment">
+				<SearchEmployment>
+					<EmploymentHistory>
+						<EmployerOrg>
+							<EmployerOrgName>TEST</EmployerOrgName>
+							<EmployerContactInfo>
+								<ContactMethod>
+									<Telephone>
+										<FormattedNumber>800-883-3671</FormattedNumber>
+									</Telephone>
+									<InternetEmailAddress>test@email.com</InternetEmailAddress>
+								</ContactMethod>
+								<LocationSummary>
+									<Municipality>Tallahassee</Municipality>
+									<Region>FL</Region>
+								</LocationSummary>
+							</EmployerContactInfo>
+							<PositionHistory currentEmployer="true">
+								<Title>President</Title>
+								<Description>President</Description>
+								<StartDate>
+									<AnyDate>1993-01-01</AnyDate>
+								</StartDate>
+								<EndDate>
+									<AnyDate>2007-08-01</AnyDate>
+								</EndDate>
+								<Compensation>
+									<EndingCompensation intervalType="Annual">120000</EndingCompensation>
+								</Compensation>
+								<Verification>
+									<ContactInfo>
+										<PersonName>
+											<FormattedName>John Q</FormattedName>
+										</PersonName>
+										<AdditionalItems qualifier="Relationship">
+											<Text>Manager</Text>
+										</AdditionalItems>
+										<ContactMethod>
+											<Telephone type="Cell|Office|Other">
+												<FormattedNumber>800-883-3671</FormattedNumber>
+											</Telephone>
+											<InternetEmailAddress>test@email.com</InternetEmailAddress>
+										</ContactMethod>
+									</ContactInfo>
+									<ReasonForLeaving>TEST</ReasonForLeaving>
+									<PermissionToContact>False</PermissionToContact>
+								</Verification>
+							</PositionHistory>
+						</EmployerOrg>
+					</EmploymentHistory>
+				</SearchEmployment>
+			</Screening>
+			<Screening type="education">
+				<SearchEducation>
+					<EducationHistory>
+						<SchoolOrInstitution schoolType="secondary">
+							<School>
+								<SchoolName>UNIVERSITY OF TEXAS</SchoolName>
+							</School>
+							<LocationSummary>
+								<Municipality>Austin</Municipality>
+								<Region>TX</Region>
+								<PostalCode>73301</PostalCode>
+								<CountryCode>US</CountryCode>
+							</LocationSummary>
+							<ContactMethod>
+								<Telephone>
+									<FormattedNumber>800-232-3921</FormattedNumber>
+								</Telephone>
+							</ContactMethod>
+							<Degree>
+								<DegreeName>MASTER</DegreeName>
+								<DegreeMajor>
+									<Name>BUSINESS ADMINISTRATION</Name>
+								</DegreeMajor>
+								<DegreeDate>
+									<AnyDate>1990-01-01</AnyDate>
+								</DegreeDate>
+							</Degree>
+							<DatesOfAttendance>
+								<StartDate>
+									<AnyDate>notKnown</AnyDate>
+								</StartDate>
+								<EndDate>
+									<AnyDate>1990-01-01</AnyDate>
+								</EndDate>
+							</DatesOfAttendance>
+							<Comments>This is test description of education</Comments>
+							<LocalInstitutionClassification>
+								<Description>Undergraduate</Description>
+							</LocalInstitutionClassification>
+							<AdditionalItems qualifier="HasGraduated">
+								<Text>True</Text>
+							</AdditionalItems>
+							<AdditionalItems qualifier="AttendanceName">
+								<Text>John Smithson</Text>
+							</AdditionalItems>
+						</SchoolOrInstitution>
+					</EducationHistory>
+				</SearchEducation>
+			</Screening>
+			<Screening type="drug">
+				<SearchDrugs>
+					<ReasonForTest>Pre-Employment</ReasonForTest>
+					<TestType type="5Panel"/>
+					<SpecimenIdNumber>
+						<IdValue>0329457995</IdValue>
+					</SpecimenIdNumber>
+				</SearchDrugs>
+			</Screening>
+		</Screenings>
+	</BackgroundSearchPackage>
+</BackgroundCheck>

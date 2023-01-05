@@ -1,0 +1,46 @@
+
+2022-09-06 16:16:02,869-0500 [toe=] [main] [,,,,] DEBUG - Using properties file: build.number (found via the classpath)
+2022-09-06 16:16:03,242-0500 [toe=] [main] [,,,,] INFO  - These special characters .,\:;|?/*"<> in name will be replaced by underscore
+2022-09-06 16:16:04,000-0500 [toe=] [main] [,,,,] DEBUG - Agent already registered with Agent Id - 72b5f034-1178-4af3-aaf4-da99d0465248
+2022-09-06 16:16:04,000-0500 [toe=] [Thread-1] [,,,,] INFO  - -- Proxies for https://app2103.bws.birst.com --
+	DIRECT
+2022-09-06 16:16:05,703-0500 [toe=] [main] [,,,,] INFO  - Request unsuccessful -  - 500
+2022-09-06 16:16:05,703-0500 [toe=] [main] [,,,,] INFO  - Pausing for 50 milliseconds for retry 1 of 5 in retry handler.
+2022-09-06 16:16:06,189-0500 [toe=] [main] [,,,,] INFO  - Request unsuccessful -  - 500
+2022-09-06 16:16:06,189-0500 [toe=] [main] [,,,,] INFO  - Pausing for 2500 milliseconds for retry 2 of 5 in retry handler.
+2022-09-06 16:16:09,057-0500 [toe=] [main] [,,,,] INFO  - Request unsuccessful -  - 500
+2022-09-06 16:16:09,057-0500 [toe=] [main] [,,,,] INFO  - Pausing for 60000 milliseconds for retry 3 of 5 in retry handler.
+2022-09-06 16:17:09,472-0500 [toe=] [main] [,,,,] INFO  - Request unsuccessful -  - 500
+2022-09-06 16:17:09,472-0500 [toe=] [main] [,,,,] INFO  - Pausing for 60000 milliseconds for retry 4 of 5 in retry handler.
+2022-09-06 16:18:09,909-0500 [toe=] [main] [,,,,] INFO  - Request unsuccessful -  - 500
+2022-09-06 16:18:09,910-0500 [toe=] [main] [,,,,] INFO  - Pausing for 60000 milliseconds for retry 5 of 5 in retry handler.
+2022-09-06 16:19:10,335-0500 [toe=] [main] [,,,,] ERROR - 500 retrofit.RetrofitError: 500 
+	at retrofit.RetrofitError.httpError(RetrofitError.java:40) ~[retrofit-1.9.0.jar:?]
+	at retrofit.RestAdapter$RestHandler.invokeRequest(RestAdapter.java:388) ~[retrofit-1.9.0.jar:?]
+	at retrofit.RestAdapter$RestHandler.invoke(RestAdapter.java:240) ~[retrofit-1.9.0.jar:?]
+	at com.sun.proxy.$Proxy25.updateAgentDetails(Unknown Source) ~[?:?]
+	at com.birst.agent.AgentInitializer.updateAgentDetails(AgentInitializer.java:266) ~[Agent-2022.08.00-SNAPSHOT.jar:?]
+	at com.birst.agent.AgentInitializer.registerAndPoll(AgentInitializer.java:235) [Agent-2022.08.00-SNAPSHOT.jar:?]
+	at com.birst.agent.AgentInitializer.main(AgentInitializer.java:148) [Agent-2022.08.00-SNAPSHOT.jar:?]
+
+2022-09-06 16:19:10,342-0500 [toe=] [main] [,,,,] INFO  - Please restart your service, if you are running agent as a windows service.
+2022-09-06 16:19:10,363-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - ========
+2022-09-06 16:19:10,363-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Agent Home: C:\copy\Infor\Integration
+2022-09-06 16:19:10,364-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Default agent log path: C:\copy\Infor\Integration\logs
+2022-09-06 16:19:10,364-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Agent ID: 72b5f034-1178-4af3-aaf4-da99d0465248
+2022-09-06 16:19:10,365-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Agent Name: MANGUMW
+2022-09-06 16:19:10,365-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - OS: Windows 10 / 10.0 / 
+2022-09-06 16:19:10,366-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Architecture: amd64
+2022-09-06 16:19:10,366-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Java VM Name: Java HotSpot(TM) 64-Bit Server VM
+2022-09-06 16:19:10,366-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Java VM Vendor: Oracle Corporation
+2022-09-06 16:19:10,367-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Java Home: C:\Program Files\Java\jdk1.8.0_341\jre
+2022-09-06 16:19:10,367-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Java version: 1.8.0_341 / 1.8.0_341-b10 / 1.8 / 25.341-b10
+2022-09-06 16:19:10,367-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Java maximum memory setting: 3605 Mbytes
+2022-09-06 16:19:10,368-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Available processors: 4
+2022-09-06 16:19:10,368-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Number of priority threads: 8
+2022-09-06 16:19:10,368-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Number of non-priority threads: 4
+2022-09-06 16:19:10,369-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - URL: https://app2103.bws.birst.com
+2022-09-06 16:19:10,369-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Version: 2022.08.00
+2022-09-06 16:19:10,370-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - ========
+2022-09-06 16:19:10,370-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Shutting down the Birst Cloud Agent after 10 minutes
+2022-09-06 16:29:10,385-0500 [toe=] [main] [,,,,72b5f034-1178-4af3-aaf4-da99d0465248] INFO  - Shutting down the Birst Cloud Agent
